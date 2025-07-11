@@ -1,4 +1,0 @@
-
-# geeagri module
-
-::: geeagri.geeagri
