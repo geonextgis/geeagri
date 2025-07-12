@@ -1,7 +1,8 @@
-'''Module for timeseries analysis on Earth Engine data.'''
+"""Module for timeseries analysis on Earth Engine data."""
 
 import math
 import ee
+
 
 class HarmonicRegression:
     """
@@ -16,6 +17,7 @@ class HarmonicRegression:
         independents (List[str]): Names of independent variable bands.
         composite (ee.Image): Median composite of the selected band.
     """
+
     def __init__(self, image_collection, ref_date, band_name, order=1, omega=1):
         """
         Initialize the HarmonicRegression object.
@@ -35,9 +37,9 @@ class HarmonicRegression:
 
         # Names of independent variables: constant, cos_1, ..., sin_1, ...
         self.independents = (
-            ['constant'] +
-            [f'cos_{i}' for i in range(1, order + 1)] +
-            [f'sin_{i}' for i in range(1, order + 1)]
+            ["constant"]
+            + [f"cos_{i}" for i in range(1, order + 1)]
+            + [f"sin_{i}" for i in range(1, order + 1)]
         )
 
         # Precompute median composite of the selected band
@@ -53,8 +55,8 @@ class HarmonicRegression:
         Returns:
             ee.Image: Image with additional 't' band.
         """
-        dyear = ee.Number(image.date().difference(self.ref_date, 'year'))
-        return image.addBands(ee.Image.constant(dyear).rename('t').float())
+        dyear = ee.Number(image.date().difference(self.ref_date, "year"))
+        return image.addBands(ee.Image.constant(dyear).rename("t").float())
 
     def _add_harmonics(self, image):
         """
@@ -67,13 +69,13 @@ class HarmonicRegression:
             ee.Image: Image with added harmonic bands.
         """
         image = self._add_time_unit(image)
-        t = image.select('t')
+        t = image.select("t")
 
-        harmonic_bands = [ee.Image.constant(1).rename('constant')]
+        harmonic_bands = [ee.Image.constant(1).rename("constant")]
         for i in range(1, self.order + 1):
             freq = ee.Number(i).multiply(self.omega).multiply(2 * math.pi)
-            harmonic_bands.append(t.multiply(freq).cos().rename(f'cos_{i}'))
-            harmonic_bands.append(t.multiply(freq).sin().rename(f'sin_{i}'))
+            harmonic_bands.append(t.multiply(freq).cos().rename(f"cos_{i}"))
+            harmonic_bands.append(t.multiply(freq).sin().rename(f"sin_{i}"))
 
         return image.addBands(ee.Image(harmonic_bands))
 
@@ -86,18 +88,24 @@ class HarmonicRegression:
         """
         harmonic_coll = self.image_collection.map(self._add_harmonics)
 
-        regression = harmonic_coll.select(self.independents + [self.band]) \
-            .reduce(ee.Reducer.linearRegression(len(self.independents), 1))
+        regression = harmonic_coll.select(self.independents + [self.band]).reduce(
+            ee.Reducer.linearRegression(len(self.independents), 1)
+        )
 
-        coeffs = regression.select('coefficients') \
-            .arrayProject([0]) \
-            .arrayFlatten([self.independents]) \
-            .multiply(10000).toInt32()
+        coeffs = (
+            regression.select("coefficients")
+            .arrayProject([0])
+            .arrayFlatten([self.independents])
+            .multiply(10000)
+            .toInt32()
+        )
 
-        new_names = [f'{self.band}_{name}' for name in self.independents]
+        new_names = [f"{self.band}_{name}" for name in self.independents]
         return coeffs.rename(new_names)
 
-    def get_phase_amplitude(self, harmonic_coeffs, cos_band, sin_band, stretch_factor=1, return_rgb=True):
+    def get_phase_amplitude(
+        self, harmonic_coeffs, cos_band, sin_band, stretch_factor=1, return_rgb=True
+    ):
         """
         Compute phase & amplitude and optionally create RGB visualization.
 
@@ -112,11 +120,15 @@ class HarmonicRegression:
             ee.Image: RGB visualization (uint8) or HSV image.
         """
         phase = harmonic_coeffs.select(cos_band).atan2(harmonic_coeffs.select(sin_band))
-        amplitude = harmonic_coeffs.select(cos_band).hypot(harmonic_coeffs.select(sin_band))
+        amplitude = harmonic_coeffs.select(cos_band).hypot(
+            harmonic_coeffs.select(sin_band)
+        )
 
-        hsv = phase.unitScale(-math.pi, math.pi) \
-            .addBands(amplitude.multiply(stretch_factor)) \
+        hsv = (
+            phase.unitScale(-math.pi, math.pi)
+            .addBands(amplitude.multiply(stretch_factor))
             .addBands(self.composite)
+        )
 
         if return_rgb:
             return hsv.hsvToRgb().unitScale(0, 1).multiply(255).toByte()
@@ -134,11 +146,13 @@ class HarmonicRegression:
         Returns:
             ee.Image: Image with fitted values.
         """
-        return image.select(self.independents) \
-            .multiply(harmonic_coeffs) \
-            .reduce('sum') \
-            .rename('fitted')\
-            .copyProperties(image, ['system:time_start'])
+        return (
+            image.select(self.independents)
+            .multiply(harmonic_coeffs)
+            .reduce("sum")
+            .rename("fitted")
+            .copyProperties(image, ["system:time_start"])
+        )
 
     def get_fitted_harmonics(self, harmonic_coeffs):
         """
@@ -153,4 +167,6 @@ class HarmonicRegression:
         harmonic_coeffs_scaled = harmonic_coeffs.divide(10000)
         harmonic_coll = self.image_collection.map(self._add_harmonics)
 
-        return harmonic_coll.map(lambda img: self._fit_harmonics(harmonic_coeffs_scaled, img))
+        return harmonic_coll.map(
+            lambda img: self._fit_harmonics(harmonic_coeffs_scaled, img)
+        )

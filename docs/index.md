@@ -9,7 +9,7 @@
 
 -   Free software: MIT License
 -   Documentation: <https://geonextgis.github.io/geeagri>
-    
+
 
 ## Features
 
