@@ -1,0 +1,3 @@
+# timeseries module
+
+::: geeagri.timeseries
