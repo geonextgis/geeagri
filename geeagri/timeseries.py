@@ -3,7 +3,8 @@
 import math
 import ee
 
-def extract_timeseries_to_point( 
+
+def extract_timeseries_to_point(
     lat,
     lon,
     image_collection,
@@ -78,7 +79,7 @@ def extract_timeseries_to_point(
     except Exception as e:
         raise RuntimeError(f"Error extracting data: {e}.")
 
-        
+
 class HarmonicRegression:
     """
     Perform harmonic regression on an Earth Engine ImageCollection.
