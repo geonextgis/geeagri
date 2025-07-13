@@ -84,3 +84,4 @@ nav:
     - API Reference:
           - geeagri module: geeagri.md
           - common module: common.md
+          - timeseries module: timeseries.md
