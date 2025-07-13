@@ -4,4 +4,4 @@ __author__ = """Krishnagopal Halder"""
 __email__ = "geonextgis@gmail.com"
 __version__ = "0.0.2"
 
-from .geeagri import *
+from . import timeseries
