@@ -1,1 +1,8 @@
+folium
+geopandas
+ipyleaflet
+leafmap
+localtileserver
+matplotlib
 numpy
+earthengine-api
