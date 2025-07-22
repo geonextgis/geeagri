@@ -81,6 +81,7 @@ nav:
     - Report Issues: https://github.com/geonextgis/geeagri/issues
     - Examples:
         - examples/intro.ipynb
+        - examples/timeseries_extraction.ipynb
     - API Reference:
           - geeagri module: geeagri.md
           - common module: common.md
