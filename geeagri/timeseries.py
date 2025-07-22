@@ -151,22 +151,18 @@ def extract_timeseries_to_polygon(
     image_collection = image_collection.filterBounds(polygon)
 
     def image_to_dict(image):
-        date = ee.Date(image.get('system:time_start')).format('YYYY-MM-dd')
+        date = ee.Date(image.get("system:time_start")).format("YYYY-MM-dd")
         stats = image.reduceRegion(
-            reducer=reducer,
-            geometry=polygon,
-            scale=scale,
-            crs=crs,
-            maxPixels=1e13
+            reducer=reducer, geometry=polygon, scale=scale, crs=crs, maxPixels=1e13
         )
-        return ee.Feature(None, stats).set('time', date)
+        return ee.Feature(None, stats).set("time", date)
 
     stats_fc = image_collection.map(image_to_dict).filter(
         ee.Filter.notNull(image_collection.first().bandNames())
     )
 
     try:
-        stats_list = stats_fc.getInfo()['features']
+        stats_list = stats_fc.getInfo()["features"]
     except Exception as e:
         raise RuntimeError(f"Error retrieving data from GEE: {e}")
 
@@ -175,12 +171,12 @@ def extract_timeseries_to_polygon(
 
     records = []
     for f in stats_list:
-        props = f['properties']
+        props = f["properties"]
         records.append(props)
 
     df = pd.DataFrame(records)
-    df['time'] = pd.to_datetime(df['time'])
-    df.insert(0, 'time', df.pop('time'))
+    df["time"] = pd.to_datetime(df["time"])
+    df.insert(0, "time", df.pop("time"))
 
     if out_csv:
         df.to_csv(out_csv, index=False)
