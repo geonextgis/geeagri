@@ -475,6 +475,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/timeseries_extraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Timeseries extraction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -693,6 +716,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#geeagri.timeseries.extract_timeseries_to_polygon" class="md-nav__link">
+    <span class="md-ellipsis">
+      extract_timeseries_to_polygon()
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -799,6 +831,15 @@
   <a href="#geeagri.timeseries.extract_timeseries_to_point" class="md-nav__link">
     <span class="md-ellipsis">
       extract_timeseries_to_point()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geeagri.timeseries.extract_timeseries_to_polygon" class="md-nav__link">
+    <span class="md-ellipsis">
+      extract_timeseries_to_polygon()
     </span>
   </a>
   
@@ -1626,6 +1667,214 @@ HarmonicRegression        </code>
 
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error extracting data: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 id="geeagri.timeseries.extract_timeseries_to_polygon" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">extract_timeseries_to_polygon</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">image_collection</span><span class="p">,</span> <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">band_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reducer</span><span class="o">=</span><span class="s1">&#39;MEAN&#39;</span><span class="p">,</span> <span class="n">out_csv</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+<a href="#geeagri.timeseries.extract_timeseries_to_polygon" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Extracts time series statistics over a polygon from an ee.ImageCollection.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>polygon</code></td>
+        <td><code>ee.Geometry.Polygon</code></td>
+        <td><p>Polygon geometry.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>image_collection</code></td>
+        <td><code>ee.ImageCollection</code></td>
+        <td><p>Image collection to sample.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>start_date</code></td>
+        <td><code>str</code></td>
+        <td><p>Start date (e.g., '2020-01-01').</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>end_date</code></td>
+        <td><code>str</code></td>
+        <td><p>End date (e.g., '2020-12-31').</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>band_names</code></td>
+        <td><code>list</code></td>
+        <td><p>List of bands to extract.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>scale</code></td>
+        <td><code>float</code></td>
+        <td><p>Sampling scale in meters.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>crs</code></td>
+        <td><code>str</code></td>
+        <td><p>Projection CRS. Defaults to image CRS.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>reducer</code></td>
+        <td><code>str or ee.Reducer</code></td>
+        <td><p>Name of reducer or ee.Reducer instance.</p></td>
+        <td><code>&#39;MEAN&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>out_csv</code></td>
+        <td><code>str</code></td>
+        <td><p>File path to save CSV. If None, returns a DataFrame.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>pd.DataFrame or None</code></td>
+      <td><p>Time series data if not exporting to CSV.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>geeagri/timeseries.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_timeseries_to_polygon</span><span class="p">(</span>
+    <span class="n">polygon</span><span class="p">,</span>
+    <span class="n">image_collection</span><span class="p">,</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">end_date</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">band_names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">crs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">reducer</span><span class="o">=</span><span class="s2">&quot;MEAN&quot;</span><span class="p">,</span>
+    <span class="n">out_csv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts time series statistics over a polygon from an ee.ImageCollection.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        polygon (ee.Geometry.Polygon): Polygon geometry.</span>
+<span class="sd">        image_collection (ee.ImageCollection): Image collection to sample.</span>
+<span class="sd">        start_date (str, optional): Start date (e.g., &#39;2020-01-01&#39;).</span>
+<span class="sd">        end_date (str, optional): End date (e.g., &#39;2020-12-31&#39;).</span>
+<span class="sd">        band_names (list, optional): List of bands to extract.</span>
+<span class="sd">        scale (float, optional): Sampling scale in meters.</span>
+<span class="sd">        crs (str, optional): Projection CRS. Defaults to image CRS.</span>
+<span class="sd">        reducer (str or ee.Reducer): Name of reducer or ee.Reducer instance.</span>
+<span class="sd">        out_csv (str, optional): File path to save CSV. If None, returns a DataFrame.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame or None: Time series data if not exporting to CSV.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image_collection</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;image_collection must be an instance of ee.ImageCollection.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">Geometry</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;polygon must be an instance of ee.Geometry.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Allowed reducers</span>
+    <span class="n">allowed_statistics</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;COUNT&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+        <span class="s2">&quot;MEAN&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+        <span class="s2">&quot;MEAN_UNWEIGHTED&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">unweighted</span><span class="p">(),</span>
+        <span class="s2">&quot;MAXIMUM&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+        <span class="s2">&quot;MEDIAN&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span>
+        <span class="s2">&quot;MINIMUM&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+        <span class="s2">&quot;MODE&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mode</span><span class="p">(),</span>
+        <span class="s2">&quot;STD&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">stdDev</span><span class="p">(),</span>
+        <span class="s2">&quot;MIN_MAX&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">minMax</span><span class="p">(),</span>
+        <span class="s2">&quot;SUM&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+        <span class="s2">&quot;VARIANCE&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">variance</span><span class="p">(),</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Get reducer from string or use directly</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reducer</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">reducer_upper</span> <span class="o">=</span> <span class="n">reducer</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">reducer_upper</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed_statistics</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Reducer &#39;</span><span class="si">{</span><span class="n">reducer</span><span class="si">}</span><span class="s2">&#39; not supported. Choose from: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">allowed_statistics</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="n">reducer</span> <span class="o">=</span> <span class="n">allowed_statistics</span><span class="p">[</span><span class="n">reducer_upper</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reducer</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;reducer must be a string or an ee.Reducer instance.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Filter dates and bands</span>
+    <span class="k">if</span> <span class="n">start_date</span> <span class="ow">and</span> <span class="n">end_date</span><span class="p">:</span>
+        <span class="n">image_collection</span> <span class="o">=</span> <span class="n">image_collection</span><span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">band_names</span><span class="p">:</span>
+        <span class="n">image_collection</span> <span class="o">=</span> <span class="n">image_collection</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">band_names</span><span class="p">)</span>
+
+    <span class="n">image_collection</span> <span class="o">=</span> <span class="n">image_collection</span><span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="n">polygon</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">image_to_dict</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;YYYY-MM-dd&quot;</span><span class="p">)</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">reduceRegion</span><span class="p">(</span>
+            <span class="n">reducer</span><span class="o">=</span><span class="n">reducer</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">polygon</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">crs</span><span class="p">,</span> <span class="n">maxPixels</span><span class="o">=</span><span class="mf">1e13</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">date</span><span class="p">)</span>
+
+    <span class="n">stats_fc</span> <span class="o">=</span> <span class="n">image_collection</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">image_to_dict</span><span class="p">)</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+        <span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="o">.</span><span class="n">notNull</span><span class="p">(</span><span class="n">image_collection</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">bandNames</span><span class="p">())</span>
+    <span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">stats_list</span> <span class="o">=</span> <span class="n">stats_fc</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()[</span><span class="s2">&quot;features&quot;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error retrieving data from GEE: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">stats_list</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No data returned for the given polygon and parameters.&quot;</span><span class="p">)</span>
+
+    <span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">stats_list</span><span class="p">:</span>
+        <span class="n">props</span> <span class="o">=</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span>
+        <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">props</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">records</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">])</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">out_csv</span><span class="p">:</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">out_csv</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">df</span>
 </code></pre></div>
         </details>
     </div>
