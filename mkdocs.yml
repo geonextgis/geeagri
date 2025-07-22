@@ -36,6 +36,9 @@ theme:
         text: Google Sans
         code: Regular
 
+extra_css:
+  - stylesheets/extra.css
+
 plugins:
     - search
     - mkdocstrings
