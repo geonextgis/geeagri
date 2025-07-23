@@ -19,7 +19,7 @@
         <link rel="next" href="installation/">
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="assets/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
@@ -71,7 +71,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -98,8 +98,7 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="." title="geeagri" class="md-header__button md-logo" aria-label="geeagri" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="assets/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -129,7 +128,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
     
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
@@ -239,8 +238,7 @@
   <label class="md-nav__title" for="__drawer">
     <a href="." title="geeagri" class="md-nav__button md-logo" aria-label="geeagri" data-md-component="logo">
       
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <img src="assets/logo.png" alt="logo">
 
     </a>
     geeagri
@@ -317,9 +315,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#introduction" class="md-nav__link">
     <span class="md-ellipsis">
-      Features
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Features
     </span>
   </a>
   
@@ -697,9 +704,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
+  <a href="#introduction" class="md-nav__link">
     <span class="md-ellipsis">
-      Features
+      Introduction
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Features
     </span>
   </a>
   
@@ -728,16 +744,38 @@
 
 
 <h1 id="welcome-to-geeagri">Welcome to geeagri<a class="headerlink" href="#welcome-to-geeagri" title="Permanent link">&para;</a></h1>
-<p><a href="https://pypi.python.org/pypi/geeagri"><img alt="image" src="https://img.shields.io/pypi/v/geeagri.svg" /></a></p>
-<p><strong>Python tools for agricultural analysis powered by Google Earth Engine.</strong></p>
+<p><a href="https://colab.research.google.com/github/geonextgis/geeagri/blob/main"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a>
+<a href="https://mybinder.org/v2/gh/geonextgis/geeagri/main?labpath=notebooks%2Fintro.ipynb"><img alt="Open in Binder" src="https://mybinder.org/badge_logo.svg" /></a>
+<a href="https://studiolab.sagemaker.aws/import/github/geonextgis/geeagri/blob/main/notebooks/intro.ipynb"><img alt="Open In Studio Lab" src="https://studiolab.sagemaker.aws/studiolab.svg" /></a>
+<a href="https://pypi.org/project/geeagri"><img alt="PyPI Version" src="https://img.shields.io/pypi/v/geeagri.svg" /></a>
+<a href="https://pepy.tech/project/geeagri"><img alt="Downloads" src="https://static.pepy.tech/badge/geeagri" /></a>
+<a href="https://geonextgis.github.io/geeagri"><img alt="Documentation Status" src="https://github.com/geonextgis/geeagri/workflows/docs/badge.svg" /></a>
+<a href="https://opensource.org/licenses/MIT"><img alt="License" src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a></p>
+<p><a href="https://geonextgis.github.io/geeagri"><img alt="logo" src="https://github.com/geonextgis/geeagri/tree/main/docs/assets/logo.png?raw=true" /></a></p>
+<p><strong>A Python package for agricultural monitoring and analysis using Google Earth Engine</strong></p>
 <ul>
-<li>Free software: MIT License</li>
+<li>GitHub repo: <a href="https://github.com/geonextgis/geeagri">https://github.com/geonextgis/geeagri</a></li>
 <li>Documentation: <a href="https://geonextgis.github.io/geeagri">https://geonextgis.github.io/geeagri</a></li>
+<li>PyPI: <a href="https://pypi.org/project/geeagri">https://pypi.org/project/geeagri</a></li>
+<li>Notebooks: <a href="https://github.com/geonextgis/geeagri/tree/main/docs/examples">https://github.com/geonextgis/geeagri/tree/main/docs/examples</a></li>
+<li>License: <a href="https://opensource.org/licenses/MIT">MIT</a></li>
 </ul>
-<h2 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p><strong>geeagri</strong> is a Python package that integrates the power of <a href="https://earthengine.google.com/">Google Earth Engine (GEE)</a> with domain-specific agricultural analysis. It enables scalable processing, downloading, and visualization of satellite data for crop monitoring, yield estimation, and agro-environmental assessment.</p>
+<p>This package builds upon geospatial tools like <a href="https://github.com/gee-community/geemap"><code>geemap</code></a> and simplifies workflows for scientists, researchers, and policymakers working in agriculture. Whether you're interested in vegetation monitoring, drought assessment, phenology extraction, or productivity mapping, <strong>geeagri</strong> offers tools and prebuilt pipelines to make your analysis easier and faster.</p>
+<p><strong>geeagri</strong> is ideal for:
+- Researchers working with satellite-derived agricultural indicators.
+- Practitioners and analysts from development, environmental, and governmental organizations.
+- Students and educators looking to learn remote sensing for agriculture.</p>
+<p>For a complete list of examples and use cases, visit the <a href="https://github.com/geonextgis/geeagri/tree/main/docs/examples">notebooks</a> section.</p>
+<hr />
+<h2 id="key-features">Key Features<a class="headerlink" href="#key-features" title="Permanent link">&para;</a></h2>
 <ul>
-<li>TODO</li>
+<li>Extracting long-term time series data from GEE for both point and polygon geometries.</li>
+<li>Easy implementation of Harmonic Regression on vegetation or climate indices.</li>
 </ul>
+<hr />
 
 
 
@@ -760,7 +798,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="July 12, 2025 02:07:20 UTC"><span class="timeago" datetime="2025-07-12T02:07:20+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="July 12, 2025 02:07:20 UTC">2025-07-12</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="July 23, 2025 00:38:27 UTC"><span class="timeago" datetime="2025-07-23T00:38:27+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="July 23, 2025 00:38:27 UTC">2025-07-23</span>
   </span>
 
     
