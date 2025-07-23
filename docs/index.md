@@ -8,7 +8,11 @@
 [![Documentation Status](https://github.com/geonextgis/geeagri/workflows/docs/badge.svg)](https://geonextgis.github.io/geeagri)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[![logo](https://github.com/geonextgis/geeagri/tree/main/docs/assets/logo.png?raw=true)](https://geonextgis.github.io/geeagri)
+<div align="center">
+  <a href="https://geonextgis.github.io/geeagri">
+    <img src="https://raw.githubusercontent.com/geonextgis/geeagri/main/docs/assets/logo.png" alt="logo" width="200"/>
+  </a>
+</div>
 
 **A Python package for agricultural monitoring and analysis using Google Earth Engine**
 
