@@ -9,14 +9,14 @@ copyright: "Copyright &copy; 2024 - 2024 Krishnagopal Halder"
 theme:
     palette:
         - scheme: default
-          primary: teal
-          accent: teal
+          primary: green
+          accent: green
           toggle:
               icon: material/toggle-switch-off-outline
               name: Switch to dark mode
         - scheme: slate
-          primary: teal
-          accent: teal
+          primary: green
+          accent: green
           toggle:
               icon: material/toggle-switch
               name: Switch to light mode
