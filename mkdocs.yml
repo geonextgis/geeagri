@@ -9,8 +9,8 @@ copyright: "Copyright &copy; 2024 - 2024 Krishnagopal Halder"
 theme:
     palette:
         - scheme: default
-          #   primary: blue
-          #   accent: indigo
+          primary: teal
+          accent: teal
           toggle:
               icon: material/toggle-switch-off-outline
               name: Switch to dark mode
@@ -23,8 +23,8 @@ theme:
     name: material
     icon:
         repo: fontawesome/brands/github
-    # logo: assets/logo.png
-    # favicon: assets/favicon.png
+    logo: assets/logo.png
+    favicon: assets/favicon.png
     features:
         - navigation.instant
         - navigation.tracking
