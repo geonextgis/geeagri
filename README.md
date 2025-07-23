@@ -31,6 +31,7 @@
 This package builds upon geospatial tools like [`geemap`](https://github.com/gee-community/geemap) and simplifies workflows for scientists, researchers, and policymakers working in agriculture. Whether you're interested in vegetation monitoring, drought assessment, phenology extraction, or productivity mapping, **geeagri** offers tools and prebuilt pipelines to make your analysis easier and faster.
 
 **geeagri** is ideal for:
+
 - Researchers working with satellite-derived agricultural indicators.
 - Practitioners and analysts from development, environmental, and governmental organizations.
 - Students and educators looking to learn remote sensing for agriculture.
