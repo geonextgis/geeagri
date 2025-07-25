@@ -21,7 +21,13 @@ class MeanCentering:
         max_pixels (int): Maximum number of pixels for region reduction.
     """
 
-    def __init__(self, image: ee.Image, region: ee.Geometry, scale: int = 100, max_pixels: int = int(1e9)):
+    def __init__(
+        self,
+        image: ee.Image,
+        region: ee.Geometry,
+        scale: int = 100,
+        max_pixels: int = int(1e9),
+    ):
         """
         Initializes the MeanCentering object.
 
@@ -59,7 +65,7 @@ class MeanCentering:
             geometry=self.region,
             scale=self.scale,
             bestEffort=True,
-            maxPixels=self.max_pixels
+            maxPixels=self.max_pixels,
         )
 
         if means is None:
@@ -91,7 +97,13 @@ class StandardScaler:
         σ: standard deviation of the band over the region
     """
 
-    def __init__(self, image: ee.Image, region: ee.Geometry, scale: int = 100, max_pixels: int = int(1e9)):
+    def __init__(
+        self,
+        image: ee.Image,
+        region: ee.Geometry,
+        scale: int = 100,
+        max_pixels: int = int(1e9),
+    ):
         if not isinstance(image, ee.Image):
             raise TypeError("Expected 'image' to be of type ee.Image.")
         if not isinstance(region, ee.Geometry):
@@ -117,18 +129,20 @@ class StandardScaler:
             geometry=self.region,
             scale=self.scale,
             bestEffort=True,
-            maxPixels=self.max_pixels
+            maxPixels=self.max_pixels,
         )
         stds = self.image.reduceRegion(
             reducer=ee.Reducer.stdDev(),
             geometry=self.region,
             scale=self.scale,
             bestEffort=True,
-            maxPixels=self.max_pixels
+            maxPixels=self.max_pixels,
         )
 
         if means is None or stds is None:
-            raise ValueError("Statistic computation failed — check if region has valid pixels.")
+            raise ValueError(
+                "Statistic computation failed — check if region has valid pixels."
+            )
 
         bands = self.image.bandNames()
 
@@ -156,7 +170,13 @@ class MinMaxScaler:
         min, max: band-wise min and max over the region.
     """
 
-    def __init__(self, image: ee.Image, region: ee.Geometry, scale: int = 100, max_pixels: int = int(1e9)):
+    def __init__(
+        self,
+        image: ee.Image,
+        region: ee.Geometry,
+        scale: int = 100,
+        max_pixels: int = int(1e9),
+    ):
         if not isinstance(image, ee.Image):
             raise TypeError("Expected 'image' to be of type ee.Image.")
         if not isinstance(region, ee.Geometry):
@@ -182,21 +202,27 @@ class MinMaxScaler:
             geometry=self.region,
             scale=self.scale,
             bestEffort=True,
-            maxPixels=self.max_pixels
+            maxPixels=self.max_pixels,
         )
 
         if stats is None:
-            raise ValueError("MinMax reduction failed — possibly no valid pixels in region.")
+            raise ValueError(
+                "MinMax reduction failed — possibly no valid pixels in region."
+            )
 
         bands = self.image.bandNames()
 
         def scale_band(band):
             band = ee.String(band)
-            min_val = ee.Number(stats.get(band.cat('_min')))
-            max_val = ee.Number(stats.get(band.cat('_max')))
+            min_val = ee.Number(stats.get(band.cat("_min")))
+            max_val = ee.Number(stats.get(band.cat("_max")))
             if min_val is None or max_val is None:
                 raise ValueError(f"Missing min/max for band: {band.getInfo()}")
-            scaled = self.image.select(band).subtract(min_val).divide(max_val.subtract(min_val))
+            scaled = (
+                self.image.select(band)
+                .subtract(min_val)
+                .divide(max_val.subtract(min_val))
+            )
             return scaled.clamp(0, 1).rename(band)
 
         scaled = bands.map(scale_band)
@@ -232,7 +258,7 @@ class RobustScaler:
         scale: int = 100,
         lower: int = 25,
         upper: int = 75,
-        max_pixels: int = int(1e9)
+        max_pixels: int = int(1e9),
     ):
         """
         Initializes the RobustScaler.
@@ -280,7 +306,7 @@ class RobustScaler:
             geometry=self.region,
             scale=self.scale,
             bestEffort=True,
-            maxPixels=self.max_pixels
+            maxPixels=self.max_pixels,
         )
 
         if percentiles is None:
@@ -288,12 +314,16 @@ class RobustScaler:
 
         def scale_band(band):
             band = ee.String(band)
-            p_min = ee.Number(percentiles.get(band.cat(f'_p{self.lower}')))
-            p_max = ee.Number(percentiles.get(band.cat(f'_p{self.upper}')))
+            p_min = ee.Number(percentiles.get(band.cat(f"_p{self.lower}")))
+            p_max = ee.Number(percentiles.get(band.cat(f"_p{self.upper}")))
             if p_min is None or p_max is None:
-                raise ValueError(f"Missing percentile values for band: {band.getInfo()}")
+                raise ValueError(
+                    f"Missing percentile values for band: {band.getInfo()}"
+                )
 
-            scaled = self.image.select(band).subtract(p_min).divide(p_max.subtract(p_min))
+            scaled = (
+                self.image.select(band).subtract(p_min).divide(p_max.subtract(p_min))
+            )
             return scaled.clamp(0, 1).rename(band)
 
         scaled = bands.map(scale_band)
