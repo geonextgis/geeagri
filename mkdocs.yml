@@ -4,6 +4,10 @@ site_author: geonextgis
 site_url: https://geonextgis.github.io/geeagri
 repo_url: https://github.com/geonextgis/geeagri
 
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
 copyright: "Copyright &copy; 2024 - 2024 Krishnagopal Halder"
 
 theme:
@@ -80,10 +84,10 @@ nav:
     - Changelog: changelog.md
     - Report Issues: https://github.com/geonextgis/geeagri/issues
     - Examples:
-        - examples/intro.ipynb
         - examples/timeseries_extraction.ipynb
+        - examples/image_scaling.ipynb
     - API Reference:
-          - geeagri module: geeagri.md
-          - common module: common.md
-          - timeseries module: timeseries.md
+        #   - geeagri module: geeagri.md
+        #   - common module: common.md
+          - extract module: extract.md
           - preprocessing module: preprocessing.md
