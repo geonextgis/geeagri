@@ -1,4 +1,4 @@
-"""Module for timeseries analysis on Earth Engine data."""
+"""Module for extracting data from Google Earth Engine."""
 
 import math
 import ee
