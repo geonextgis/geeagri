@@ -15,9 +15,9 @@ class MeanCentering:
 
     Where:
 
-    - $X$: original pixel value  
+    - $X$: original pixel value
     - $\mu$: mean of the band computed over the given region
-    
+
     Args:
         image (ee.Image): Input multi-band image to center.
         region (ee.Geometry): Geometry over which statistics will be computed.
@@ -176,13 +176,13 @@ class StandardScaler:
 
     Where:
 
-    - $X$: original pixel value  
-    - $\mu$: mean of the band over the specified region  
+    - $X$: original pixel value
+    - $\mu$: mean of the band over the specified region
     - $\sigma$: standard deviation of the band over the specified region
 
     This transformation results in a standardized image where each band has
     zero mean and unit variance (approximately), assuming normally distributed values.
-    
+
     Args:
         image (ee.Image): The input multi-band image to be standardized.
         region (ee.Geometry): The geographic region over which to compute the statistics.
@@ -199,7 +199,7 @@ class StandardScaler:
         region: ee.Geometry,
         scale: int = 100,
         max_pixels: int = int(1e9),
-    ):        
+    ):
         if not isinstance(image, ee.Image):
             raise TypeError("Expected 'image' to be of type ee.Image.")
         if not isinstance(region, ee.Geometry):
@@ -269,8 +269,8 @@ class RobustScaler:
 
     Where:
 
-    - $X$: original pixel value  
-    - $P_{\\text{lower}}$: lower percentile value (e.g., 25th percentile)  
+    - $X$: original pixel value
+    - $P_{\\text{lower}}$: lower percentile value (e.g., 25th percentile)
     - $P_{\\text{upper}}$: upper percentile value (e.g., 75th percentile)
 
     This method is particularly useful when the image contains outliers or skewed distributions.
@@ -282,7 +282,7 @@ class RobustScaler:
         lower (int): Lower percentile to use (default: 25).
         upper (int): Upper percentile to use (default: 75).
         max_pixels (int): Maximum number of pixels allowed for region reduction.
-        
+
     Raises:
         TypeError: If `image` is not an `ee.Image` or `region` is not an `ee.Geometry`.
     """

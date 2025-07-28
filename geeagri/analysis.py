@@ -10,12 +10,12 @@ class PCA:
         image: ee.Image,
         region: ee.Geometry,
         scale: int = 100,
-        max_pixels: int = int(1e9)
+        max_pixels: int = int(1e9),
     ):
         self.image = image
         self.region = region
         self.scale = scale
-        self._max_pixels=max_pixels
+        self._max_pixels = max_pixels
         self._scaler = MeanCentering(self.image, self.region, self.scale)
         self.centered_image = self._scaler.transform()
 
@@ -33,15 +33,15 @@ class PCA:
 
         # Get the 'array' covariance result and cast to an array.
         # This represents the band-to-band covariance within the region.
-        covar_array = ee.Array(covar.get('array'))
+        covar_array = ee.Array(covar.get("array"))
 
         # Perform an eigen analysis and slice apart the values and vectors.
         eigen = covar_array.eigen()
 
         # This is a P-length vector of Eigenvalues.
-        eigen_values = eigens.slice(1, 0, 1) # (axis, start, end)
+        eigen_values = eigens.slice(1, 0, 1)  # (axis, start, end)
         # This is a PxP matrix with eigenvectors in rows.
-        eigen_vectors = eigens.slice(1, 1) # (axis, start)
+        eigen_vectors = eigens.slice(1, 1)  # (axis, start)
 
         # Convert the array image to 2D arrays for matrix computations.
         array_image = arrays.toArray(1)
@@ -53,7 +53,7 @@ class PCA:
         sd_image = (
             ee.Image(eigen_values.sqrt())
             .arrayProject([0])
-            .arrayFlatten([get_new_band_names('sd')])
+            .arrayFlatten([get_new_band_names("sd")])
         )
 
         # Turn the PCs into a P-band image, normalized by SD.
@@ -61,7 +61,7 @@ class PCA:
             # Throw out an an unneeded dimension, [[]] -> [].
             principal_components.arrayProject([0])
             # Make the one band array image a multi-band image, [] -> image.
-            .arrayFlatten([get_new_band_names('pc')])
+            .arrayFlatten([get_new_band_names("pc")])
             # Normalize the PCs by their SDs.
             .divide(sd_image)
         )
