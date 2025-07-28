@@ -2,54 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://geonextgis.github.io/geeagri/</loc>
-         <lastmod>2025-07-25</lastmod>
+         <lastmod>2025-07-28</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/changelog/</loc>
-         <lastmod>2025-07-25</lastmod>
+         <lastmod>2025-07-28</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/common/</loc>
-         <lastmod>2025-07-25</lastmod>
+         <lastmod>2025-07-28</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/contributing/</loc>
-         <lastmod>2025-07-25</lastmod>
+         <lastmod>2025-07-28</lastmod>
+    </url>
+    <url>
+         <loc>https://geonextgis.github.io/geeagri/extract/</loc>
+         <lastmod>2025-07-28</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/faq/</loc>
-         <lastmod>2025-07-25</lastmod>
+         <lastmod>2025-07-28</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/geeagri/</loc>
-         <lastmod>2025-07-25</lastmod>
+         <lastmod>2025-07-28</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/installation/</loc>
-         <lastmod>2025-07-25</lastmod>
+         <lastmod>2025-07-28</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/preprocessing/</loc>
-         <lastmod>2025-07-25</lastmod>
-    </url>
-    <url>
-         <loc>https://geonextgis.github.io/geeagri/timeseries/</loc>
-         <lastmod>2025-07-25</lastmod>
+         <lastmod>2025-07-28</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/usage/</loc>
-         <lastmod>2025-07-25</lastmod>
+         <lastmod>2025-07-28</lastmod>
     </url>
     <url>
-         <loc>https://geonextgis.github.io/geeagri/examples/band_scaling/</loc>
-         <lastmod>2025-07-25</lastmod>
+         <loc>https://geonextgis.github.io/geeagri/examples/image_scaling/</loc>
+         <lastmod>2025-07-28</lastmod>
     </url>
     <url>
-         <loc>https://geonextgis.github.io/geeagri/examples/intro/</loc>
-         <lastmod>2025-07-25</lastmod>
+         <loc>https://geonextgis.github.io/geeagri/examples/pca/</loc>
+         <lastmod>2025-07-28</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/examples/timeseries_extraction/</loc>
-         <lastmod>2025-07-25</lastmod>
+         <lastmod>2025-07-28</lastmod>
     </url>
 </urlset>
