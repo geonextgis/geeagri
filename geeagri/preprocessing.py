@@ -4,21 +4,28 @@ import ee
 
 
 class MeanCentering:
-    """
+    r"""
     Mean-centers each band of an Earth Engine image.
 
     The transformation is computed as:
-        X_centered = X - μ
+
+    $$
+    X_{centered} = X - \mu
+    $$
 
     Where:
-        X: original pixel value
-        μ: mean of the band computed over the given region
 
-    Attributes:
-        image (ee.Image): The input multi-band image.
-        region (ee.Geometry): The region over which to compute the mean.
-        scale (int): Resolution in meters for computation.
-        max_pixels (int): Maximum number of pixels for region reduction.
+    - $X$: original pixel value
+    - $\mu$: mean of the band computed over the given region
+
+    Args:
+        image (ee.Image): Input multi-band image to center.
+        region (ee.Geometry): Geometry over which statistics will be computed.
+        scale (int, optional): Spatial resolution in meters. Defaults to 100.
+        max_pixels (int, optional): Max pixels allowed in computation. Defaults to 1e9.
+
+    Raises:
+        TypeError: If image or region is not an ee.Image or ee.Geometry.
     """
 
     def __init__(
@@ -28,18 +35,6 @@ class MeanCentering:
         scale: int = 100,
         max_pixels: int = int(1e9),
     ):
-        """
-        Initializes the MeanCentering object.
-
-        Args:
-            image (ee.Image): Input multi-band image to center.
-            region (ee.Geometry): Geometry over which statistics will be computed.
-            scale (int, optional): Spatial resolution in meters. Defaults to 100.
-            max_pixels (int, optional): Max pixels allowed in computation. Defaults to 1e9.
-
-        Raises:
-            TypeError: If image or region is not an ee.Image or ee.Geometry.
-        """
         if not isinstance(image, ee.Image):
             raise TypeError("Expected 'image' to be of type ee.Image.")
         if not isinstance(region, ee.Geometry):
@@ -84,17 +79,118 @@ class MeanCentering:
         return ee.ImageCollection(centered).toBands().rename(bands)
 
 
-class StandardScaler:
+class MinMaxScaler:
+    r"""
+    Applies min-max normalization to each band of an Earth Engine image.
+
+    The transformation is computed as:
+
+    $$
+    X_\\text{scaled} = \\frac{X - \\min}{\\max - \\min}
+    $$
+
+    After clamping, $X_\\text{scaled} \\in [0, 1]$.
+
+    Where:
+
+    - $\min$, $\max$: band-wise minimum and maximum values over the region.
+
+    Args:
+        image (ee.Image): The input multi-band image.
+        region (ee.Geometry): The region over which to compute min and max.
+        scale (int, optional): The spatial resolution in meters. Defaults to 100.
+        max_pixels (int, optional): Max pixels allowed during reduction. Defaults to 1e9.
+
+    Raises:
+        TypeError: If `image` is not an `ee.Image` or `region` is not an `ee.Geometry`.
     """
+
+    def __init__(
+        self,
+        image: ee.Image,
+        region: ee.Geometry,
+        scale: int = 100,
+        max_pixels: int = int(1e9),
+    ):
+        if not isinstance(image, ee.Image):
+            raise TypeError("Expected 'image' to be of type ee.Image.")
+        if not isinstance(region, ee.Geometry):
+            raise TypeError("Expected 'region' to be of type ee.Geometry.")
+
+        self.image = image
+        self.region = region
+        self.scale = scale
+        self.max_pixels = max_pixels
+
+    def transform(self) -> ee.Image:
+        """
+        Applies min-max scaling to each band, producing values in the range [0, 1].
+
+        Returns:
+            ee.Image: A scaled image with band values clamped between 0 and 1.
+
+        Raises:
+            ValueError: If min or max statistics are unavailable or reduction fails.
+        """
+        stats = self.image.reduceRegion(
+            reducer=ee.Reducer.minMax(),
+            geometry=self.region,
+            scale=self.scale,
+            bestEffort=True,
+            maxPixels=self.max_pixels,
+        )
+
+        if stats is None:
+            raise ValueError(
+                "MinMax reduction failed — possibly no valid pixels in region."
+            )
+
+        bands = self.image.bandNames()
+
+        def scale_band(band):
+            band = ee.String(band)
+            min_val = ee.Number(stats.get(band.cat("_min")))
+            max_val = ee.Number(stats.get(band.cat("_max")))
+            if min_val is None or max_val is None:
+                raise ValueError(f"Missing min/max for band: {band.getInfo()}")
+            scaled = (
+                self.image.select(band)
+                .subtract(min_val)
+                .divide(max_val.subtract(min_val))
+            )
+            return scaled.clamp(0, 1).rename(band)
+
+        scaled = bands.map(scale_band)
+        return ee.ImageCollection(scaled).toBands().rename(bands)
+
+
+class StandardScaler:
+    r"""
     Standardizes each band of an Earth Engine image using z-score normalization.
 
     The transformation is computed as:
-        X_standardized = (X - μ) / σ
+
+    $$
+    X_\\text{standardized} = \\frac{X - \\mu}{\\sigma}
+    $$
 
     Where:
-        X: original pixel value
-        μ: mean of the band over the region
-        σ: standard deviation of the band over the region
+
+    - $X$: original pixel value
+    - $\mu$: mean of the band over the specified region
+    - $\sigma$: standard deviation of the band over the specified region
+
+    This transformation results in a standardized image where each band has
+    zero mean and unit variance (approximately), assuming normally distributed values.
+
+    Args:
+        image (ee.Image): The input multi-band image to be standardized.
+        region (ee.Geometry): The geographic region over which to compute the statistics.
+        scale (int, optional): Spatial resolution (in meters) to use for region reduction. Defaults to 100.
+        max_pixels (int, optional): Maximum number of pixels allowed in reduction. Defaults to 1e9.
+
+    Raises:
+        TypeError: If `image` is not an `ee.Image` or `region` is not an `ee.Geometry`.
     """
 
     def __init__(
@@ -158,97 +254,37 @@ class StandardScaler:
         return ee.ImageCollection(scaled).toBands().rename(bands)
 
 
-class MinMaxScaler:
-    """
-    Applies min-max normalization to each band of an Earth Engine image.
-
-    The transformation is computed as:
-        X_scaled = (X - min) / (max - min)
-        X_scaled ∈ [0, 1] after clamping
-
-    Where:
-        min, max: band-wise min and max over the region.
-    """
-
-    def __init__(
-        self,
-        image: ee.Image,
-        region: ee.Geometry,
-        scale: int = 100,
-        max_pixels: int = int(1e9),
-    ):
-        if not isinstance(image, ee.Image):
-            raise TypeError("Expected 'image' to be of type ee.Image.")
-        if not isinstance(region, ee.Geometry):
-            raise TypeError("Expected 'region' to be of type ee.Geometry.")
-
-        self.image = image
-        self.region = region
-        self.scale = scale
-        self.max_pixels = max_pixels
-
-    def transform(self) -> ee.Image:
-        """
-        Applies min-max scaling to [0, 1] per band.
-
-        Returns:
-            ee.Image: Scaled image with values in range [0, 1].
-
-        Raises:
-            ValueError: If min or max statistics are missing.
-        """
-        stats = self.image.reduceRegion(
-            reducer=ee.Reducer.minMax(),
-            geometry=self.region,
-            scale=self.scale,
-            bestEffort=True,
-            maxPixels=self.max_pixels,
-        )
-
-        if stats is None:
-            raise ValueError(
-                "MinMax reduction failed — possibly no valid pixels in region."
-            )
-
-        bands = self.image.bandNames()
-
-        def scale_band(band):
-            band = ee.String(band)
-            min_val = ee.Number(stats.get(band.cat("_min")))
-            max_val = ee.Number(stats.get(band.cat("_max")))
-            if min_val is None or max_val is None:
-                raise ValueError(f"Missing min/max for band: {band.getInfo()}")
-            scaled = (
-                self.image.select(band)
-                .subtract(min_val)
-                .divide(max_val.subtract(min_val))
-            )
-            return scaled.clamp(0, 1).rename(band)
-
-        scaled = bands.map(scale_band)
-        return ee.ImageCollection(scaled).toBands().rename(bands)
-
-
 class RobustScaler:
-    """
-    Scales each band of an Earth Engine image using percentiles to reduce the influence of outliers.
+    r"""
+    Applies robust scaling to each band of an Earth Engine image using percentiles,
+    which reduces the influence of outliers compared to min-max scaling.
 
     The transformation is computed as:
-        X_scaled = (X - P_lower) / (P_upper - P_lower)
-        X_scaled ∈ [0, 1] after clamping
+
+    $$
+    X_\\text{scaled} = \\frac{X - P_{\\text{lower}}}{P_{\\text{upper}} - P_{\\text{lower}}}
+    $$
+
+    After clamping, $X_\\text{scaled} \\in [0, 1]$.
 
     Where:
-        - X: pixel value
-        - P_lower: lower percentile value (e.g. 5th)
-        - P_upper: upper percentile value (e.g. 95th)
 
-    Attributes:
-        image (ee.Image): Input multi-band image.
+    - $X$: original pixel value
+    - $P_{\\text{lower}}$: lower percentile value (e.g., 25th percentile)
+    - $P_{\\text{upper}}$: upper percentile value (e.g., 75th percentile)
+
+    This method is particularly useful when the image contains outliers or skewed distributions.
+
+    Args:
+        image (ee.Image): The input multi-band image.
         region (ee.Geometry): Geometry over which percentiles are computed.
-        scale (int): Resolution in meters for computation.
-        lower (int): Lower percentile (default: 25).
-        upper (int): Upper percentile (default: 75).
-        max_pixels (int): Max pixel limit for reduceRegion.
+        scale (int): Spatial resolution in meters for computation.
+        lower (int): Lower percentile to use (default: 25).
+        upper (int): Upper percentile to use (default: 75).
+        max_pixels (int): Maximum number of pixels allowed for region reduction.
+
+    Raises:
+        TypeError: If `image` is not an `ee.Image` or `region` is not an `ee.Geometry`.
     """
 
     def __init__(
@@ -260,21 +296,6 @@ class RobustScaler:
         upper: int = 75,
         max_pixels: int = int(1e9),
     ):
-        """
-        Initializes the RobustScaler.
-
-        Args:
-            image (ee.Image): Input image.
-            region (ee.Geometry): Region to compute percentiles.
-            scale (int, optional): Spatial resolution in meters. Defaults to 100.
-            lower (int, optional): Lower percentile. Defaults to 5.
-            upper (int, optional): Upper percentile. Defaults to 95.
-            max_pixels (int, optional): Max pixels allowed for computation. Defaults to 1e9.
-
-        Raises:
-            TypeError: If image or region is of wrong type.
-            ValueError: If percentiles are not in valid range.
-        """
         if not isinstance(image, ee.Image):
             raise TypeError("Expected 'image' to be of type ee.Image.")
         if not isinstance(region, ee.Geometry):
