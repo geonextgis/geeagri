@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://geonextgis.github.io/geeagri/extract/">
       
       
-        <link rel="prev" href="../examples/image_scaling/">
+        <link rel="prev" href="../examples/pca/">
       
       
         <link rel="next" href="../preprocessing/">
@@ -498,6 +498,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/pca/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pca
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -611,57 +634,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#geeagri.extract.HarmonicRegression" class="md-nav__link">
-    <span class="md-ellipsis">
-      HarmonicRegression
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="HarmonicRegression">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#geeagri.extract.HarmonicRegression.__init__" class="md-nav__link">
-    <span class="md-ellipsis">
-      __init__()
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#geeagri.extract.HarmonicRegression.get_fitted_harmonics" class="md-nav__link">
-    <span class="md-ellipsis">
-      get_fitted_harmonics()
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#geeagri.extract.HarmonicRegression.get_harmonic_coeffs" class="md-nav__link">
-    <span class="md-ellipsis">
-      get_harmonic_coeffs()
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#geeagri.extract.HarmonicRegression.get_phase_amplitude" class="md-nav__link">
-    <span class="md-ellipsis">
-      get_phase_amplitude()
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#geeagri.extract.extract_timeseries_to_point" class="md-nav__link">
     <span class="md-ellipsis">
       extract_timeseries_to_point()
@@ -711,6 +683,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    analysis module
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -750,57 +745,6 @@
       geeagri.extract
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#geeagri.extract.HarmonicRegression" class="md-nav__link">
-    <span class="md-ellipsis">
-      HarmonicRegression
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="HarmonicRegression">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#geeagri.extract.HarmonicRegression.__init__" class="md-nav__link">
-    <span class="md-ellipsis">
-      __init__()
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#geeagri.extract.HarmonicRegression.get_fitted_harmonics" class="md-nav__link">
-    <span class="md-ellipsis">
-      get_fitted_harmonics()
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#geeagri.extract.HarmonicRegression.get_harmonic_coeffs" class="md-nav__link">
-    <span class="md-ellipsis">
-      get_harmonic_coeffs()
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#geeagri.extract.HarmonicRegression.get_phase_amplitude" class="md-nav__link">
-    <span class="md-ellipsis">
-      get_phase_amplitude()
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -861,607 +805,6 @@
 
 
 
-
-
-
-  <div class="doc doc-object doc-class">
-
-
-
-<h2 id="geeagri.extract.HarmonicRegression" class="doc doc-heading">
-        <code>
-HarmonicRegression        </code>
-
-
-
-<a href="#geeagri.extract.HarmonicRegression" class="headerlink" title="Permanent link">&para;</a></h2>
-
-    <div class="doc doc-contents ">
-
-      <p>Perform harmonic regression on an Earth Engine ImageCollection.</p>
-
-<p><strong>Attributes:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>image_collection</code></td>
-        <td><code>ee.ImageCollection</code></td>
-        <td><p>Input time series of selected band.</p></td>
-      </tr>
-      <tr>
-        <td><code>ref_date</code></td>
-        <td><code>ee.Date</code></td>
-        <td><p>Reference date to calculate time.</p></td>
-      </tr>
-      <tr>
-        <td><code>band</code></td>
-        <td><code>str</code></td>
-        <td><p>Name of dependent variable band.</p></td>
-      </tr>
-      <tr>
-        <td><code>order</code></td>
-        <td><code>int</code></td>
-        <td><p>Number of harmonics.</p></td>
-      </tr>
-      <tr>
-        <td><code>omega</code></td>
-        <td><code>float</code></td>
-        <td><p>Base frequency multiplier.</p></td>
-      </tr>
-      <tr>
-        <td><code>independents</code></td>
-        <td><code>List[str]</code></td>
-        <td><p>Names of independent variable bands.</p></td>
-      </tr>
-      <tr>
-        <td><code>composite</code></td>
-        <td><code>ee.Image</code></td>
-        <td><p>Median composite of the selected band.</p></td>
-      </tr>
-  </tbody>
-</table>
-        <details class="quote">
-          <summary>Source code in <code>geeagri/extract.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">HarmonicRegression</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Perform harmonic regression on an Earth Engine ImageCollection.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        image_collection (ee.ImageCollection): Input time series of selected band.</span>
-<span class="sd">        ref_date (ee.Date): Reference date to calculate time.</span>
-<span class="sd">        band (str): Name of dependent variable band.</span>
-<span class="sd">        order (int): Number of harmonics.</span>
-<span class="sd">        omega (float): Base frequency multiplier.</span>
-<span class="sd">        independents (List[str]): Names of independent variable bands.</span>
-<span class="sd">        composite (ee.Image): Median composite of the selected band.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_collection</span><span class="p">,</span> <span class="n">ref_date</span><span class="p">,</span> <span class="n">band_name</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the HarmonicRegression object.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            image_collection (ee.ImageCollection): Input image collection.</span>
-<span class="sd">            ref_date (str or ee.Date): Reference date to compute relative time.</span>
-<span class="sd">            band_name (str): Name of dependent variable band.</span>
-<span class="sd">            order (int): Number of harmonics (default 1).</span>
-<span class="sd">            omega (float): Base frequency multiplier (default 1).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">image_collection</span> <span class="o">=</span> <span class="n">image_collection</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">band_name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ref_date</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">ref_date</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ref_date</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">ref_date</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">band</span> <span class="o">=</span> <span class="n">band_name</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">order</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">omega</span> <span class="o">=</span> <span class="n">omega</span>
-
-        <span class="c1"># Names of independent variables: constant, cos_1, ..., sin_1, ...</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">independents</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">[</span><span class="s2">&quot;constant&quot;</span><span class="p">]</span>
-            <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;cos_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
-            <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;sin_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
-        <span class="p">)</span>
-
-        <span class="c1"># Precompute median composite of the selected band</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">composite</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_collection</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_add_time_unit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add time difference in years from ref_date as band &#39;t&#39;.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            image (ee.Image): Input image.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            ee.Image: Image with additional &#39;t&#39; band.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dyear</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ref_date</span><span class="p">,</span> <span class="s2">&quot;year&quot;</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">dyear</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">())</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_add_harmonics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add harmonic basis functions: constant, cos_i, sin_i bands.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            image (ee.Image): Input image.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            ee.Image: Image with added harmonic bands.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_time_unit</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
-
-        <span class="n">harmonic_bands</span> <span class="o">=</span> <span class="p">[</span><span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;constant&quot;</span><span class="p">)]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">freq</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">omega</span><span class="p">)</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
-            <span class="n">harmonic_bands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span><span class="o">.</span><span class="n">cos</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cos_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
-            <span class="n">harmonic_bands</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">freq</span><span class="p">)</span><span class="o">.</span><span class="n">sin</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;sin_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
-
-        <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">harmonic_bands</span><span class="p">))</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_harmonic_coeffs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Fit harmonic regression and return coefficients image.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            ee.Image: Coefficients image with bands like &lt;band&gt;_constant, &lt;band&gt;_cos_1, etc.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">harmonic_coll</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_collection</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_add_harmonics</span><span class="p">)</span>
-
-        <span class="n">regression</span> <span class="o">=</span> <span class="n">harmonic_coll</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">independents</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">band</span><span class="p">])</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span>
-            <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">linearRegression</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="p">)</span>
-
-        <span class="n">coeffs</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">regression</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;coefficients&quot;</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">arrayProject</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
-            <span class="o">.</span><span class="n">arrayFlatten</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="p">])</span>
-            <span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">toInt32</span><span class="p">()</span>
-        <span class="p">)</span>
-
-        <span class="n">new_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">band</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="p">]</span>
-        <span class="k">return</span> <span class="n">coeffs</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">new_names</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_phase_amplitude</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">harmonic_coeffs</span><span class="p">,</span> <span class="n">cos_band</span><span class="p">,</span> <span class="n">sin_band</span><span class="p">,</span> <span class="n">stretch_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">return_rgb</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compute phase &amp; amplitude and optionally create RGB visualization.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            harmonic_coeffs (ee.Image): Coefficients image from get_harmonic_coeffs().</span>
-<span class="sd">            cos_band (str): Name of cosine coefficient band.</span>
-<span class="sd">            sin_band (str): Name of sine coefficient band.</span>
-<span class="sd">            stretch_factor (float): Stretch amplitude to enhance contrast.</span>
-<span class="sd">            return_rgb (bool): If True, return RGB image; else return HSV image.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            ee.Image: RGB visualization (uint8) or HSV image.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">phase</span> <span class="o">=</span> <span class="n">harmonic_coeffs</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">cos_band</span><span class="p">)</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">harmonic_coeffs</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">sin_band</span><span class="p">))</span>
-        <span class="n">amplitude</span> <span class="o">=</span> <span class="n">harmonic_coeffs</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">cos_band</span><span class="p">)</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span>
-            <span class="n">harmonic_coeffs</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">sin_band</span><span class="p">)</span>
-        <span class="p">)</span>
-
-        <span class="n">hsv</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">phase</span><span class="o">.</span><span class="n">unitScale</span><span class="p">(</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="n">amplitude</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">stretch_factor</span><span class="p">))</span>
-            <span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">composite</span><span class="p">)</span>
-        <span class="p">)</span>
-
-        <span class="k">if</span> <span class="n">return_rgb</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">hsv</span><span class="o">.</span><span class="n">hsvToRgb</span><span class="p">()</span><span class="o">.</span><span class="n">unitScale</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">toByte</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">hsv</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">_fit_harmonics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">harmonic_coeffs</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compute fitted values from harmonic coefficients and harmonic bands.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            harmonic_coeffs (ee.Image): Coefficients image divided by 10000.</span>
-<span class="sd">            image (ee.Image): Image with harmonic bands.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            ee.Image: Image with fitted values.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">(</span>
-            <span class="n">image</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">harmonic_coeffs</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="s2">&quot;sum&quot;</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;fitted&quot;</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">copyProperties</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">])</span>
-        <span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_fitted_harmonics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">harmonic_coeffs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compute fitted harmonic time series over the collection.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            harmonic_coeffs (ee.Image): Coefficients image from get_harmonic_coeffs().</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            ee.ImageCollection: Collection with fitted harmonic value as &#39;fitted&#39; band.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">harmonic_coeffs_scaled</span> <span class="o">=</span> <span class="n">harmonic_coeffs</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-        <span class="n">harmonic_coll</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_collection</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_add_harmonics</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">harmonic_coll</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
-            <span class="k">lambda</span> <span class="n">img</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_harmonics</span><span class="p">(</span><span class="n">harmonic_coeffs_scaled</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
-        <span class="p">)</span>
-</code></pre></div>
-        </details>
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="geeagri.extract.HarmonicRegression.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_collection</span><span class="p">,</span> <span class="n">ref_date</span><span class="p">,</span> <span class="n">band_name</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
-
-  <span class="doc doc-properties">
-      <small class="doc doc-property doc-property-special"><code>special</code></small>
-  </span>
-
-<a href="#geeagri.extract.HarmonicRegression.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Initialize the HarmonicRegression object.</p>
-
-<p><strong>Parameters:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>image_collection</code></td>
-        <td><code>ee.ImageCollection</code></td>
-        <td><p>Input image collection.</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>ref_date</code></td>
-        <td><code>str or ee.Date</code></td>
-        <td><p>Reference date to compute relative time.</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>band_name</code></td>
-        <td><code>str</code></td>
-        <td><p>Name of dependent variable band.</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>order</code></td>
-        <td><code>int</code></td>
-        <td><p>Number of harmonics (default 1).</p></td>
-        <td><code>1</code></td>
-      </tr>
-      <tr>
-        <td><code>omega</code></td>
-        <td><code>float</code></td>
-        <td><p>Base frequency multiplier (default 1).</p></td>
-        <td><code>1</code></td>
-      </tr>
-  </tbody>
-</table>
-        <details class="quote">
-          <summary>Source code in <code>geeagri/extract.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_collection</span><span class="p">,</span> <span class="n">ref_date</span><span class="p">,</span> <span class="n">band_name</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">omega</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Initialize the HarmonicRegression object.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        image_collection (ee.ImageCollection): Input image collection.</span>
-<span class="sd">        ref_date (str or ee.Date): Reference date to compute relative time.</span>
-<span class="sd">        band_name (str): Name of dependent variable band.</span>
-<span class="sd">        order (int): Number of harmonics (default 1).</span>
-<span class="sd">        omega (float): Base frequency multiplier (default 1).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">image_collection</span> <span class="o">=</span> <span class="n">image_collection</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">band_name</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">ref_date</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">ref_date</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ref_date</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">ref_date</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">band</span> <span class="o">=</span> <span class="n">band_name</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">order</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">omega</span> <span class="o">=</span> <span class="n">omega</span>
-
-    <span class="c1"># Names of independent variables: constant, cos_1, ..., sin_1, ...</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">independents</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="p">[</span><span class="s2">&quot;constant&quot;</span><span class="p">]</span>
-        <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;cos_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
-        <span class="o">+</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;sin_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
-    <span class="p">)</span>
-
-    <span class="c1"># Precompute median composite of the selected band</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">composite</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_collection</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="geeagri.extract.HarmonicRegression.get_fitted_harmonics" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_fitted_harmonics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">harmonic_coeffs</span><span class="p">)</span></code>
-
-
-<a href="#geeagri.extract.HarmonicRegression.get_fitted_harmonics" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Compute fitted harmonic time series over the collection.</p>
-
-<p><strong>Parameters:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>harmonic_coeffs</code></td>
-        <td><code>ee.Image</code></td>
-        <td><p>Coefficients image from get_harmonic_coeffs().</p></td>
-        <td><em>required</em></td>
-      </tr>
-  </tbody>
-</table>
-<p><strong>Returns:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>ee.ImageCollection</code></td>
-      <td><p>Collection with fitted harmonic value as 'fitted' band.</p></td>
-    </tr>
-  </tbody>
-</table>
-        <details class="quote">
-          <summary>Source code in <code>geeagri/extract.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_fitted_harmonics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">harmonic_coeffs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute fitted harmonic time series over the collection.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        harmonic_coeffs (ee.Image): Coefficients image from get_harmonic_coeffs().</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        ee.ImageCollection: Collection with fitted harmonic value as &#39;fitted&#39; band.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">harmonic_coeffs_scaled</span> <span class="o">=</span> <span class="n">harmonic_coeffs</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-    <span class="n">harmonic_coll</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_collection</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_add_harmonics</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">harmonic_coll</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">img</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_harmonics</span><span class="p">(</span><span class="n">harmonic_coeffs_scaled</span><span class="p">,</span> <span class="n">img</span><span class="p">)</span>
-    <span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="geeagri.extract.HarmonicRegression.get_harmonic_coeffs" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_harmonic_coeffs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
-
-
-<a href="#geeagri.extract.HarmonicRegression.get_harmonic_coeffs" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Fit harmonic regression and return coefficients image.</p>
-
-<p><strong>Returns:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>ee.Image</code></td>
-      <td><p>Coefficients image with bands like <band>_constant, <band>_cos_1, etc.</p></td>
-    </tr>
-  </tbody>
-</table>
-        <details class="quote">
-          <summary>Source code in <code>geeagri/extract.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_harmonic_coeffs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Fit harmonic regression and return coefficients image.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        ee.Image: Coefficients image with bands like &lt;band&gt;_constant, &lt;band&gt;_cos_1, etc.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">harmonic_coll</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_collection</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_add_harmonics</span><span class="p">)</span>
-
-    <span class="n">regression</span> <span class="o">=</span> <span class="n">harmonic_coll</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">independents</span> <span class="o">+</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">band</span><span class="p">])</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span>
-        <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">linearRegression</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="p">)</span>
-
-    <span class="n">coeffs</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">regression</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;coefficients&quot;</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">arrayProject</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
-        <span class="o">.</span><span class="n">arrayFlatten</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="p">])</span>
-        <span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">toInt32</span><span class="p">()</span>
-    <span class="p">)</span>
-
-    <span class="n">new_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">band</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">coeffs</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">new_names</span><span class="p">)</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-  <div class="doc doc-object doc-method">
-
-
-
-<h3 id="geeagri.extract.HarmonicRegression.get_phase_amplitude" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">get_phase_amplitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">harmonic_coeffs</span><span class="p">,</span> <span class="n">cos_band</span><span class="p">,</span> <span class="n">sin_band</span><span class="p">,</span> <span class="n">stretch_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">return_rgb</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
-
-
-<a href="#geeagri.extract.HarmonicRegression.get_phase_amplitude" class="headerlink" title="Permanent link">&para;</a></h3>
-
-    <div class="doc doc-contents ">
-
-      <p>Compute phase &amp; amplitude and optionally create RGB visualization.</p>
-
-<p><strong>Parameters:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Default</th>
-    </tr>
-  </thead>
-  <tbody>
-      <tr>
-        <td><code>harmonic_coeffs</code></td>
-        <td><code>ee.Image</code></td>
-        <td><p>Coefficients image from get_harmonic_coeffs().</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>cos_band</code></td>
-        <td><code>str</code></td>
-        <td><p>Name of cosine coefficient band.</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>sin_band</code></td>
-        <td><code>str</code></td>
-        <td><p>Name of sine coefficient band.</p></td>
-        <td><em>required</em></td>
-      </tr>
-      <tr>
-        <td><code>stretch_factor</code></td>
-        <td><code>float</code></td>
-        <td><p>Stretch amplitude to enhance contrast.</p></td>
-        <td><code>1</code></td>
-      </tr>
-      <tr>
-        <td><code>return_rgb</code></td>
-        <td><code>bool</code></td>
-        <td><p>If True, return RGB image; else return HSV image.</p></td>
-        <td><code>True</code></td>
-      </tr>
-  </tbody>
-</table>
-<p><strong>Returns:</strong></p>
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><code>ee.Image</code></td>
-      <td><p>RGB visualization (uint8) or HSV image.</p></td>
-    </tr>
-  </tbody>
-</table>
-        <details class="quote">
-          <summary>Source code in <code>geeagri/extract.py</code></summary>
-          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_phase_amplitude</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">,</span> <span class="n">harmonic_coeffs</span><span class="p">,</span> <span class="n">cos_band</span><span class="p">,</span> <span class="n">sin_band</span><span class="p">,</span> <span class="n">stretch_factor</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">return_rgb</span><span class="o">=</span><span class="kc">True</span>
-<span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute phase &amp; amplitude and optionally create RGB visualization.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        harmonic_coeffs (ee.Image): Coefficients image from get_harmonic_coeffs().</span>
-<span class="sd">        cos_band (str): Name of cosine coefficient band.</span>
-<span class="sd">        sin_band (str): Name of sine coefficient band.</span>
-<span class="sd">        stretch_factor (float): Stretch amplitude to enhance contrast.</span>
-<span class="sd">        return_rgb (bool): If True, return RGB image; else return HSV image.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        ee.Image: RGB visualization (uint8) or HSV image.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">phase</span> <span class="o">=</span> <span class="n">harmonic_coeffs</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">cos_band</span><span class="p">)</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="n">harmonic_coeffs</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">sin_band</span><span class="p">))</span>
-    <span class="n">amplitude</span> <span class="o">=</span> <span class="n">harmonic_coeffs</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">cos_band</span><span class="p">)</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span>
-        <span class="n">harmonic_coeffs</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">sin_band</span><span class="p">)</span>
-    <span class="p">)</span>
-
-    <span class="n">hsv</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">phase</span><span class="o">.</span><span class="n">unitScale</span><span class="p">(</span><span class="o">-</span><span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="n">amplitude</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">stretch_factor</span><span class="p">))</span>
-        <span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">composite</span><span class="p">)</span>
-    <span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">return_rgb</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">hsv</span><span class="o">.</span><span class="n">hsvToRgb</span><span class="p">()</span><span class="o">.</span><span class="n">unitScale</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">toByte</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">hsv</span>
-</code></pre></div>
-        </details>
-    </div>
-
-  </div>
-
-
-
-
-
-  </div>
-
-    </div>
-
-  </div>
 
 
 

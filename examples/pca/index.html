@@ -15,6 +15,10 @@
         <link rel="canonical" href="https://geonextgis.github.io/geeagri/examples/pca/">
       
       
+        <link rel="prev" href="../image_scaling/">
+      
+      
+        <link rel="next" href="../../extract/">
       
       
       <link rel="icon" href="../../assets/favicon.png">
@@ -414,18 +418,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
         
           
           <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
@@ -441,7 +447,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             Examples
@@ -489,6 +495,121 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Pca
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pca
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#import-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Import libraries
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initialize-a-map-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      Initialize a Map object
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#import-region-of-interest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Import region of interest
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#load-sentinel-2-data-and-create-a-median-composite" class="md-nav__link">
+    <span class="md-ellipsis">
+      Load Sentinel-2 Data and Create a Median Composite
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#principal-component-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Principal Component Analysis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plot-the-explained-variance-by-principal-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Plot the explained variance by principal components
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -585,6 +706,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    analysis module
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -635,18 +779,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#read-the-tanager-data" class="md-nav__link">
+  <a href="#import-region-of-interest" class="md-nav__link">
     <span class="md-ellipsis">
-      Read the Tanager Data
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#principal-component-analysis" class="md-nav__link">
-    <span class="md-ellipsis">
-      Principal Component Analysis
+      Import region of interest
     </span>
   </a>
   
@@ -662,36 +797,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#meancentering" class="md-nav__link">
+  <a href="#principal-component-analysis" class="md-nav__link">
     <span class="md-ellipsis">
-      MeanCentering
+      Principal Component Analysis
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#minmaxscaler" class="md-nav__link">
+  <a href="#plot-the-explained-variance-by-principal-components" class="md-nav__link">
     <span class="md-ellipsis">
-      MinMaxScaler
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#standardscaler" class="md-nav__link">
-    <span class="md-ellipsis">
-      StandardScaler
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#robustscaler" class="md-nav__link">
-    <span class="md-ellipsis">
-      RobustScaler
+      Plot the explained variance by principal components
     </span>
   </a>
   
@@ -1167,7 +1284,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a href="https://githubtocolab.com/geonextgis/geeagri/blob/main/docs/examples/image_scaling.ipynb" target="_parent"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg"/></a></p>
+<p><a href="https://githubtocolab.com/geonextgis/geeagri/blob/main/docs/examples/pca.ipynb" target="_parent"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg"/></a></p>
 <p>Uncomment the following line to install the latest version of <a href="https://geonextgis.github.io/geeagri">geeagri</a> if needed.</p>
 </div>
 </div>
@@ -1232,10 +1349,20 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">ee</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">geemap</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geeagri.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"font.family"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"DeJavu Serif"</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"font.serif"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Times New Roman"</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-2">import ee
 import geemap
-from geeagri.analysis import PCA</div>
+from geeagri.analysis import PCA
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+plt.rcParams["font.family"] = "DeJavu Serif"
+plt.rcParams["font.serif"] = "Times New Roman"</div>
 </div>
 </div>
 </div>
@@ -1294,7 +1421,7 @@ Map</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="read-the-tanager-data">Read the Tanager Data<a class="anchor-link" href="#read-the-tanager-data">¶</a></h2>
+<h2 id="import-region-of-interest">Import region of interest<a class="anchor-link" href="#import-region-of-interest">¶</a></h2>
 </div>
 </div>
 </div>
@@ -1317,227 +1444,17 @@ Map</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s2">"projects/sat-io/open-datasets/PLANET/TANAGER_HYPERSPECTRAL"</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="s2">"system:index"</span><span class="p">,</span> <span class="s2">"20250516_181930_35_4001"</span><span class="p">))</span>
-    <span class="o">.</span><span class="n">first</span><span class="p">()</span>
-    <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"B.*"</span><span class="p">)</span>
-<span class="p">)</span>
-
-
-<span class="n">vis</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"opacity"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s2">"bands"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"B100"</span><span class="p">,</span> <span class="s2">"B060"</span><span class="p">,</span> <span class="s2">"B040"</span><span class="p">],</span>
-    <span class="s2">"min"</span><span class="p">:</span> <span class="mf">14.014482498168945</span><span class="p">,</span>
-    <span class="s2">"max"</span><span class="p">:</span> <span class="mf">147.4988250732422</span><span class="p">,</span>
-    <span class="s2">"gamma"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="n">Map</span><span class="o">.</span><span class="n">centerObject</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">geometry</span><span class="p">())</span>
-<span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">vis</span><span class="p">,</span> <span class="s2">"Tanager Sample"</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">bbox</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">120.398369</span><span class="p">,</span> <span class="mf">37.006574</span><span class="p">,</span> <span class="o">-</span><span class="mf">120.208168</span><span class="p">,</span> <span class="mf">37.101924</span><span class="p">]</span>
+<span class="n">region</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">BBox</span><span class="p">(</span><span class="o">*</span><span class="n">bbox</span><span class="p">)</span>
+<span class="n">region_style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"color"</span><span class="p">:</span> <span class="s2">"red"</span><span class="p">,</span> <span class="s2">"width"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">region_style</span><span class="p">,</span> <span class="s2">"Region"</span><span class="p">)</span>
+<span class="n">Map</span><span class="o">.</span><span class="n">centerObject</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">image = (
-    ee.ImageCollection("projects/sat-io/open-datasets/PLANET/TANAGER_HYPERSPECTRAL")
-    .filter(ee.Filter.eq("system:index", "20250516_181930_35_4001"))
-    .first()
-    .select("B.*")
-)
-
-
-vis = {
-    "opacity": 1,
-    "bands": ["B100", "B060", "B040"],
-    "min": 14.014482498168945,
-    "max": 147.4988250732422,
-    "gamma": 1,
-}
-
-Map.centerObject(image.geometry())
-Map.addLayer(image, vis, "Tanager Sample")</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="principal-component-analysis">Principal Component Analysis<a class="anchor-link" href="#principal-component-analysis">¶</a></h2>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">geometry</span><span class="p">(),</span> <span class="n">scale</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-<span class="n">centered_image</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">centered_image</span>
-
-<span class="n">vis</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"opacity"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="s2">"bands"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"B100"</span><span class="p">,</span> <span class="s2">"B060"</span><span class="p">,</span> <span class="s2">"B040"</span><span class="p">],</span>
-    <span class="s2">"min"</span><span class="p">:</span> <span class="o">-</span><span class="mi">73</span><span class="p">,</span>
-    <span class="s2">"max"</span><span class="p">:</span> <span class="mi">85</span><span class="p">,</span>
-    <span class="s2">"gamma"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-<span class="p">}</span>
-
-<span class="n">Map</span><span class="o">.</span><span class="n">centerObject</span><span class="p">(</span><span class="n">centered_image</span><span class="o">.</span><span class="n">geometry</span><span class="p">())</span>
-<span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">centered_image</span><span class="p">,</span> <span class="n">vis</span><span class="p">,</span> <span class="s2">"Centered Image"</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-5">pca = PCA(image, region=image.geometry(), scale=100)
-centered_image = pca.centered_image
-
-vis = {
-    "opacity": 1,
-    "bands": ["B100", "B060", "B040"],
-    "min": -73,
-    "max": 85,
-    "gamma": 1,
-}
-
-Map.centerObject(centered_image.geometry())
-Map.addLayer(centered_image, vis, "Centered Image")</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># pcs = pca.get_principal_components()</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-6"># pcs = pca.get_principal_components()</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">arrays</span> <span class="o">=</span> <span class="n">centered_image</span><span class="o">.</span><span class="n">toArray</span><span class="p">()</span>
-<span class="n">covar</span> <span class="o">=</span> <span class="n">arrays</span><span class="o">.</span><span class="n">reduceRegion</span><span class="p">(</span>
-    <span class="n">reducer</span><span class="o">=</span><span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">centeredCovariance</span><span class="p">(),</span>
-    <span class="n">geometry</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">geometry</span><span class="p">(),</span>
-    <span class="n">scale</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-    <span class="n">maxPixels</span><span class="o">=</span><span class="mf">1e9</span><span class="p">,</span>
-<span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-7">arrays = centered_image.toArray()
-covar = arrays.reduceRegion(
-    reducer=ee.Reducer.centeredCovariance(),
-    geometry=image.geometry(),
-    scale=100,
-    maxPixels=1e9,
-)</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-8">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">covar_array</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">covar</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"array"</span><span class="p">))</span>
-<span class="n">eigens</span> <span class="o">=</span> <span class="n">covar_array</span><span class="o">.</span><span class="n">eigen</span><span class="p">()</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-8">covar_array = ee.Array(covar.get("array"))
-eigens = covar_array.eigen()</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-9">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">eigens</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-9">eigens</div>
+<div class="clipboard-copy-txt" id="cell-4">bbox = [-120.398369, 37.006574, -120.208168, 37.101924]
+region = ee.Geometry.BBox(*bbox)
+region_style = {"color": "red", "width": 1}
+Map.addLayer(region, region_style, "Region")
+Map.centerObject(region, 12)</div>
 </div>
 </div>
 </div>
@@ -1563,7 +1480,7 @@ eigens = covar_array.eigen()</div>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-10">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-5">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -1578,7 +1495,7 @@ eigens = covar_array.eigen()</div>
     <span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
     <span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="s2">"2024-01-01"</span><span class="p">,</span> <span class="s2">"2025-01-01"</span><span class="p">)</span>
     <span class="o">.</span><span class="n">filterMetadata</span><span class="p">(</span><span class="s2">"CLOUDY_PIXEL_PERCENTAGE"</span><span class="p">,</span> <span class="s2">"less_than"</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-    <span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s2">"B8"</span><span class="p">,</span> <span class="s2">"B4"</span><span class="p">,</span> <span class="s2">"B3"</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s2">"B.*"</span><span class="p">])</span>
     <span class="o">.</span><span class="n">median</span><span class="p">()</span>
     <span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">)</span>
     <span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
@@ -1588,12 +1505,12 @@ eigens = covar_array.eigen()</div>
 
 <span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">image_vis</span><span class="p">,</span> <span class="s2">"Sentinel 2 FCC"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-10">image = (
+<div class="clipboard-copy-txt" id="cell-5">image = (
     ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
     .filterBounds(region)
     .filterDate("2024-01-01", "2025-01-01")
     .filterMetadata("CLOUDY_PIXEL_PERCENTAGE", "less_than", 10)
-    .select(["B8", "B4", "B3"])
+    .select(["B.*"])
     .median()
     .multiply(0.0001)
     .clip(region)
@@ -1614,15 +1531,7 @@ Map.addLayer(image, image_vis, "Sentinel 2 FCC")</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="meancentering">MeanCentering<a class="anchor-link" href="#meancentering">¶</a></h2><p>Subtracts the mean from each band to center values around zero:</p>
-<p>$$
-X_\text{centered} = X - \mu
-$$</p>
-<p>Where:</p>
-<ul>
-<li>$X$: original pixel value</li>
-<li>$\mu$: mean of the band computed over the given region</li>
-</ul>
+<h2 id="principal-component-analysis">Principal Component Analysis<a class="anchor-link" href="#principal-component-analysis">¶</a></h2>
 </div>
 </div>
 </div>
@@ -1635,7 +1544,7 @@ $$</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-11">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-6">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -1645,19 +1554,31 @@ $$</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">scaler</span> <span class="o">=</span> <span class="n">MeanCentering</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">region</span><span class="p">)</span>
-<span class="n">centered_image</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">pcs</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">get_principal_components</span><span class="p">()</span>
 
-<span class="c1"># Adjust visualization range around 0 to reflect centered values</span>
-<span class="n">centered_image_vis</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"bands"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"B8"</span><span class="p">,</span> <span class="s2">"B4"</span><span class="p">,</span> <span class="s2">"B3"</span><span class="p">],</span> <span class="s2">"min"</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.09</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">:</span> <span class="mf">0.09</span><span class="p">}</span>
-<span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">centered_image</span><span class="p">,</span> <span class="n">centered_image_vis</span><span class="p">,</span> <span class="s2">"MeanCentering"</span><span class="p">)</span>
+<span class="c1"># Define visualization parameters</span>
+<span class="n">pca_vis</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"bands"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"pc1"</span><span class="p">,</span> <span class="s2">"pc2"</span><span class="p">,</span> <span class="s2">"pc3"</span><span class="p">],</span>
+    <span class="s2">"min"</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span>
+    <span class="s2">"max"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># Add PCA layer</span>
+<span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">pcs</span><span class="p">,</span> <span class="n">pca_vis</span><span class="p">,</span> <span class="s2">"PCA RGB Composite"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-11">scaler = MeanCentering(image, region)
-centered_image = scaler.transform()
+<div class="clipboard-copy-txt" id="cell-6">pca = PCA(image, region=region, scale=100)
+pcs = pca.get_principal_components()
 
-# Adjust visualization range around 0 to reflect centered values
-centered_image_vis = {"bands": ["B8", "B4", "B3"], "min": -0.09, "max": 0.09}
-Map.addLayer(centered_image, centered_image_vis, "MeanCentering")</div>
+# Define visualization parameters
+pca_vis = {
+    "bands": ["pc1", "pc2", "pc3"],
+    "min": -2,
+    "max": 2,
+}
+
+# Add PCA layer
+Map.addLayer(pcs, pca_vis, "PCA RGB Composite")</div>
 </div>
 </div>
 </div>
@@ -1670,14 +1591,7 @@ Map.addLayer(centered_image, centered_image_vis, "MeanCentering")</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="minmaxscaler">MinMaxScaler<a class="anchor-link" href="#minmaxscaler">¶</a></h2><p>Normalizes each band using the min and max values over the region:</p>
-<p>$$
-X_\text{scaled} = \frac{X - \min}{\max - \min}, \quad X_\text{scaled} \in [0, 1]
-$$</p>
-<p>Where:</p>
-<ul>
-<li>$\min$, $\max$: band-wise minimum and maximum values over the region.</li>
-</ul>
+<h2 id="plot-the-explained-variance-by-principal-components">Plot the explained variance by principal components<a class="anchor-link" href="#plot-the-explained-variance-by-principal-components">¶</a></h2>
 </div>
 </div>
 </div>
@@ -1690,7 +1604,7 @@ $$</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="CodeMirror cm-s-jupyter">
 <div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-12">
+<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-7">
 <div>
 <span class="notice" hidden="">Copied!</span>
 <svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
@@ -1700,155 +1614,33 @@ $$</p>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">region</span><span class="p">)</span>
-<span class="n">scaled_image</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Plot the explained variance by principle components</span>
+<span class="n">explained_variance</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">get_explained_variance</span><span class="p">()</span>
 
-<span class="n">scaled_image_vis</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"bands"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"B8"</span><span class="p">,</span> <span class="s2">"B4"</span><span class="p">,</span> <span class="s2">"B3"</span><span class="p">],</span> <span class="s2">"min"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
-<span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">scaled_image</span><span class="p">,</span> <span class="n">scaled_image_vis</span><span class="p">,</span> <span class="s2">"MinMaxScaler"</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">explained_variance</span><span class="p">,</span>
+    <span class="n">x</span><span class="o">=</span><span class="s2">"pc"</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="s2">"variance_explained"</span><span class="p">,</span>
+    <span class="n">hue</span><span class="o">=</span><span class="s2">"variance_explained"</span><span class="p">,</span>
+    <span class="n">palette</span><span class="o">=</span><span class="s2">"Greens"</span><span class="p">,</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="s2">"k"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-12">scaler = MinMaxScaler(image, region)
-scaled_image = scaler.transform()
+<div class="clipboard-copy-txt" id="cell-7"># Plot the explained variance by principle components
+explained_variance = pca.get_explained_variance()
 
-scaled_image_vis = {"bands": ["B8", "B4", "B3"], "min": 0, "max": 1}
-Map.addLayer(scaled_image, scaled_image_vis, "MinMaxScaler")</div>
+sns.barplot(
+    data=explained_variance,
+    x="pc",
+    y="variance_explained",
+    hue="variance_explained",
+    palette="Greens",
+    edgecolor="k",
+)
+plt.show()</div>
 </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="standardscaler">StandardScaler<a class="anchor-link" href="#standardscaler">¶</a></h2><p>Standardizes each band using z-score normalization (mean and standard deviation):</p>
-<p>$$
-X_\text{standardized} = \frac{X - \mu}{\sigma}
-$$</p>
-<p>Where:</p>
-<ul>
-<li>$X$: original pixel value</li>
-<li>$\mu$: mean of the band over the specified region</li>
-<li>$\sigma$: standard deviation of the band over the specified region</li>
-</ul>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-13">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">region</span><span class="p">)</span>
-<span class="n">standardized_image</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
-
-<span class="c1"># You may want to visualize within a reasonable range</span>
-<span class="n">standardized_image_vis</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"bands"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"B8"</span><span class="p">,</span> <span class="s2">"B4"</span><span class="p">,</span> <span class="s2">"B3"</span><span class="p">],</span> <span class="s2">"min"</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
-<span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">standardized_image</span><span class="p">,</span> <span class="n">standardized_image_vis</span><span class="p">,</span> <span class="s2">"StandardScaler"</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-13">scaler = StandardScaler(image, region)
-standardized_image = scaler.transform()
-
-# You may want to visualize within a reasonable range
-standardized_image_vis = {"bands": ["B8", "B4", "B3"], "min": -2, "max": 2}
-Map.addLayer(standardized_image, standardized_image_vis, "StandardScaler")</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="robustscaler">RobustScaler<a class="anchor-link" href="#robustscaler">¶</a></h2><p>Scales each band using robust percentiles (e.g., 1st and 99th) to reduce the influence of outliers:</p>
-<p>$$
-X_\text{scaled} = \frac{X - P_\text{lower}}{P_\text{upper} - P_\text{lower}}, \quad X_\text{scaled} \in [0, 1]
-$$</p>
-<p>Where:</p>
-<ul>
-<li>$X$: original pixel value</li>
-<li>$P_{\\text{lower}}$: lower percentile value (e.g., 25th percentile)</li>
-<li>$P_{\\text{upper}}$: upper percentile value (e.g., 75th percentile)</li>
-</ul>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div><div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="CodeMirror cm-s-jupyter">
-<div class="zeroclipboard-container">
-<clipboard-copy ,="" aria-label="Copy to Clipboard" for="cell-14">
-<div>
-<span class="notice" hidden="">Copied!</span>
-<svg aria-hidden="true" class="clipboard-copy-icon" data-view-component="true" height="20" version="1.1" viewbox="0 0 16 16" width="20">
-<path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-<path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z" fill="currentColor" fill-rule="evenodd"></path>
-</svg>
-</div>
-</clipboard-copy>
-</div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">scaler</span> <span class="o">=</span> <span class="n">RobustScaler</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">region</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
-<span class="n">scaled_image</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
-
-<span class="n">scaled_image_vis</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"bands"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"B8"</span><span class="p">,</span> <span class="s2">"B4"</span><span class="p">,</span> <span class="s2">"B3"</span><span class="p">],</span> <span class="s2">"min"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
-<span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">scaled_image</span><span class="p">,</span> <span class="n">scaled_image_vis</span><span class="p">,</span> <span class="s2">"RobustScaler"</span><span class="p">)</span>
-</pre></div>
-<div class="clipboard-copy-txt" id="cell-14">scaler = RobustScaler(image, region, lower=1, upper=99)
-scaled_image = scaler.transform()
-
-scaled_image_vis = {"bands": ["B8", "B4", "B3"], "min": 0, "max": 1}
-Map.addLayer(scaled_image, scaled_image_vis, "RobustScaler")</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<blockquote>
-<p>💡 <strong>Tips for Efficient Processing</strong></p>
-<ul>
-<li><p><strong>Increase the <code>scale</code></strong> parameter to reduce computation time. Calculating statistics (e.g., mean, percentiles) over high-resolution images (like Sentinel-2 at 10 m) can be time-consuming or cause timeouts. Try <code>scale=100</code> or higher when possible.</p>
-</li>
-<li><p><strong>Use simpler geometries.</strong> Avoid complex shapes like administrative boundaries or large regions. Instead, use simplified or bounding box geometries.</p>
-</li>
-<li><p>You can <strong>simplify any geometry</strong> by converting it to a bounding rectangle using:</p>
-<div class="highlight"><pre><span></span><span class="n">simple_region</span> <span class="o">=</span> <span class="n">complex_region</span><span class="o">.</span><span class="n">bounds</span><span class="p">()</span>
-</pre></div>
-<p>This can drastically speed up reduceRegion operations while still capturing spatial context.</p>
-</li>
-</ul>
-</blockquote>
 </div>
 </div>
 </div>
@@ -1882,7 +1674,7 @@ Map.addLayer(scaled_image, scaled_image_vis, "RobustScaler")</div>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="July 28, 2025 23:11:34 UTC"><span class="timeago" datetime="2025-07-28T23:11:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="July 28, 2025 23:11:34 UTC">2025-07-28</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="July 29, 2025 11:05:54 UTC"><span class="timeago" datetime="2025-07-29T11:05:54+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="July 29, 2025 11:05:54 UTC">2025-07-29</span>
   </span>
 
     
