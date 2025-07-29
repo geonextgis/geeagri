@@ -41,7 +41,7 @@ class PCA:
         self.centered_image = self._scaler.transform()
 
         self._eigen_values = None  # For storing eigenvalues for variance computation
-        self._pc_names = None      # Names of the principal components
+        self._pc_names = None  # Names of the principal components
 
     def get_principal_components(self) -> ee.Image:
         """Computes normalized principal components of the image.
@@ -59,7 +59,9 @@ class PCA:
         )
 
         if covar is None or covar.get("array") is None:
-            raise RuntimeError("Covariance matrix could not be computed. Check region/image coverage.")
+            raise RuntimeError(
+                "Covariance matrix could not be computed. Check region/image coverage."
+            )
 
         covar_array = ee.Array(covar.get("array"))
         eigens = covar_array.eigen()
@@ -78,14 +80,11 @@ class PCA:
         self._pc_names = band_names
 
         sd_image = (
-            ee.Image(eigen_values.sqrt())
-            .arrayProject([0])
-            .arrayFlatten([band_names])
+            ee.Image(eigen_values.sqrt()).arrayProject([0]).arrayFlatten([band_names])
         )
 
         pc_image = (
-            principal_components
-            .arrayProject([0])
+            principal_components.arrayProject([0])
             .arrayFlatten([band_names])
             .divide(sd_image)
         )
@@ -99,16 +98,17 @@ class PCA:
             pd.DataFrame: DataFrame with columns ['pc', 'variance_explained'].
         """
         if self._eigen_values is None:
-            raise RuntimeError("Call `get_principal_components()` before computing explained variance.")
+            raise RuntimeError(
+                "Call `get_principal_components()` before computing explained variance."
+            )
 
         eigen_values = np.array(self._eigen_values.getInfo()).flatten()
         total_variance = eigen_values.sum()
         explained_variance = eigen_values / total_variance
 
-        return pd.DataFrame({
-            'pc': self._pc_names.getInfo(),
-            'variance_explained': explained_variance
-        })
+        return pd.DataFrame(
+            {"pc": self._pc_names.getInfo(), "variance_explained": explained_variance}
+        )
 
 
 # class HarmonicRegression:
