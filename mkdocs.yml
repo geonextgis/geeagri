@@ -86,8 +86,10 @@ nav:
     - Examples:
         - examples/timeseries_extraction.ipynb
         - examples/image_scaling.ipynb
+        - examples/pca.ipynb
     - API Reference:
         #   - geeagri module: geeagri.md
         #   - common module: common.md
           - extract module: extract.md
           - preprocessing module: preprocessing.md
+          - analysis module: analysis.md
