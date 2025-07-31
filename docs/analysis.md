@@ -1,0 +1,4 @@
+
+# analysis module
+
+::: geeagri.analysis

@@ -2,7 +2,7 @@
 
 __author__ = """Krishnagopal Halder"""
 __email__ = "geonextgis@gmail.com"
-__version__ = "0.0.3"
+__version__ = "0.1.0"
 
-from . import timeseries
+from . import extract
 from . import preprocessing
