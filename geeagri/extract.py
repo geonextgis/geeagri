@@ -189,7 +189,7 @@ def extract_timeseries_to_polygon(
         df.to_csv(out_csv, index=False)
     else:
         return df
-    
+
 
 class ImagePatchExtractor:
     """
@@ -217,7 +217,7 @@ class ImagePatchExtractor:
         buffer: int = 1270,
         dimensions: str = "256x256",
         format: str = "png",
-        num_processes: int = 10
+        num_processes: int = 10,
     ):
         self.image = image
         self.samples_gdf = sample_gdf
@@ -237,25 +237,35 @@ class ImagePatchExtractor:
     def _validate_inputs(self):
         # Validate dimensions format
         if not isinstance(self.dimensions, str) or "x" not in self.dimensions:
-            raise ValueError("dimensions must be a string in the form 'WIDTHxHEIGHT', e.g., '256x256'.")
+            raise ValueError(
+                "dimensions must be a string in the form 'WIDTHxHEIGHT', e.g., '256x256'."
+            )
 
         dims = self.dimensions.lower().split("x")
         if len(dims) != 2 or not all(d.isdigit() for d in dims):
-            raise ValueError("dimensions must contain two integers separated by 'x', e.g., '256x256'.")
+            raise ValueError(
+                "dimensions must contain two integers separated by 'x', e.g., '256x256'."
+            )
 
         # Validate image format
         if self.format not in self.SUPPORTED_FORMATS:
-            raise ValueError(f"Unsupported format: '{self.format}'. Supported formats: {self.SUPPORTED_FORMATS}")
+            raise ValueError(
+                f"Unsupported format: '{self.format}'. Supported formats: {self.SUPPORTED_FORMATS}"
+            )
 
         # Validate identifier exists
         if self.identifier not in self.samples_gdf.columns:
-            raise ValueError(f"Identifier column '{self.identifier}' not found in sample_gdf.")
+            raise ValueError(
+                f"Identifier column '{self.identifier}' not found in sample_gdf."
+            )
 
     def extract_patches(self):
         """
         Initiates the parallel download of patches based on sample points.
         """
-        items = [(f["id"], f["properties"], f["geometry"]) for f in self.sample_features]
+        items = [
+            (f["id"], f["properties"], f["geometry"]) for f in self.sample_features
+        ]
 
         pool = multiprocessing.Pool(self.num_processes)
         pool.starmap(self._download_patch, items)
@@ -278,20 +288,24 @@ class ImagePatchExtractor:
 
         # Get the correct download URL based on format
         if self.format in ["PNG", "JPG"]:
-            url = self.image.getThumbURL({
-                "region": region,
-                "dimensions": self.dimensions,
-                "format": self.format.lower()
-            })
+            url = self.image.getThumbURL(
+                {
+                    "region": region,
+                    "dimensions": self.dimensions,
+                    "format": self.format.lower(),
+                }
+            )
         else:
-            url = self.image.getDownloadURL({
-                "region": region,
-                "dimensions": self.dimensions,
-                "format": self.format
-            })
+            url = self.image.getDownloadURL(
+                {"region": region, "dimensions": self.dimensions, "format": self.format}
+            )
 
         # Determine extension
-        ext = "tif" if self.format in ["GEO_TIFF", "ZIPPED_GEO_TIFF"] else self.format.lower()
+        ext = (
+            "tif"
+            if self.format in ["GEO_TIFF", "ZIPPED_GEO_TIFF"]
+            else self.format.lower()
+        )
         filename = f"{index}.{ext}"
         filepath = os.path.join(self.out_dir, filename)
 

@@ -1,8 +1,8 @@
 earthengine-api
 geemap
-pandas
 geopandas
-retry
-rasterio
 matplotlib
 numpy
+pandas
+rasterio
+retry
