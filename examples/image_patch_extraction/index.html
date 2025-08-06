@@ -12,13 +12,13 @@
         <meta name="author" content="geonextgis">
       
       
-        <link rel="canonical" href="https://geonextgis.github.io/geeagri/examples/timeseries_extraction/">
+        <link rel="canonical" href="https://geonextgis.github.io/geeagri/examples/image_patch_extraction/">
       
       
-        <link rel="prev" href="../../changelog/">
+        <link rel="prev" href="../timeseries_extraction/">
       
       
-        <link rel="next" href="../image_patch_extraction/">
+        <link rel="next" href="../image_scaling/">
       
       
       <link rel="icon" href="../../assets/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Timeseries extraction - geeagri</title>
+        <title>Image patch extraction - geeagri</title>
       
     
     
@@ -117,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Timeseries extraction
+              Image patch extraction
             
           </span>
         </div>
@@ -458,6 +458,29 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../timeseries_extraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Timeseries extraction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -473,7 +496,7 @@
   
   
   <span class="md-ellipsis">
-    Timeseries extraction
+    Image patch extraction
     
   </span>
   
@@ -486,7 +509,7 @@
   
   
   <span class="md-ellipsis">
-    Timeseries extraction
+    Image patch extraction
     
   </span>
   
@@ -534,18 +557,27 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#export-timeseries-from-climate-data-era5-land-daily" class="md-nav__link">
+  <a href="#load-sentinel-2-data-and-create-a-median-composite" class="md-nav__link">
     <span class="md-ellipsis">
-      Export timeseries from climate data (ERA5-Land Daily)
+      Load Sentinel-2 data and create a median composite
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#export-timeseries-from-ndvi-data-mod13q1061-terra-vegetation-indices-16-day" class="md-nav__link">
+  <a href="#sampling-points-from-earth-engine-and-converting-to-geodataframe" class="md-nav__link">
     <span class="md-ellipsis">
-      Export timeseries from NDVI data (MOD13Q1.061 Terra Vegetation Indices 16-Day)
+      Sampling points from Earth Engine and converting to GeoDataFrame
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#imagepatchextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      ImagePatchExtractor
     </span>
   </a>
   
@@ -555,29 +587,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../image_patch_extraction/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Image patch extraction
-    
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -802,18 +811,27 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#export-timeseries-from-climate-data-era5-land-daily" class="md-nav__link">
+  <a href="#load-sentinel-2-data-and-create-a-median-composite" class="md-nav__link">
     <span class="md-ellipsis">
-      Export timeseries from climate data (ERA5-Land Daily)
+      Load Sentinel-2 data and create a median composite
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#export-timeseries-from-ndvi-data-mod13q1061-terra-vegetation-indices-16-day" class="md-nav__link">
+  <a href="#sampling-points-from-earth-engine-and-converting-to-geodataframe" class="md-nav__link">
     <span class="md-ellipsis">
-      Export timeseries from NDVI data (MOD13Q1.061 Terra Vegetation Indices 16-Day)
+      Sampling points from Earth Engine and converting to GeoDataFrame
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#imagepatchextractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      ImagePatchExtractor
     </span>
   </a>
   
@@ -832,7 +850,7 @@
               <article class="md-content__inner md-typeset">
                 
 
-    <a href="/geeagri/examples/timeseries_extraction/timeseries_extraction.ipynb" title="Download Notebook" class="md-content__button md-icon">
+    <a href="/geeagri/examples/image_patch_extraction/image_patch_extraction.ipynb" title="Download Notebook" class="md-content__button md-icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M5 20h14v-2H5m14-9h-4V3H9v6H5l7 7z"/></svg>
     </a>
 
@@ -845,7 +863,7 @@
   
 
 
-  <h1>Timeseries extraction</h1>
+  <h1>Image patch extraction</h1>
 
 <script>
 (function (global, factory) {
@@ -1283,19 +1301,19 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </style>
 <!-- End of mermaid configuration --><div class="jupyter-wrapper">
 <div class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=0">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><a href="https://githubtocolab.com/geonextgis/geeagri/blob/main/docs/examples/timeseries_extraction.ipynb" target="_parent"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg"/></a></p>
-<p>Uncomment the following line to install <a href="https://geonextgis.github.io/geeagri">geeagri</a> if needed.</p>
+<p><a href="https://githubtocolab.com/geonextgis/geeagri/blob/main/docs/examples/image_patch_extractor.ipynb" target="_parent"><img alt="Open in Colab" src="https://colab.research.google.com/assets/colab-badge.svg"/></a></p>
+<p>Uncomment the following line to install the latest version of <a href="https://geonextgis.github.io/geeagri">geeagri</a> if needed.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=1">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1313,16 +1331,16 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># !pip install geeagri</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># !pip install -U geeagri</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-1"># !pip install geeagri</div>
+<div class="clipboard-copy-txt" id="cell-1"># !pip install -U geeagri</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=2">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1333,7 +1351,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=3">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1351,49 +1369,42 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">ee</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">geemap</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">geeagri.extract</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-    <span class="n">extract_timeseries_to_point</span><span class="p">,</span>
-    <span class="n">extract_timeseries_to_polygon</span><span class="p">,</span>
-<span class="p">)</span>
-
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"font.family"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"DeJavu Serif"</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"font.serif"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Times New Roman"</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rasterio</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ee</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geemap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geeagri.extract</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImagePatchExtractor</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-2">import ee
-import geemap
-from geeagri.extract import (
-    extract_timeseries_to_point,
-    extract_timeseries_to_polygon,
-)
-
+<div class="clipboard-copy-txt" id="cell-2">import os
+import random
+import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
-
-plt.rcParams["font.family"] = "DeJavu Serif"
-plt.rcParams["font.serif"] = "Times New Roman"</div>
+import rasterio as rio
+import ee
+import geemap
+from geeagri.extract import ImagePatchExtractor</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=4">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="initialize-a-map-object">Initialize a Map object<a class="anchor-link" href="#initialize-a-map-object">¶</a></h2><p>Authenticate and initialize Earth Engine. If it doesn't work, specify a project name</p>
+<h2 id="initialize-a-map-object">Initialize a Map object<a class="anchor-link" href="#initialize-a-map-object">¶</a></h2><p>Authenticate and initialize Earth Engine. Replace 'your-project-id' with your actual Google Cloud project ID if needed.
+If you're working with high-volume data or large-scale exports, use the highvolume endpoint shown above.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=5">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1412,13 +1423,13 @@ plt.rcParams["font.serif"] = "Times New Roman"</div>
 </clipboard-copy>
 </div>
 <div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># ee.Authenticate()</span>
-<span class="c1"># ee.Initialize(project='your-project-id')</span>
+<span class="c1"># ee.Initialize(opt_url="https://earthengine-highvolume.googleapis.com", project='your-project-id')</span>
 
 <span class="n">Map</span> <span class="o">=</span> <span class="n">geemap</span><span class="o">.</span><span class="n">Map</span><span class="p">()</span>
 <span class="n">Map</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-3"># ee.Authenticate()
-# ee.Initialize(project='your-project-id')
+# ee.Initialize(opt_url="https://earthengine-highvolume.googleapis.com", project='your-project-id')
 
 Map = geemap.Map()
 Map</div>
@@ -1428,7 +1439,7 @@ Map</div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=6">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1439,7 +1450,7 @@ Map</div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=7">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1457,43 +1468,35 @@ Map</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">bbox</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">120.398369</span><span class="p">,</span> <span class="mf">37.006574</span><span class="p">,</span> <span class="o">-</span><span class="mf">120.208168</span><span class="p">,</span> <span class="mf">37.101924</span><span class="p">]</span>
-<span class="n">polygon</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">BBox</span><span class="p">(</span><span class="o">*</span><span class="n">bbox</span><span class="p">)</span>
-<span class="n">polygon_style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"color"</span><span class="p">:</span> <span class="s2">"red"</span><span class="p">,</span> <span class="s2">"width"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
-<span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">polygon_style</span><span class="p">,</span> <span class="s2">"Polygon"</span><span class="p">)</span>
-<span class="n">Map</span><span class="o">.</span><span class="n">centerObject</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
-
-<span class="n">lat</span><span class="p">,</span> <span class="n">lon</span> <span class="o">=</span> <span class="mf">37.0510</span><span class="p">,</span> <span class="o">-</span><span class="mf">120.3022</span>
-<span class="n">point</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">([</span><span class="n">lon</span><span class="p">,</span> <span class="n">lat</span><span class="p">])</span>
-<span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="p">{</span><span class="s2">"color"</span><span class="p">:</span> <span class="s2">"blue"</span><span class="p">},</span> <span class="s2">"Point"</span><span class="p">)</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">bbox</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">119.9875</span><span class="p">,</span> <span class="mf">35.6004</span><span class="p">,</span> <span class="o">-</span><span class="mf">114.5383</span><span class="p">,</span> <span class="mf">38.6995</span><span class="p">]</span>
+<span class="n">region</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">BBox</span><span class="p">(</span><span class="o">*</span><span class="n">bbox</span><span class="p">)</span>
+<span class="n">region_style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"color"</span><span class="p">:</span> <span class="s2">"red"</span><span class="p">,</span> <span class="s2">"width"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">region_style</span><span class="p">,</span> <span class="s2">"Region"</span><span class="p">)</span>
+<span class="n">Map</span><span class="o">.</span><span class="n">centerObject</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-4">bbox = [-120.398369, 37.006574, -120.208168, 37.101924]
-polygon = ee.Geometry.BBox(*bbox)
-polygon_style = {"color": "red", "width": 1}
-Map.addLayer(polygon, polygon_style, "Polygon")
-Map.centerObject(polygon, 12)
-
-lat, lon = 37.0510, -120.3022
-point = ee.Geometry.Point([lon, lat])
-Map.addLayer(point, {"color": "blue"}, "Point")</div>
+<div class="clipboard-copy-txt" id="cell-4">bbox = [-119.9875, 35.6004, -114.5383, 38.6995]
+region = ee.Geometry.BBox(*bbox)
+region_style = {"color": "red", "width": 1}
+Map.addLayer(region, region_style, "Region")
+Map.centerObject(region, 7)</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=8">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="export-timeseries-from-climate-data-era5-land-daily">Export timeseries from climate data (ERA5-Land Daily)<a class="anchor-link" href="#export-timeseries-from-climate-data-era5-land-daily">¶</a></h2>
+<h2 id="load-sentinel-2-data-and-create-a-median-composite">Load Sentinel-2 data and create a median composite<a class="anchor-link" href="#load-sentinel-2-data-and-create-a-median-composite">¶</a></h2>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1511,76 +1514,54 @@ Map.addLayer(point, {"color": "blue"}, "Point")</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">era5_land</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s2">"ECMWF/ERA5_LAND/DAILY_AGGR"</span><span class="p">)</span>
-
-<span class="n">era5_land_point_ts</span> <span class="o">=</span> <span class="n">extract_timeseries_to_point</span><span class="p">(</span>
-    <span class="n">lat</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
-    <span class="n">lon</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span>
-    <span class="n">image_collection</span><span class="o">=</span><span class="n">era5_land</span><span class="p">,</span>
-    <span class="n">start_date</span><span class="o">=</span><span class="s2">"2010-01-01"</span><span class="p">,</span>
-    <span class="n">end_date</span><span class="o">=</span><span class="s2">"2015-01-01"</span><span class="p">,</span>
-    <span class="n">band_names</span><span class="o">=</span><span class="p">[</span>
-        <span class="s2">"temperature_2m_min"</span><span class="p">,</span>
-        <span class="s2">"temperature_2m_max"</span><span class="p">,</span>
-        <span class="s2">"total_precipitation_sum"</span><span class="p">,</span>
-        <span class="s2">"surface_solar_radiation_downwards_sum"</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="n">scale</span><span class="o">=</span><span class="mi">11132</span><span class="p">,</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s2">"COPERNICUS/S2_SR_HARMONIZED"</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="s2">"2024-01-01"</span><span class="p">,</span> <span class="s2">"2025-01-01"</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">filterMetadata</span><span class="p">(</span><span class="s2">"CLOUDY_PIXEL_PERCENTAGE"</span><span class="p">,</span> <span class="s2">"less_than"</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s2">"B8"</span><span class="p">,</span> <span class="s2">"B4"</span><span class="p">,</span> <span class="s2">"B3"</span><span class="p">])</span>
+    <span class="o">.</span><span class="n">median</span><span class="p">()</span>
+    <span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
 <span class="p">)</span>
 
-<span class="n">era5_land_polygon_ts</span> <span class="o">=</span> <span class="n">extract_timeseries_to_polygon</span><span class="p">(</span>
-    <span class="n">polygon</span><span class="o">=</span><span class="n">polygon</span><span class="p">,</span>
-    <span class="n">image_collection</span><span class="o">=</span><span class="n">era5_land</span><span class="p">,</span>
-    <span class="n">start_date</span><span class="o">=</span><span class="s2">"2010-01-01"</span><span class="p">,</span>
-    <span class="n">end_date</span><span class="o">=</span><span class="s2">"2015-01-01"</span><span class="p">,</span>
-    <span class="n">band_names</span><span class="o">=</span><span class="p">[</span>
-        <span class="s2">"temperature_2m_min"</span><span class="p">,</span>
-        <span class="s2">"temperature_2m_max"</span><span class="p">,</span>
-        <span class="s2">"total_precipitation_sum"</span><span class="p">,</span>
-        <span class="s2">"surface_solar_radiation_downwards_sum"</span><span class="p">,</span>
-    <span class="p">],</span>
-    <span class="n">scale</span><span class="o">=</span><span class="mi">11132</span><span class="p">,</span>
-    <span class="n">reducer</span><span class="o">=</span><span class="s2">"MEAN"</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="n">image_vis</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"bands"</span><span class="p">:</span> <span class="p">[</span><span class="s2">"B8"</span><span class="p">,</span> <span class="s2">"B4"</span><span class="p">,</span> <span class="s2">"B3"</span><span class="p">],</span> <span class="s2">"min"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"max"</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">}</span>
+
+<span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">image_vis</span><span class="p">,</span> <span class="s2">"Sentinel 2 FCC"</span><span class="p">)</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-5">era5_land = ee.ImageCollection("ECMWF/ERA5_LAND/DAILY_AGGR")
-
-era5_land_point_ts = extract_timeseries_to_point(
-    lat=lat,
-    lon=lon,
-    image_collection=era5_land,
-    start_date="2010-01-01",
-    end_date="2015-01-01",
-    band_names=[
-        "temperature_2m_min",
-        "temperature_2m_max",
-        "total_precipitation_sum",
-        "surface_solar_radiation_downwards_sum",
-    ],
-    scale=11132,
+<div class="clipboard-copy-txt" id="cell-5">image = (
+    ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
+    .filterBounds(region)
+    .filterDate("2024-01-01", "2025-01-01")
+    .filterMetadata("CLOUDY_PIXEL_PERCENTAGE", "less_than", 10)
+    .select(["B8", "B4", "B3"])
+    .median()
+    .multiply(0.0001)
+    .clip(region)
 )
 
-era5_land_polygon_ts = extract_timeseries_to_polygon(
-    polygon=polygon,
-    image_collection=era5_land,
-    start_date="2010-01-01",
-    end_date="2015-01-01",
-    band_names=[
-        "temperature_2m_min",
-        "temperature_2m_max",
-        "total_precipitation_sum",
-        "surface_solar_radiation_downwards_sum",
-    ],
-    scale=11132,
-    reducer="MEAN",
-)</div>
+image_vis = {"bands": ["B8", "B4", "B3"], "min": 0, "max": 0.3}
+
+Map.addLayer(image, image_vis, "Sentinel 2 FCC")</div>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=10">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="sampling-points-from-earth-engine-and-converting-to-geodataframe">Sampling points from Earth Engine and converting to GeoDataFrame<a class="anchor-link" href="#sampling-points-from-earth-engine-and-converting-to-geodataframe">¶</a></h2><p>📝 <strong>Note</strong>: You can also skip the sampling step entirely and use your own point samples by loading a GeoDataFrame from local storage (e.g., a GeoJSON or shapefile).
+Just make sure the GeoDataFrame includes a unique identifier column (e.g., "ID") that can be used to name the extracted patches.</p>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=11">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1598,125 +1579,61 @@ era5_land_polygon_ts = extract_timeseries_to_polygon(
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Plot the data</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Sample random points from the image</span>
+<span class="n">sample</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
+    <span class="n">region</span><span class="o">=</span><span class="n">region</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span><span class="o">-</span><span class="mi">2000</span><span class="p">),</span>
+    <span class="n">scale</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">numPixels</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">dropNulls</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">tileScale</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">geometries</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">sample_style</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"color"</span><span class="p">:</span> <span class="s2">"blue"</span><span class="p">,</span> <span class="s2">"width"</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="n">Map</span><span class="o">.</span><span class="n">addLayer</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="o">**</span><span class="n">sample_style</span><span class="p">),</span> <span class="p">{},</span> <span class="s2">"Samples"</span><span class="p">)</span>
 
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">era5_land_point_ts</span><span class="p">,</span>
-    <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="s2">"temperature_2m_max"</span><span class="p">,</span>
-    <span class="n">c</span><span class="o">=</span><span class="s2">"r"</span><span class="p">,</span>
-    <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">"Tmax"</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">era5_land_point_ts</span><span class="p">,</span>
-    <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="s2">"temperature_2m_min"</span><span class="p">,</span>
-    <span class="n">c</span><span class="o">=</span><span class="s2">"b"</span><span class="p">,</span>
-    <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">"Tmax"</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Values"</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Daily timeseries of climate data based on point"</span><span class="p">)</span>
-
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">era5_land_polygon_ts</span><span class="p">,</span>
-    <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="s2">"temperature_2m_max"</span><span class="p">,</span>
-    <span class="n">c</span><span class="o">=</span><span class="s2">"r"</span><span class="p">,</span>
-    <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">"Tmax"</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">era5_land_polygon_ts</span><span class="p">,</span>
-    <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="s2">"temperature_2m_min"</span><span class="p">,</span>
-    <span class="n">c</span><span class="o">=</span><span class="s2">"b"</span><span class="p">,</span>
-    <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">"Tmax"</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Values"</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Daily timeseries of climate data based on polygon"</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># Convert the Earth Engine FeatureCollection to a GeoDataFrame</span>
+<span class="n">sample_gdf</span> <span class="o">=</span> <span class="n">geemap</span><span class="o">.</span><span class="n">ee_to_gdf</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+<span class="n">sample_gdf</span><span class="p">[</span><span class="s2">"ID"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample_gdf</span><span class="o">.</span><span class="n">index</span>  <span class="c1"># identifier</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">sample_gdf</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">sample_gdf</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-6"># Plot the data
-fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(12, 6))
-axes = axes.flatten()
+<div class="clipboard-copy-txt" id="cell-6"># Sample random points from the image
+sample = image.sample(
+    region=region.buffer(-2000),
+    scale=100,
+    numPixels=100,
+    seed=42,
+    dropNulls=True,
+    tileScale=16,
+    geometries=True,
+)
+sample_style = {"color": "blue", "width": 2}
+Map.addLayer(sample.style(**sample_style), {}, "Samples")
 
-sns.lineplot(
-    data=era5_land_point_ts,
-    x="time",
-    y="temperature_2m_max",
-    c="r",
-    linewidth=0.5,
-    ax=axes[0],
-    label="Tmax",
-)
-sns.lineplot(
-    data=era5_land_point_ts,
-    x="time",
-    y="temperature_2m_min",
-    c="b",
-    linewidth=0.5,
-    ax=axes[0],
-    label="Tmax",
-)
-axes[0].set_ylabel("Values")
-axes[0].legend()
-axes[0].set_title("Daily timeseries of climate data based on point")
-
-sns.lineplot(
-    data=era5_land_polygon_ts,
-    x="time",
-    y="temperature_2m_max",
-    c="r",
-    linewidth=0.5,
-    ax=axes[1],
-    label="Tmax",
-)
-sns.lineplot(
-    data=era5_land_polygon_ts,
-    x="time",
-    y="temperature_2m_min",
-    c="b",
-    linewidth=0.5,
-    ax=axes[1],
-    label="Tmax",
-)
-axes[1].set_ylabel("Values")
-axes[1].legend()
-axes[1].set_title("Daily timeseries of climate data based on polygon")
-
-plt.tight_layout()
-plt.show()</div>
+# Convert the Earth Engine FeatureCollection to a GeoDataFrame
+sample_gdf = geemap.ee_to_gdf(sample)
+sample_gdf["ID"] = sample_gdf.index  # identifier
+print(sample_gdf.shape)
+sample_gdf.head()</div>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=12">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="export-timeseries-from-ndvi-data-mod13q1061-terra-vegetation-indices-16-day">Export timeseries from NDVI data (MOD13Q1.061 Terra Vegetation Indices 16-Day)<a class="anchor-link" href="#export-timeseries-from-ndvi-data-mod13q1061-terra-vegetation-indices-16-day">¶</a></h2>
+<h2 id="imagepatchextractor">ImagePatchExtractor<a class="anchor-link" href="#imagepatchextractor">¶</a></h2>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=13">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1734,64 +1651,53 @@ plt.show()</div>
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="n">modis_ndvi</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s2">"MODIS/061/MOD13Q1"</span><span class="p">)</span>
-
-<span class="n">modis_ndvi_point_ts</span> <span class="o">=</span> <span class="n">extract_timeseries_to_point</span><span class="p">(</span>
-    <span class="n">lat</span><span class="o">=</span><span class="n">lat</span><span class="p">,</span>
-    <span class="n">lon</span><span class="o">=</span><span class="n">lon</span><span class="p">,</span>
-    <span class="n">image_collection</span><span class="o">=</span><span class="n">modis_ndvi</span><span class="p">,</span>
-    <span class="n">start_date</span><span class="o">=</span><span class="s2">"2010-01-01"</span><span class="p">,</span>
-    <span class="n">end_date</span><span class="o">=</span><span class="s2">"2015-01-01"</span><span class="p">,</span>
-    <span class="n">band_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"NDVI"</span><span class="p">,</span> <span class="s2">"EVI"</span><span class="p">],</span>
-    <span class="n">scale</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Create an instance of the patch extractor</span>
+<span class="n">patch_extractor</span> <span class="o">=</span> <span class="n">ImagePatchExtractor</span><span class="p">(</span>
+    <span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">,</span>  <span class="c1"># Earth Engine image to extract from</span>
+    <span class="n">sample_gdf</span><span class="o">=</span><span class="n">sample_gdf</span><span class="p">,</span>  <span class="c1"># GeoDataFrame of sample points</span>
+    <span class="n">identifier</span><span class="o">=</span><span class="s2">"ID"</span><span class="p">,</span>  <span class="c1"># Column name for naming output files</span>
+    <span class="n">out_dir</span><span class="o">=</span><span class="s2">"images"</span><span class="p">,</span>  <span class="c1"># Output directory for patches</span>
+    <span class="n">buffer</span><span class="o">=</span><span class="mi">1270</span><span class="p">,</span>  <span class="c1"># Buffer (in meters) around each point</span>
+    <span class="n">dimensions</span><span class="o">=</span><span class="s2">"256x256"</span><span class="p">,</span>  <span class="c1"># Output image size (width x height)</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s2">"GEO_TIFF"</span><span class="p">,</span>  <span class="c1"># Output format: e.g., 'GEO_TIFF', 'png', 'jpg'</span>
+    <span class="n">num_processes</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>  <span class="c1"># Number of parallel processes to use</span>
 <span class="p">)</span>
 
-<span class="n">modis_ndvi_polygon_ts</span> <span class="o">=</span> <span class="n">extract_timeseries_to_polygon</span><span class="p">(</span>
-    <span class="n">polygon</span><span class="o">=</span><span class="n">polygon</span><span class="p">,</span>
-    <span class="n">image_collection</span><span class="o">=</span><span class="n">modis_ndvi</span><span class="p">,</span>
-    <span class="n">start_date</span><span class="o">=</span><span class="s2">"2010-01-01"</span><span class="p">,</span>
-    <span class="n">end_date</span><span class="o">=</span><span class="s2">"2015-01-01"</span><span class="p">,</span>
-    <span class="n">band_names</span><span class="o">=</span><span class="p">[</span><span class="s2">"NDVI"</span><span class="p">,</span> <span class="s2">"EVI"</span><span class="p">],</span>
-    <span class="n">scale</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
-    <span class="n">reducer</span><span class="o">=</span><span class="s2">"MEAN"</span><span class="p">,</span>
-<span class="p">)</span>
-
-<span class="c1"># Apply scale factors</span>
-<span class="n">modis_ndvi_point_ts</span><span class="p">[[</span><span class="s2">"NDVI"</span><span class="p">,</span> <span class="s2">"EVI"</span><span class="p">]]</span> <span class="o">=</span> <span class="n">modis_ndvi_point_ts</span><span class="p">[[</span><span class="s2">"NDVI"</span><span class="p">,</span> <span class="s2">"EVI"</span><span class="p">]]</span> <span class="o">*</span> <span class="mf">0.0001</span>
-<span class="n">modis_ndvi_polygon_ts</span><span class="p">[[</span><span class="s2">"NDVI"</span><span class="p">,</span> <span class="s2">"EVI"</span><span class="p">]]</span> <span class="o">=</span> <span class="n">modis_ndvi_polygon_ts</span><span class="p">[[</span><span class="s2">"NDVI"</span><span class="p">,</span> <span class="s2">"EVI"</span><span class="p">]]</span> <span class="o">*</span> <span class="mf">0.0001</span>
+<span class="c1"># Start extracting patches</span>
+<span class="n">patch_extractor</span><span class="o">.</span><span class="n">extract_patches</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-7">modis_ndvi = ee.ImageCollection("MODIS/061/MOD13Q1")
-
-modis_ndvi_point_ts = extract_timeseries_to_point(
-    lat=lat,
-    lon=lon,
-    image_collection=modis_ndvi,
-    start_date="2010-01-01",
-    end_date="2015-01-01",
-    band_names=["NDVI", "EVI"],
-    scale=250,
+<div class="clipboard-copy-txt" id="cell-7"># Create an instance of the patch extractor
+patch_extractor = ImagePatchExtractor(
+    image=image,  # Earth Engine image to extract from
+    sample_gdf=sample_gdf,  # GeoDataFrame of sample points
+    identifier="ID",  # Column name for naming output files
+    out_dir="images",  # Output directory for patches
+    buffer=1270,  # Buffer (in meters) around each point
+    dimensions="256x256",  # Output image size (width x height)
+    format="GEO_TIFF",  # Output format: e.g., 'GEO_TIFF', 'png', 'jpg'
+    num_processes=20,  # Number of parallel processes to use
 )
 
-modis_ndvi_polygon_ts = extract_timeseries_to_polygon(
-    polygon=polygon,
-    image_collection=modis_ndvi,
-    start_date="2010-01-01",
-    end_date="2015-01-01",
-    band_names=["NDVI", "EVI"],
-    scale=250,
-    reducer="MEAN",
-)
-
-# Apply scale factors
-modis_ndvi_point_ts[["NDVI", "EVI"]] = modis_ndvi_point_ts[["NDVI", "EVI"]] * 0.0001
-modis_ndvi_polygon_ts[["NDVI", "EVI"]] = modis_ndvi_polygon_ts[["NDVI", "EVI"]] * 0.0001</div>
+# Start extracting patches
+patch_extractor.extract_patches()</div>
 </div>
 </div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=14">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h2 id="visualizing-random-image-patches-rgb">Visualizing random image patches (RGB)<a class="anchor-link" href="#visualizing-random-image-patches-rgb">¶</a></h2>
 </div>
 </div>
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=15">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -1809,120 +1715,80 @@ modis_ndvi_polygon_ts[["NDVI", "EVI"]] = modis_ndvi_polygon_ts[["NDVI", "EVI"]] 
 </div>
 </clipboard-copy>
 </div>
-<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Plot the data</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<div class="highlight-ipynb hl-python"><pre><span></span><span class="c1"># Directory where image patches are saved</span>
+<span class="n">patch_dir</span> <span class="o">=</span> <span class="s2">"images"</span>  <span class="c1"># Update if needed</span>
+
+<span class="c1"># List of available GeoTIFF files</span>
+<span class="n">tif_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">patch_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">".tif"</span><span class="p">)]</span>
+
+<span class="c1"># Randomly select 9 files</span>
+<span class="n">selected_files</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">tif_files</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tif_files</span><span class="p">)))</span>
+
+<span class="c1"># Plot setup</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
 <span class="n">axes</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">modis_ndvi_point_ts</span><span class="p">,</span>
-    <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="s2">"NDVI"</span><span class="p">,</span>
-    <span class="n">c</span><span class="o">=</span><span class="s2">"green"</span><span class="p">,</span>
-    <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
-    <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">"NDVI"</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">modis_ndvi_point_ts</span><span class="p">,</span>
-    <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="s2">"EVI"</span><span class="p">,</span>
-    <span class="n">c</span><span class="o">=</span><span class="s2">"orange"</span><span class="p">,</span>
-    <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
-    <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">"EVI"</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Values"</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Daily timeseries of NDVI and EVI data based on point"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ax</span><span class="p">,</span> <span class="n">file</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">axes</span><span class="p">,</span> <span class="n">selected_files</span><span class="p">):</span>
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">patch_dir</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
 
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">modis_ndvi_polygon_ts</span><span class="p">,</span>
-    <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="s2">"NDVI"</span><span class="p">,</span>
-    <span class="n">c</span><span class="o">=</span><span class="s2">"green"</span><span class="p">,</span>
-    <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
-    <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">"NDVI"</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">modis_ndvi_polygon_ts</span><span class="p">,</span>
-    <span class="n">x</span><span class="o">=</span><span class="s2">"time"</span><span class="p">,</span>
-    <span class="n">y</span><span class="o">=</span><span class="s2">"EVI"</span><span class="p">,</span>
-    <span class="n">c</span><span class="o">=</span><span class="s2">"orange"</span><span class="p">,</span>
-    <span class="n">marker</span><span class="o">=</span><span class="s2">"o"</span><span class="p">,</span>
-    <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-    <span class="n">label</span><span class="o">=</span><span class="s2">"EVI"</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Values"</span><span class="p">)</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Daily timeseries of NDVI and EVI data based on polygon"</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">rio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">read</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>  <span class="c1"># (3, H, W)</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>  <span class="c1"># (H, W, 3)</span>
+
+    <span class="c1"># Percentile clipping to remove outliers</span>
+    <span class="n">p_low</span><span class="p">,</span> <span class="n">p_high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">98</span><span class="p">))</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">p_low</span><span class="p">,</span> <span class="n">p_high</span><span class="p">)</span>
+
+    <span class="c1"># Normalize to 0–255</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="p">((</span><span class="n">img</span> <span class="o">-</span> <span class="n">p_low</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">p_high</span> <span class="o">-</span> <span class="n">p_low</span><span class="p">))</span> <span class="o">*</span> <span class="mi">255</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
+
+<span class="c1"># Hide extra axes if fewer than 9 images</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">selected_files</span><span class="p">)</span> <span class="p">:]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">"off"</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
-<div class="clipboard-copy-txt" id="cell-8"># Plot the data
-fig, axes = plt.subplots(nrows=2, ncols=1, figsize=(12, 6))
+<div class="clipboard-copy-txt" id="cell-8"># Directory where image patches are saved
+patch_dir = "images"  # Update if needed
+
+# List of available GeoTIFF files
+tif_files = [f for f in os.listdir(patch_dir) if f.endswith(".tif")]
+
+# Randomly select 9 files
+selected_files = random.sample(tif_files, min(36, len(tif_files)))
+
+# Plot setup
+fig, axes = plt.subplots(6, 6, figsize=(12, 12))
 axes = axes.flatten()
 
-sns.lineplot(
-    data=modis_ndvi_point_ts,
-    x="time",
-    y="NDVI",
-    c="green",
-    marker="o",
-    markersize=5,
-    linewidth=1,
-    ax=axes[0],
-    label="NDVI",
-)
-sns.lineplot(
-    data=modis_ndvi_point_ts,
-    x="time",
-    y="EVI",
-    c="orange",
-    marker="o",
-    markersize=5,
-    linewidth=1,
-    ax=axes[0],
-    label="EVI",
-)
-axes[0].set_ylabel("Values")
-axes[0].legend()
-axes[0].set_title("Daily timeseries of NDVI and EVI data based on point")
+for ax, file in zip(axes, selected_files):
+    file_path = os.path.join(patch_dir, file)
 
-sns.lineplot(
-    data=modis_ndvi_polygon_ts,
-    x="time",
-    y="NDVI",
-    c="green",
-    marker="o",
-    markersize=5,
-    linewidth=1,
-    ax=axes[1],
-    label="NDVI",
-)
-sns.lineplot(
-    data=modis_ndvi_polygon_ts,
-    x="time",
-    y="EVI",
-    c="orange",
-    marker="o",
-    markersize=5,
-    linewidth=1,
-    ax=axes[1],
-    label="EVI",
-)
-axes[1].set_ylabel("Values")
-axes[1].legend()
-axes[1].set_title("Daily timeseries of NDVI and EVI data based on polygon")
+    with rio.open(file_path) as src:
+        img = src.read([1, 2, 3])  # (3, H, W)
+        img = np.transpose(img, (1, 2, 0))  # (H, W, 3)
+
+    # Percentile clipping to remove outliers
+    p_low, p_high = np.percentile(img, (2, 98))
+    img = np.clip(img, p_low, p_high)
+
+    # Normalize to 0–255
+    img = ((img - p_low) / (p_high - p_low)) * 255
+    img = np.clip(img, 0, 255).astype(np.uint8)
+
+    ax.imshow(img)
+    ax.set_title(file, fontsize=10)
+    ax.axis("off")
+
+# Hide extra axes if fewer than 9 images
+for ax in axes[len(selected_files) :]:
+    ax.axis("off")
 
 plt.tight_layout()
 plt.show()</div>
@@ -1961,7 +1827,7 @@ plt.show()</div>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="July 28, 2025 23:11:34 UTC"><span class="timeago" datetime="2025-07-28T23:11:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="July 28, 2025 23:11:34 UTC">2025-07-28</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="August 6, 2025 15:46:32 UTC"><span class="timeago" datetime="2025-08-06T15:46:32+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="August 6, 2025 15:46:32 UTC">2025-08-06</span>
   </span>
 
     
@@ -1971,7 +1837,7 @@ plt.show()</div>
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="July 22, 2025 22:41:33 UTC"><span class="timeago" datetime="2025-07-22T22:41:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="July 22, 2025 22:41:33 UTC">2025-07-22</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="August 6, 2025 15:46:32 UTC"><span class="timeago" datetime="2025-08-06T15:46:32+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="August 6, 2025 15:46:32 UTC">2025-08-06</span>
   </span>
 
     
