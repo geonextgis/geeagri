@@ -42,6 +42,8 @@ For a complete list of examples and use cases, visit the [notebooks](https://git
 ## Key Features
 
 - Extracting long-term time series data from GEE for both point and polygon geometries.
+- Extract image patches from satellite imagery in GEE to support local-scale computer vision model training.
+- Quickly transform complex multivariate datasets into a few principal components while preserving critical information.
 - Easy implementation of Harmonic Regression on vegetation or climate indices.
 
 ---
