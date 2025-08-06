@@ -6,3 +6,4 @@ __version__ = "0.1.0"
 
 from . import extract
 from . import preprocessing
+from . import analysis
