@@ -85,6 +85,7 @@ nav:
     - Report Issues: https://github.com/geonextgis/geeagri/issues
     - Examples:
         - examples/timeseries_extraction.ipynb
+        - examples/image_patch_extraction.ipynb
         - examples/image_scaling.ipynb
         - examples/pca.ipynb
     - API Reference:
