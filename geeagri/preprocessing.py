@@ -1,4 +1,26 @@
-"""Module for preprocessing Earth Observation data using Google Earth Engine."""
+"""
+geeagri.preprocessing
+=====================
+
+This module provides preprocessing utilities for Earth Observation data using Google Earth Engine (GEE).
+It includes classes for band-wise normalization and scaling of multi-band images, enabling standardized analysis and machine learning workflows.
+
+Available scalers:
+
+- MeanCentering: Subtracts the mean of each band over a region.
+- StandardScaler: Applies z-score normalization (zero mean, unit variance).
+- MinMaxScaler: Scales each band to [0, 1] using min and max values.
+- RobustScaler: Scales each band to [0, 1] using percentiles, reducing the influence of outliers.
+
+Each scaler operates on an ee.Image and a region (ee.Geometry), and supports custom scale and pixel limits.
+
+Example usage:
+    from geeagri.preprocessing import StandardScaler
+    scaler = StandardScaler(image, region)
+    standardized = scaler.transform()
+
+These tools are useful for preparing satellite imagery for further analysis, feature extraction, or machine learning tasks.
+"""
 
 import ee
 
