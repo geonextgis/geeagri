@@ -30,7 +30,7 @@ class Sentinel2CloudMask:
         cloud_prob_threshold=50,
         nir_dark_threshold=0.15,
         shadow_proj_dist=1,
-        buffer=50
+        buffer=50,
     ):
 
         if not isinstance(region, ee.Geometry):
@@ -139,9 +139,7 @@ class Sentinel2CloudMask:
         image = self._add_cloud_bands(image)
         image = self._add_shadow_bands(image)
 
-        cloud_shadow_mask = (
-            image.select("clouds").add(image.select("shadows")).gt(0)
-        )
+        cloud_shadow_mask = image.select("clouds").add(image.select("shadows")).gt(0)
 
         cloud_shadow_mask = (
             cloud_shadow_mask.focal_min(2)

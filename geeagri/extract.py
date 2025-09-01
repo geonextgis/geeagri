@@ -267,19 +267,25 @@ class TimeseriesExtractor:
         if not isinstance(self.image_collection, ee.ImageCollection):
             raise ValueError("image_collection must be ee.ImageCollection.")
         if self.identifier not in self.samples_gdf.columns:
-            raise ValueError(f"Identifier column '{self.identifier}' not found in sample_gdf.")
+            raise ValueError(
+                f"Identifier column '{self.identifier}' not found in sample_gdf."
+            )
 
         # Geometry checks and reducer requirement for polygons
         geom_types = set(self.samples_gdf.geometry.geom_type.str.upper().unique())
         allowed = {"POINT", "POLYGON", "MULTIPOLYGON"}
         if not geom_types.issubset(allowed):
-            raise ValueError(f"Only POINT/POLYGON/MULTIPOLYGON are supported; found: {geom_types}")
+            raise ValueError(
+                f"Only POINT/POLYGON/MULTIPOLYGON are supported; found: {geom_types}"
+            )
 
         has_poly = any(g in geom_types for g in ("POLYGON", "MULTIPOLYGON"))
         if has_poly:
             if self.reducer is None:
-                raise ValueError("Reducer is required when sample_gdf contains polygons.")
-            
+                raise ValueError(
+                    "Reducer is required when sample_gdf contains polygons."
+                )
+
             self.REDUCERS = {
                 "COUNT": ee.Reducer.count(),
                 "MEAN": ee.Reducer.mean(),
@@ -293,7 +299,7 @@ class TimeseriesExtractor:
                 "SUM": ee.Reducer.sum(),
                 "VARIANCE": ee.Reducer.variance(),
             }
-            
+
             # Normalize reducer to ee.Reducer
             if isinstance(self.reducer, str):
                 key = self.reducer.upper()
@@ -309,9 +315,7 @@ class TimeseriesExtractor:
     def extract_timeseries(self):
         """Parallel per-feature CSV download."""
 
-        with multiprocessing.Pool(
-            processes=self.num_processes
-        ) as pool:
+        with multiprocessing.Pool(processes=self.num_processes) as pool:
             pool.starmap(self._download_timeseries, self.sample_features)
 
     @retry(tries=10, delay=1, backoff=2)
@@ -348,11 +352,16 @@ class TimeseriesExtractor:
 
         print(f"Saved: {out_path}")
 
-    def _fc_from_point(self, geom: dict, index_val: Union[str, int]) -> ee.FeatureCollection:
+    def _fc_from_point(
+        self, geom: dict, index_val: Union[str, int]
+    ) -> ee.FeatureCollection:
         """Convert a getRegion result at a point into a FeatureCollection with 'time' as ISO and identifier."""
         coords = ee.Geometry.Point(geom["coordinates"])
         result = self.image_collection.getRegion(
-            geometry=coords, scale=self.scale, crs=self.crs, crsTransform=self.crsTransform
+            geometry=coords,
+            scale=self.scale,
+            crs=self.crs,
+            crsTransform=self.crsTransform,
         )
 
         headers = result.get(0)

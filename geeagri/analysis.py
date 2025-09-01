@@ -235,21 +235,21 @@ class HarmonicRegression:
         """
 
         scale = 10000
-    
+
         # De-scale to original floating values
         cos = harmonic_coeffs.select(cos_band).divide(scale).toFloat()
         sin = harmonic_coeffs.select(sin_band).divide(scale).toFloat()
 
         # Phase in [-pi, pi], Amplitude >= 0
-        phase = sin.atan2(cos).rename('phase')                             
-        amplitude = sin.hypot(cos).rename('amplitude')                       
+        phase = sin.atan2(cos).rename("phase")
+        amplitude = sin.hypot(cos).rename("amplitude")
 
         if hsv:
             # Normalize to HSV ranges
             hsv = (
-                phase.unitScale(-math.pi, math.pi)                          # hue
-                .addBands(amplitude.multiply(stretch_factor).clamp(0, 1))   # sat
-                .addBands(self.composite)                                   # val
+                phase.unitScale(-math.pi, math.pi)  # hue
+                .addBands(amplitude.multiply(stretch_factor).clamp(0, 1))  # sat
+                .addBands(self.composite)  # val
                 .rename(["phase", "amplitude", "value"])
             )
 

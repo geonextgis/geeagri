@@ -50,13 +50,15 @@ class SavitzkyGolayEE:
         self.half = window_length // 2
 
         if band_name is None:
-            self._ic = image_collection.select([0], ['y']).sort('system:time_start')
+            self._ic = image_collection.select([0], ["y"]).sort("system:time_start")
         else:
-            self._ic = image_collection.select([band_name], ['y']).sort('system:time_start')
+            self._ic = image_collection.select([band_name], ["y"]).sort(
+                "system:time_start"
+            )
 
         self._n = self._ic.size()
         self._img_list = self._ic.toList(self._n)
-        self._coeff_names = [f'a{k}' for k in range(self._numX)]
+        self._coeff_names = [f"a{k}" for k in range(self._numX)]
 
     def _window_collection(self, idx):
         """Build the index-based window centered at a given position.
@@ -76,7 +78,7 @@ class SavitzkyGolayEE:
             ``window_length`` near the start/end of the series.
         """
         start = ee.Number(idx).subtract(self.half).max(0)
-        end   = ee.Number(idx).add(self.half).add(1).min(self._n)  # exclusive
+        end = ee.Number(idx).add(self.half).add(1).min(self._n)  # exclusive
         return ee.ImageCollection(self._img_list.slice(start, end))
 
     def _add_poly_predictors(self, window_col, center_time):
@@ -102,15 +104,16 @@ class SavitzkyGolayEE:
 
         def add_poly(img):
             img = ee.Image(img)
-            dt_days = ee.Number(img.date().difference(center_time, 'day'))
+            dt_days = ee.Number(img.date().difference(center_time, "day"))
             dt = ee.Image.constant(dt_days)
-            predictors = [ee.Image.constant(1).rename('x0')] + [
-                dt.pow(k).rename(f'x{k}') for k in range(1, numX)
+            predictors = [ee.Image.constant(1).rename("x0")] + [
+                dt.pow(k).rename(f"x{k}") for k in range(1, numX)
             ]
-            return ee.Image.cat(predictors + [img.select('y')])\
-                     .copyProperties(img, ['system:time_start'])
+            return ee.Image.cat(predictors + [img.select("y")]).copyProperties(
+                img, ["system:time_start"]
+            )
 
-        return window_col.map(add_poly).select([*(f'x{k}' for k in range(numX)), 'y'])
+        return window_col.map(add_poly).select([*(f"x{k}" for k in range(numX)), "y"])
 
     def coefficients(self):
         """Compute polynomial coefficients for each timestamp.
@@ -139,7 +142,7 @@ class SavitzkyGolayEE:
             idx = ee.Number(idx)
 
             center = ee.Image(self._img_list.get(idx))
-            center_time = ee.Date(center.get('system:time_start'))
+            center_time = ee.Date(center.get("system:time_start"))
 
             window_col = self._window_collection(idx)
             with_bands = self._add_poly_predictors(window_col, center_time)
@@ -147,24 +150,25 @@ class SavitzkyGolayEE:
 
             fit = with_bands.reduce(ee.Reducer.linearRegression(numX=numX, numY=1))
 
-            coeff = (fit.select('coefficients')
-                        .arrayProject([0])
-                        .arrayFlatten([coeff_names]))
+            coeff = (
+                fit.select("coefficients").arrayProject([0]).arrayFlatten([coeff_names])
+            )
 
-            result = coeff.set('system:time_start', center_time.millis())
+            result = coeff.set("system:time_start", center_time.millis())
 
-            empty = (ee.Image.cat([
-                        ee.Image.constant(0).updateMask(0).rename(name)
-                        for name in coeff_names
-                    ])
-                    .set('system:time_start', center_time.millis()))
+            empty = ee.Image.cat(
+                [
+                    ee.Image.constant(0).updateMask(0).rename(name)
+                    for name in coeff_names
+                ]
+            ).set("system:time_start", center_time.millis())
 
             return ee.Image(ee.Algorithms.If(count.gte(numX), result, empty))
 
         indices = ee.List.sequence(self.half, self._n.subtract(self.half + 1))
         return ee.ImageCollection(indices.map(coeffs_at_index))
-    
-    
+
+
 class Phenometrics:
     """Slope-based phenology metrics from a coefficients ImageCollection.
 
@@ -213,20 +217,20 @@ class Phenometrics:
 
     def __init__(self, image_collection, slope_min=0.002, min_amp=0.10):
         if not isinstance(image_collection, ee.ImageCollection):
-            raise ValueError('image_collection must be an ee.ImageCollection.')
+            raise ValueError("image_collection must be an ee.ImageCollection.")
 
         self.slope_min = float(slope_min)
         self.min_amp = float(min_amp)
 
-        self._ic_raw = image_collection.sort('system:time_start')
+        self._ic_raw = image_collection.sort("system:time_start")
         self._day_ms = 86400000.0
 
         # Window (inclusive): earliest .. latest timestamp present
         first_img = ee.Image(self._ic_raw.first())
-        last_img  = ee.Image(self._ic_raw.sort('system:time_start', False).first())
-        self._start = ee.Date(first_img.get('system:time_start'))
-        self._end   = ee.Date(last_img.get('system:time_start'))
-        end_inclusive = self._end.advance(1, 'second')
+        last_img = ee.Image(self._ic_raw.sort("system:time_start", False).first())
+        self._start = ee.Date(first_img.get("system:time_start"))
+        self._end = ee.Date(last_img.get("system:time_start"))
+        end_inclusive = self._end.advance(1, "second")
 
         # Keep only a0,a1 and add helper bands:
         #   y  = a0 (fitted value)
@@ -235,33 +239,39 @@ class Phenometrics:
         #   doy = calendar day-of-year (1..366, int16)
         def _add_time_bands(img):
             img = ee.Image(img)
-            t_days = ee.Number(img.get('system:time_start')).divide(self._day_ms)
-            doy = img.date().getRelative('day', 'year').add(1)  # 1..366
-            return (img.select(['a0', 'a1'], ['y', 'd1'])
-                      .addBands(ee.Image.constant(t_days).rename('t').toFloat())
-                      .addBands(ee.Image.constant(doy).rename('doy').toInt16())
-                      .copyProperties(img, ['system:time_start']))
+            t_days = ee.Number(img.get("system:time_start")).divide(self._day_ms)
+            doy = img.date().getRelative("day", "year").add(1)  # 1..366
+            return (
+                img.select(["a0", "a1"], ["y", "d1"])
+                .addBands(ee.Image.constant(t_days).rename("t").toFloat())
+                .addBands(ee.Image.constant(doy).rename("doy").toInt16())
+                .copyProperties(img, ["system:time_start"])
+            )
 
-        self._ic = (self._ic_raw
-                    .filterDate(self._start, end_inclusive)
-                    .map(_add_time_bands)
-                    .sort('system:time_start'))
+        self._ic = (
+            self._ic_raw.filterDate(self._start, end_inclusive)
+            .map(_add_time_bands)
+            .sort("system:time_start")
+        )
 
         self._n = self._ic.size()
 
     def _pos_and_amplitude(self):
         """Return (t_pos_days, y_pos, doy_pos, y_min, amp, amp_mask)."""
         # Peak (POS): maximize y
-        pos_img = self._ic.qualityMosaic('y')
-        t_pos_days = pos_img.select('t')
-        y_pos = pos_img.select('y')
-        doy_pos = pos_img.select('doy')
+        pos_img = self._ic.qualityMosaic("y")
+        t_pos_days = pos_img.select("t")
+        y_pos = pos_img.select("y")
+        doy_pos = pos_img.select("doy")
 
         # Minimum fitted value in window (negative trick)
-        min_ic = self._ic.map(lambda im:
-            ee.Image(im).addBands(ee.Image(im).select('y').multiply(-1).rename('neg')))
-        min_img = min_ic.qualityMosaic('neg')
-        y_min = min_img.select('y')
+        min_ic = self._ic.map(
+            lambda im: ee.Image(im).addBands(
+                ee.Image(im).select("y").multiply(-1).rename("neg")
+            )
+        )
+        min_img = min_ic.qualityMosaic("neg")
+        y_min = min_img.select("y")
 
         amp = y_pos.subtract(y_min)
         amp_mask = amp.gte(self.min_amp)
@@ -272,26 +282,26 @@ class Phenometrics:
         # SOS: pre-POS, maximize d1 subject to d1 >= slope_min
         d1_pre = self._ic.map(
             lambda im: ee.Image(im)
-                .updateMask(im.select('t').lt(t_pos_days))
-                .updateMask(im.select('d1').gte(self.slope_min))
+            .updateMask(im.select("t").lt(t_pos_days))
+            .updateMask(im.select("d1").gte(self.slope_min))
         )
-        sos_img = d1_pre.qualityMosaic('d1')
-        t_sos_days = sos_img.select('t')
-        doy_sos = sos_img.select('doy')
-        y_sos = sos_img.select('y')
+        sos_img = d1_pre.qualityMosaic("d1")
+        t_sos_days = sos_img.select("t")
+        doy_sos = sos_img.select("doy")
+        y_sos = sos_img.select("y")
 
         # EOS: post-POS, minimize d1 (maximize -d1) with d1 <= -slope_min
         d1neg_post = self._ic.map(
             lambda im: ee.Image(im)
-                .addBands(im.select('d1').multiply(-1).rename('d1neg'))
-                .updateMask(im.select('t').gt(t_pos_days))
-                .updateMask(im.select('d1').lte(-self.slope_min))
-                .updateMask(im.select('y').lte(y_sos))
+            .addBands(im.select("d1").multiply(-1).rename("d1neg"))
+            .updateMask(im.select("t").gt(t_pos_days))
+            .updateMask(im.select("d1").lte(-self.slope_min))
+            .updateMask(im.select("y").lte(y_sos))
         )
-        eos_img = d1neg_post.qualityMosaic('d1neg')
-        t_eos_days = eos_img.select('t')
-        doy_eos = eos_img.select('doy')
-        y_eos = eos_img.select('y')
+        eos_img = d1neg_post.qualityMosaic("d1neg")
+        t_eos_days = eos_img.select("t")
+        doy_eos = eos_img.select("doy")
+        y_eos = eos_img.select("y")
 
         return t_sos_days, doy_sos, y_sos, t_eos_days, doy_eos, y_eos
 
@@ -304,23 +314,22 @@ class Phenometrics:
             i = ee.Number(i)
             prev = ee.Image(y_list.get(i.subtract(1)))
             curr = ee.Image(y_list.get(i))
-            t_prev = prev.select('t'); t_curr = curr.select('t')
-            y_prev = prev.select('y'); y_curr = curr.select('y')
+            t_prev = prev.select("t")
+            t_curr = curr.select("t")
+            y_prev = prev.select("y")
+            y_curr = curr.select("y")
 
             dt = t_curr.subtract(t_prev)  # days
-            area = y_prev.add(y_curr).divide(2.0).multiply(dt).rename('seg_area')
+            area = y_prev.add(y_curr).divide(2.0).multiply(dt).rename("seg_area")
             t_mid = t_prev.add(t_curr).divide(2.0)
-            return (area
-                    .updateMask(t_mid.gte(t_sos_days).And(t_mid.lte(t_eos_days)))
-                    .set('system:time_start', prev.get('system:time_start')))
+            return area.updateMask(
+                t_mid.gte(t_sos_days).And(t_mid.lte(t_eos_days))
+            ).set("system:time_start", prev.get("system:time_start"))
 
         seg_images = ee.Algorithms.If(
-            n.lte(1),
-            ee.List([]),
-            ee.List.sequence(1, n.subtract(1)).map(_seg_area_at)
+            n.lte(1), ee.List([]), ee.List.sequence(1, n.subtract(1)).map(_seg_area_at)
         )
-        return ee.ImageCollection.fromImages(seg_images).sum().rename('IOS')
-
+        return ee.ImageCollection.fromImages(seg_images).sum().rename("IOS")
 
     def metrics(self):
         """Compute SOS, POS, EOS, LOS, IOS, POS_value, AMP (and SOS/EOS values).
@@ -338,25 +347,31 @@ class Phenometrics:
                 - vEOS (float): fitted value at EOS
         """
         t_pos_days, y_pos, doy_pos, amp, amp_mask = self._pos_and_amplitude()
-        t_sos_days, doy_sos, y_sos, t_eos_days, doy_eos, y_eos = self._sos_eos(t_pos_days)
+        t_sos_days, doy_sos, y_sos, t_eos_days, doy_eos, y_eos = self._sos_eos(
+            t_pos_days
+        )
         ios = self._ios(t_sos_days, t_eos_days).toFloat()
 
-        los_days = t_eos_days.subtract(t_sos_days).rename('LOS').toInt16()
+        los_days = t_eos_days.subtract(t_sos_days).rename("LOS").toInt16()
 
-        out = ee.Image.cat([
-            doy_sos.rename('SOS').toInt16(),
-            doy_pos.rename('POS').toInt16(),
-            doy_eos.rename('EOS').toInt16(),
-            los_days,
-            ios.rename('IOS'),
-            y_pos.rename('vPOS'),
-            amp.rename('AMP'),
-            y_sos.rename('vSOS'),
-            y_eos.rename('vEOS'),
-        ]).updateMask(amp_mask)
+        out = ee.Image.cat(
+            [
+                doy_sos.rename("SOS").toInt16(),
+                doy_pos.rename("POS").toInt16(),
+                doy_eos.rename("EOS").toInt16(),
+                los_days,
+                ios.rename("IOS"),
+                y_pos.rename("vPOS"),
+                amp.rename("AMP"),
+                y_sos.rename("vSOS"),
+                y_eos.rename("vEOS"),
+            ]
+        ).updateMask(amp_mask)
 
-        return out.set({
-            'method': 'slope',
-            'window_start': self._start.format('YYYY-MM-dd'),
-            'window_end': self._end.format('YYYY-MM-dd'),
-        })
+        return out.set(
+            {
+                "method": "slope",
+                "window_start": self._start.format("YYYY-MM-dd"),
+                "window_end": self._end.format("YYYY-MM-dd"),
+            }
+        )
