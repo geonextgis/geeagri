@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.1.2 – 2025-09-01
+
+**New Features**:
+
+- `TimeseriesExtractor` class for downloading per-feature CSV time series from Earth Engine `ee.ImageCollection`.
+  - Point geometries: uses `getRegion`, no reducer required.
+  - Polygon/MultiPolygon geometries: supports reducers for aggregation.
+  - Exports directly to CSV for downstream analysis.
+- `HarmonicRegression` class for performing harmonic regression on Earth Engine `ee.ImageCollection`.
+  - Computes harmonic coefficients with configurable order and base frequency.
+  - Provides phase and amplitude outputs for phenology and seasonal dynamics analysis.
+  - Supports fitted harmonic time series generation for visualization or modeling.
+
+**Improvements**:
+
+- Updated docstrings for clarity and alignment with function behavior.
+- Documentation expanded to include harmonic regression and time series extraction workflows.
+
+---
+
 ## v0.1.1 – 2025-08-06
 
 **New Features**:

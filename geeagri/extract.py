@@ -12,7 +12,8 @@ import multiprocessing
 from retry import retry
 import requests
 import shutil
-from typing import Union
+from typing import Union, Optional, Dict, List
+from pathlib import Path
 
 
 def extract_timeseries_to_point(
@@ -189,6 +190,207 @@ def extract_timeseries_to_polygon(
         df.to_csv(out_csv, index=False)
     else:
         return df
+
+
+class TimeseriesExtractor:
+    """
+    Downloads per-feature CSV time series from an Earth Engine ImageCollection.
+
+    - If a feature geometry is a Point: uses getRegion; no reducer needed.
+    - If a feature geometry is a Polygon/MultiPolygon: requires a reducer.
+
+    Args:
+        image_collection (ee.ImageCollection)
+        sample_gdf (gpd.GeoDataFrame): Must contain geometry and `identifier` column.
+        identifier (str): Column name to use for file naming (also added to CSV).
+        out_dir (str): Output directory (created if absent).
+        selectors (list|None): Optional property list to include in CSV export.
+                               (If provided, 'time' will be auto-added if missing.)
+        scale (int|None): Pixel scale (meters) for sampling/reduction.
+        crs (str|None): Projection CRS. Default 'EPSG:4326'.
+        crsTransform (list|None): 3x2 transform for getRegion (points) if you need it.
+        num_processes (int): Parallel workers.
+        start_date (str|None): 'YYYY-MM-DD'. If provided with end_date, filters IC.
+        end_date (str|None): 'YYYY-MM-DD'. If provided with start_date, filters IC.
+        reducer (str|ee.Reducer|None): Required if any feature is polygon/multipolygon.
+                                       Ignored for point features.
+    """
+
+    def __init__(
+        self,
+        image_collection: ee.ImageCollection,
+        sample_gdf: gpd.GeoDataFrame,
+        identifier: str,
+        out_dir: str = ".",
+        selectors: Optional[List[str]] = None,
+        scale: Optional[int] = None,
+        crs: str = "EPSG:4326",
+        crsTransform: Optional[List[float]] = None,
+        num_processes: int = 10,
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None,
+        reducer: Optional[Union[str, ee.Reducer]] = None,
+    ):
+        # Filter/select up front so workers get a slim IC
+        ic = image_collection
+        if start_date and end_date:
+            ic = ic.filterDate(start_date, end_date)
+        if selectors:
+            ic = ic.select(selectors)
+        else:
+            selectors = ic.first().bandNames().getInfo()
+
+        self.image_collection = ic
+        self.samples_gdf = sample_gdf
+        self.identifier = identifier
+        self.out_dir = out_dir
+        self.selectors = selectors
+        self.scale = scale
+        self.crs = crs
+        self.crsTransform = crsTransform
+        self.num_processes = num_processes
+        self.start_date = start_date
+        self.end_date = end_date
+        self.reducer = reducer
+
+        self._validate_inputs()
+        os.makedirs(self.out_dir, exist_ok=True)
+        logging.basicConfig()
+
+        # Cache features as plain JSON tuples (id, props, geom) for Pool
+        self.sample_features = [
+            (f["id"], f["properties"], f["geometry"])
+            for f in json.loads(self.samples_gdf.to_json())["features"]
+        ]
+
+    def _validate_inputs(self):
+        if not isinstance(self.image_collection, ee.ImageCollection):
+            raise ValueError("image_collection must be ee.ImageCollection.")
+        if self.identifier not in self.samples_gdf.columns:
+            raise ValueError(f"Identifier column '{self.identifier}' not found in sample_gdf.")
+
+        # Geometry checks and reducer requirement for polygons
+        geom_types = set(self.samples_gdf.geometry.geom_type.str.upper().unique())
+        allowed = {"POINT", "POLYGON", "MULTIPOLYGON"}
+        if not geom_types.issubset(allowed):
+            raise ValueError(f"Only POINT/POLYGON/MULTIPOLYGON are supported; found: {geom_types}")
+
+        has_poly = any(g in geom_types for g in ("POLYGON", "MULTIPOLYGON"))
+        if has_poly:
+            if self.reducer is None:
+                raise ValueError("Reducer is required when sample_gdf contains polygons.")
+            
+            self.REDUCERS = {
+                "COUNT": ee.Reducer.count(),
+                "MEAN": ee.Reducer.mean(),
+                "MEAN_UNWEIGHTED": ee.Reducer.mean().unweighted(),
+                "MAXIMUM": ee.Reducer.max(),
+                "MEDIAN": ee.Reducer.median(),
+                "MINIMUM": ee.Reducer.min(),
+                "MODE": ee.Reducer.mode(),
+                "STD": ee.Reducer.stdDev(),
+                "MIN_MAX": ee.Reducer.minMax(),
+                "SUM": ee.Reducer.sum(),
+                "VARIANCE": ee.Reducer.variance(),
+            }
+            
+            # Normalize reducer to ee.Reducer
+            if isinstance(self.reducer, str):
+                key = self.reducer.upper()
+                if key not in self.REDUCERS:
+                    raise ValueError(
+                        f"Reducer '{self.reducer}' not supported. "
+                        f"Choose from: {list(self.REDUCERS.keys())}"
+                    )
+                self.reducer = self.REDUCERS[key]
+            elif not isinstance(self.reducer, ee.Reducer):
+                raise ValueError("reducer must be a string or an ee.Reducer instance.")
+
+    def extract_timeseries(self):
+        """Parallel per-feature CSV download."""
+
+        with multiprocessing.Pool(
+            processes=self.num_processes
+        ) as pool:
+            pool.starmap(self._download_timeseries, self.sample_features)
+
+    @retry(tries=10, delay=1, backoff=2)
+    def _download_timeseries(self, id_: Union[str, int], props: dict, geom: dict):
+        index_val = props[self.identifier]
+
+        gtype = geom.get("type", "").upper()
+        if gtype == "POINT":
+            fc = self._fc_from_point(geom, index_val)
+        elif gtype in ("POLYGON", "MULTIPOLYGON"):
+            fc = self._fc_from_polygon(geom, index_val, self.reducer)
+        else:
+            raise ValueError(f"Unsupported geometry type: {gtype}")
+
+        params = {"filename": f"{index_val}"}
+
+        sels = list(self.selectors)
+        if "time" not in [s.lower() for s in sels]:
+            sels = ["time"] + sels
+        if self.identifier not in sels:
+            sels = [self.identifier] + sels
+        params["selectors"] = sels
+
+        url = fc.getDownloadURL(**params)
+        resp = requests.get(url, stream=True)
+        resp.raise_for_status()
+
+        out_path = Path(self.out_dir) / f"{index_val}.csv"
+        resp.encoding = resp.encoding or "utf-8"
+        with open(out_path, "w", encoding=resp.encoding, newline="") as f:
+            for chunk in resp.iter_content(chunk_size=65536, decode_unicode=True):
+                if chunk:
+                    f.write(chunk)
+
+        print(f"Saved: {out_path}")
+
+    def _fc_from_point(self, geom: dict, index_val: Union[str, int]) -> ee.FeatureCollection:
+        """Convert a getRegion result at a point into a FeatureCollection with 'time' as ISO and identifier."""
+        coords = ee.Geometry.Point(geom["coordinates"])
+        result = self.image_collection.getRegion(
+            geometry=coords, scale=self.scale, crs=self.crs, crsTransform=self.crsTransform
+        )
+
+        headers = result.get(0)
+        rows = result.slice(1)
+
+        def make_feature(row):
+            row = ee.List(row)
+            d = ee.Dictionary.fromLists(headers, row)
+            date_str = ee.Date(ee.Number(d.get("time"))).format("YYYY-MM-dd HH:mm:ss")
+            d = d.set("time", date_str)
+            d = d.set(self.identifier, index_val)
+            return ee.Feature(None, d)
+
+        return ee.FeatureCollection(rows.map(make_feature))
+
+    def _fc_from_polygon(
+        self, geom: dict, index_val: Union[str, int], reducer: ee.Reducer
+    ) -> ee.FeatureCollection:
+        """Map reduceRegion over images for a polygon/multipolygon, producing one feature per image."""
+        polygon = ee.Geometry(geom)
+        ic = self.image_collection.filterBounds(polygon)
+
+        def per_image(image):
+            stats = image.reduceRegion(
+                reducer=reducer,
+                geometry=polygon,
+                scale=self.scale,
+                crs=self.crs,
+                maxPixels=1e13,
+            )
+            t = ee.Date(image.get("system:time_start")).format("YYYY-MM-dd HH:mm:ss")
+            feat = ee.Feature(None, stats).set("time", t)
+            feat = feat.set(self.identifier, index_val)
+            return feat
+
+        fc = ee.FeatureCollection(ic.map(per_image))
+        fc = fc.filter(ee.Filter.notNull(self.image_collection.first().bandNames()))
+        return fc
 
 
 class ImagePatchExtractor:
