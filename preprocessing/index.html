@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../assets/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
     
     
       
@@ -544,6 +544,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/harmonic_regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Harmonic regression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -752,6 +775,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#geeagri.preprocessing.Sentinel2CloudMask" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sentinel2CloudMask
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sentinel2CloudMask">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geeagri.preprocessing.Sentinel2CloudMask.get_cloud_collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_cloud_collection()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geeagri.preprocessing.Sentinel2CloudMask.get_cloudfree_collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_cloudfree_collection()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#geeagri.preprocessing.StandardScaler" class="md-nav__link">
     <span class="md-ellipsis">
       StandardScaler
@@ -911,6 +967,39 @@
   <a href="#geeagri.preprocessing.RobustScaler.transform" class="md-nav__link">
     <span class="md-ellipsis">
       transform()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geeagri.preprocessing.Sentinel2CloudMask" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sentinel2CloudMask
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Sentinel2CloudMask">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geeagri.preprocessing.Sentinel2CloudMask.get_cloud_collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_cloud_collection()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#geeagri.preprocessing.Sentinel2CloudMask.get_cloudfree_collection" class="md-nav__link">
+    <span class="md-ellipsis">
+      get_cloudfree_collection()
     </span>
   </a>
   
@@ -1848,6 +1937,394 @@ Values are scaled to the [0, 1] range and clamped.</p>
 
 
 
+<h2 id="geeagri.preprocessing.Sentinel2CloudMask" class="doc doc-heading">
+        <code>
+Sentinel2CloudMask        </code>
+
+
+
+<a href="#geeagri.preprocessing.Sentinel2CloudMask" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>A utility class for creating cloud- and shadow-masked Sentinel-2 image collections.</p>
+<p>This class uses Sentinel-2 Level-2A Surface Reflectance (SR) data in combination
+with Sentinel-2 Cloud Probability (s2cloudless) data to generate a
+cloud-free ImageCollection.</p>
+
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>region</code></td>
+        <td><code>ee.Geometry</code></td>
+        <td><p>The region of interest for filtering the ImageCollection.</p></td>
+      </tr>
+      <tr>
+        <td><code>start_date</code></td>
+        <td><code>str</code></td>
+        <td><p>Start date (inclusive) in 'YYYY-MM-DD' format.</p></td>
+      </tr>
+      <tr>
+        <td><code>end_date</code></td>
+        <td><code>str</code></td>
+        <td><p>End date (exclusive) in 'YYYY-MM-DD' format.</p></td>
+      </tr>
+      <tr>
+        <td><code>cloud_filter</code></td>
+        <td><code>int</code></td>
+        <td><p>Maximum scene-level cloudiness allowed (%).</p></td>
+      </tr>
+      <tr>
+        <td><code>cloud_prob_threshold</code></td>
+        <td><code>int</code></td>
+        <td><p>Cloud probability threshold (values above are considered clouds).</p></td>
+      </tr>
+      <tr>
+        <td><code>nir_dark_threshold</code></td>
+        <td><code>float</code></td>
+        <td><p>NIR reflectance threshold (values below considered potential shadows).</p></td>
+      </tr>
+      <tr>
+        <td><code>shadow_proj_dist</code></td>
+        <td><code>int</code></td>
+        <td><p>Maximum distance (km) to search for shadows from clouds.</p></td>
+      </tr>
+      <tr>
+        <td><code>buffer</code></td>
+        <td><code>int</code></td>
+        <td><p>Buffer distance (m) to dilate cloud/shadow masks.</p></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>geeagri/preprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Sentinel2CloudMask</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A utility class for creating cloud- and shadow-masked Sentinel-2 image collections.</span>
+
+<span class="sd">    This class uses Sentinel-2 Level-2A Surface Reflectance (SR) data in combination</span>
+<span class="sd">    with Sentinel-2 Cloud Probability (s2cloudless) data to generate a</span>
+<span class="sd">    cloud-free ImageCollection.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        region (ee.Geometry): The region of interest for filtering the ImageCollection.</span>
+<span class="sd">        start_date (str): Start date (inclusive) in &#39;YYYY-MM-DD&#39; format.</span>
+<span class="sd">        end_date (str): End date (exclusive) in &#39;YYYY-MM-DD&#39; format.</span>
+<span class="sd">        cloud_filter (int): Maximum scene-level cloudiness allowed (%).</span>
+<span class="sd">        cloud_prob_threshold (int): Cloud probability threshold (values above are considered clouds).</span>
+<span class="sd">        nir_dark_threshold (float): NIR reflectance threshold (values below considered potential shadows).</span>
+<span class="sd">        shadow_proj_dist (int): Maximum distance (km) to search for shadows from clouds.</span>
+<span class="sd">        buffer (int): Buffer distance (m) to dilate cloud/shadow masks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">region</span><span class="p">,</span>
+        <span class="n">start_date</span><span class="p">,</span>
+        <span class="n">end_date</span><span class="p">,</span>
+        <span class="n">cloud_filter</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+        <span class="n">cloud_prob_threshold</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+        <span class="n">nir_dark_threshold</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+        <span class="n">shadow_proj_dist</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">buffer</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="p">):</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">region</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">Geometry</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`region` must be an instance of ee.Geometry.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">region</span> <span class="o">=</span> <span class="n">region</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_date</span> <span class="o">=</span> <span class="n">start_date</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="n">end_date</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cloud_filter</span> <span class="o">=</span> <span class="n">cloud_filter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cloud_prob_threshold</span> <span class="o">=</span> <span class="n">cloud_prob_threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nir_dark_threshold</span> <span class="o">=</span> <span class="n">nir_dark_threshold</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">shadow_proj_dist</span> <span class="o">=</span> <span class="n">shadow_proj_dist</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">buffer</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_cloud_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve Sentinel-2 images joined with s2cloudless cloud probability.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ee.ImageCollection: Sentinel-2 SR images with a property containing</span>
+<span class="sd">            the matching s2cloudless image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s2_sr</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s2">&quot;COPERNICUS/S2_SR_HARMONIZED&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_date</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="o">.</span><span class="n">lte</span><span class="p">(</span><span class="s2">&quot;CLOUDY_PIXEL_PERCENTAGE&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cloud_filter</span><span class="p">))</span>
+        <span class="p">)</span>
+
+        <span class="n">s2_cloud_prob</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s2">&quot;COPERNICUS/S2_CLOUD_PROBABILITY&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_date</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">joined</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span>
+            <span class="n">ee</span><span class="o">.</span><span class="n">Join</span><span class="o">.</span><span class="n">saveFirst</span><span class="p">(</span><span class="s2">&quot;cloud_prob&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+                <span class="n">primary</span><span class="o">=</span><span class="n">s2_sr</span><span class="p">,</span>
+                <span class="n">secondary</span><span class="o">=</span><span class="n">s2_cloud_prob</span><span class="p">,</span>
+                <span class="n">condition</span><span class="o">=</span><span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span>
+                    <span class="n">leftField</span><span class="o">=</span><span class="s2">&quot;system:index&quot;</span><span class="p">,</span> <span class="n">rightField</span><span class="o">=</span><span class="s2">&quot;system:index&quot;</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">joined</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_cloud_bands</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add cloud probability and binary cloud mask bands.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            image (ee.Image): Sentinel-2 image.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ee.Image: Image with added `cloud_prob` and `clouds` bands.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cloud_prob</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;cloud_prob&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;probability&quot;</span><span class="p">)</span>
+        <span class="n">is_cloud</span> <span class="o">=</span> <span class="n">cloud_prob</span><span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cloud_prob_threshold</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;clouds&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">addBands</span><span class="p">([</span><span class="n">cloud_prob</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;cloud_prob&quot;</span><span class="p">),</span> <span class="n">is_cloud</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_shadow_bands</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add potential shadow bands to the image.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            image (ee.Image): Sentinel-2 image with cloud mask.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ee.Image: Image with added `dark_pixels`, `cloud_transform`, and `shadows` bands.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">not_water</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;SCL&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">neq</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+
+        <span class="n">scale_factor</span> <span class="o">=</span> <span class="mf">1e4</span>
+        <span class="n">dark_pixels</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">image</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;B8&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">lt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nir_dark_threshold</span> <span class="o">*</span> <span class="n">scale_factor</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">not_water</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;dark_pixels&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">shadow_azimuth</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="mi">90</span><span class="p">)</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span>
+            <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;MEAN_SOLAR_AZIMUTH_ANGLE&quot;</span><span class="p">))</span>
+        <span class="p">)</span>
+
+        <span class="n">cloud_proj</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">image</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;clouds&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">directionalDistanceTransform</span><span class="p">(</span><span class="n">shadow_azimuth</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shadow_proj_dist</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">reproject</span><span class="p">(</span><span class="n">crs</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">projection</span><span class="p">(),</span> <span class="n">scale</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;distance&quot;</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">mask</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;cloud_transform&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">shadows</span> <span class="o">=</span> <span class="n">cloud_proj</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">dark_pixels</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;shadows&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">addBands</span><span class="p">([</span><span class="n">dark_pixels</span><span class="p">,</span> <span class="n">cloud_proj</span><span class="p">,</span> <span class="n">shadows</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_cloud_shadow_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create combined cloud + shadow mask.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            image (ee.Image): Sentinel-2 image.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ee.Image: Image with an added `cloudmask` band.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_cloud_bands</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_shadow_bands</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+        <span class="n">cloud_shadow_mask</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;clouds&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;shadows&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">cloud_shadow_mask</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">cloud_shadow_mask</span><span class="o">.</span><span class="n">focal_min</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">focal_max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buffer</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">20</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">reproject</span><span class="p">(</span><span class="n">crs</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">projection</span><span class="p">(),</span> <span class="n">scale</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;cloudmask&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="n">cloud_shadow_mask</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_apply_cloud_shadow_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply cloud/shadow mask to reflectance bands.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            image (ee.Image): Sentinel-2 image with `cloudmask` band.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ee.Image: Cloud/shadow-masked image (reflectance bands only).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">not_cloud_shadow</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;cloudmask&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">Not</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">image</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;B.*&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="n">not_cloud_shadow</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_cloudfree_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate cloud-free Sentinel-2 ImageCollection.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ee.ImageCollection: Cloud- and shadow-masked Sentinel-2 SR collection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cloud_collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cloud_collection</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">cloud_collection</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_add_cloud_shadow_mask</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_apply_cloud_shadow_mask</span>
+        <span class="p">)</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="geeagri.preprocessing.Sentinel2CloudMask.get_cloud_collection" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_cloud_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#geeagri.preprocessing.Sentinel2CloudMask.get_cloud_collection" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Retrieve Sentinel-2 images joined with s2cloudless cloud probability.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ee.ImageCollection</code></td>
+      <td><p>Sentinel-2 SR images with a property containing
+the matching s2cloudless image.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>geeagri/preprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_cloud_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve Sentinel-2 images joined with s2cloudless cloud probability.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ee.ImageCollection: Sentinel-2 SR images with a property containing</span>
+<span class="sd">        the matching s2cloudless image.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s2_sr</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s2">&quot;COPERNICUS/S2_SR_HARMONIZED&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_date</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="o">.</span><span class="n">lte</span><span class="p">(</span><span class="s2">&quot;CLOUDY_PIXEL_PERCENTAGE&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cloud_filter</span><span class="p">))</span>
+    <span class="p">)</span>
+
+    <span class="n">s2_cloud_prob</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="s2">&quot;COPERNICUS/S2_CLOUD_PROBABILITY&quot;</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">region</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_date</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_date</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">joined</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span>
+        <span class="n">ee</span><span class="o">.</span><span class="n">Join</span><span class="o">.</span><span class="n">saveFirst</span><span class="p">(</span><span class="s2">&quot;cloud_prob&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="n">primary</span><span class="o">=</span><span class="n">s2_sr</span><span class="p">,</span>
+            <span class="n">secondary</span><span class="o">=</span><span class="n">s2_cloud_prob</span><span class="p">,</span>
+            <span class="n">condition</span><span class="o">=</span><span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="o">.</span><span class="n">equals</span><span class="p">(</span>
+                <span class="n">leftField</span><span class="o">=</span><span class="s2">&quot;system:index&quot;</span><span class="p">,</span> <span class="n">rightField</span><span class="o">=</span><span class="s2">&quot;system:index&quot;</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">joined</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="geeagri.preprocessing.Sentinel2CloudMask.get_cloudfree_collection" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_cloudfree_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#geeagri.preprocessing.Sentinel2CloudMask.get_cloudfree_collection" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Generate cloud-free Sentinel-2 ImageCollection.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ee.ImageCollection</code></td>
+      <td><p>Cloud- and shadow-masked Sentinel-2 SR collection.</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>geeagri/preprocessing.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">get_cloudfree_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate cloud-free Sentinel-2 ImageCollection.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ee.ImageCollection: Cloud- and shadow-masked Sentinel-2 SR collection.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cloud_collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_cloud_collection</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">cloud_collection</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_add_cloud_shadow_mask</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_apply_cloud_shadow_mask</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
 <h2 id="geeagri.preprocessing.StandardScaler" class="doc doc-heading">
         <code>
 StandardScaler        </code>
@@ -2236,10 +2713,10 @@ zero mean and unit variance (approximately), assuming normally distributed value
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.50899def.min.js"></script>
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       

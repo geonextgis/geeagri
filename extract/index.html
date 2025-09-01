@@ -15,14 +15,14 @@
         <link rel="canonical" href="https://geonextgis.github.io/geeagri/extract/">
       
       
-        <link rel="prev" href="../examples/pca/">
+        <link rel="prev" href="../examples/harmonic_regression/">
       
       
         <link rel="next" href="../preprocessing/">
       
       
       <link rel="icon" href="../assets/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
     
     
       
@@ -544,6 +544,29 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/harmonic_regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Harmonic regression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -670,6 +693,30 @@
   <a href="#geeagri.extract.ImagePatchExtractor.extract_patches" class="md-nav__link">
     <span class="md-ellipsis">
       extract_patches()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geeagri.extract.TimeseriesExtractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      TimeseriesExtractor
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TimeseriesExtractor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geeagri.extract.TimeseriesExtractor.extract_timeseries" class="md-nav__link">
+    <span class="md-ellipsis">
+      extract_timeseries()
     </span>
   </a>
   
@@ -809,6 +856,30 @@
   <a href="#geeagri.extract.ImagePatchExtractor.extract_patches" class="md-nav__link">
     <span class="md-ellipsis">
       extract_patches()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geeagri.extract.TimeseriesExtractor" class="md-nav__link">
+    <span class="md-ellipsis">
+      TimeseriesExtractor
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TimeseriesExtractor">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geeagri.extract.TimeseriesExtractor.extract_timeseries" class="md-nav__link">
+    <span class="md-ellipsis">
+      extract_timeseries()
     </span>
   </a>
   
@@ -1130,6 +1201,372 @@ ImagePatchExtractor        </code>
     <span class="n">pool</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_download_patch</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span>
     <span class="n">pool</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="n">pool</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="geeagri.extract.TimeseriesExtractor" class="doc doc-heading">
+        <code>
+TimeseriesExtractor        </code>
+
+
+
+<a href="#geeagri.extract.TimeseriesExtractor" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Downloads per-feature CSV time series from an Earth Engine ImageCollection.</p>
+<ul>
+<li>If a feature geometry is a Point: uses getRegion; no reducer needed.</li>
+<li>If a feature geometry is a Polygon/MultiPolygon: requires a reducer.</li>
+</ul>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>sample_gdf</code></td>
+        <td><code>gpd.GeoDataFrame</code></td>
+        <td><p>Must contain geometry and <code>identifier</code> column.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>identifier</code></td>
+        <td><code>str</code></td>
+        <td><p>Column name to use for file naming (also added to CSV).</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>out_dir</code></td>
+        <td><code>str</code></td>
+        <td><p>Output directory (created if absent).</p></td>
+        <td><code>&#39;.&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>selectors</code></td>
+        <td><code>list|None</code></td>
+        <td><p>Optional property list to include in CSV export.
+                   (If provided, 'time' will be auto-added if missing.)</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>scale</code></td>
+        <td><code>int|None</code></td>
+        <td><p>Pixel scale (meters) for sampling/reduction.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>crs</code></td>
+        <td><code>str|None</code></td>
+        <td><p>Projection CRS. Default 'EPSG:4326'.</p></td>
+        <td><code>&#39;EPSG:4326&#39;</code></td>
+      </tr>
+      <tr>
+        <td><code>crsTransform</code></td>
+        <td><code>list|None</code></td>
+        <td><p>3x2 transform for getRegion (points) if you need it.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>num_processes</code></td>
+        <td><code>int</code></td>
+        <td><p>Parallel workers.</p></td>
+        <td><code>10</code></td>
+      </tr>
+      <tr>
+        <td><code>start_date</code></td>
+        <td><code>str|None</code></td>
+        <td><p>'YYYY-MM-DD'. If provided with end_date, filters IC.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>end_date</code></td>
+        <td><code>str|None</code></td>
+        <td><p>'YYYY-MM-DD'. If provided with start_date, filters IC.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>reducer</code></td>
+        <td><code>str|ee.Reducer|None</code></td>
+        <td><p>Required if any feature is polygon/multipolygon.
+                           Ignored for point features.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>geeagri/extract.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">TimeseriesExtractor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Downloads per-feature CSV time series from an Earth Engine ImageCollection.</span>
+
+<span class="sd">    - If a feature geometry is a Point: uses getRegion; no reducer needed.</span>
+<span class="sd">    - If a feature geometry is a Polygon/MultiPolygon: requires a reducer.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        image_collection (ee.ImageCollection)</span>
+<span class="sd">        sample_gdf (gpd.GeoDataFrame): Must contain geometry and `identifier` column.</span>
+<span class="sd">        identifier (str): Column name to use for file naming (also added to CSV).</span>
+<span class="sd">        out_dir (str): Output directory (created if absent).</span>
+<span class="sd">        selectors (list|None): Optional property list to include in CSV export.</span>
+<span class="sd">                               (If provided, &#39;time&#39; will be auto-added if missing.)</span>
+<span class="sd">        scale (int|None): Pixel scale (meters) for sampling/reduction.</span>
+<span class="sd">        crs (str|None): Projection CRS. Default &#39;EPSG:4326&#39;.</span>
+<span class="sd">        crsTransform (list|None): 3x2 transform for getRegion (points) if you need it.</span>
+<span class="sd">        num_processes (int): Parallel workers.</span>
+<span class="sd">        start_date (str|None): &#39;YYYY-MM-DD&#39;. If provided with end_date, filters IC.</span>
+<span class="sd">        end_date (str|None): &#39;YYYY-MM-DD&#39;. If provided with start_date, filters IC.</span>
+<span class="sd">        reducer (str|ee.Reducer|None): Required if any feature is polygon/multipolygon.</span>
+<span class="sd">                                       Ignored for point features.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">image_collection</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">,</span>
+        <span class="n">sample_gdf</span><span class="p">:</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="p">,</span>
+        <span class="n">identifier</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">out_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="p">,</span>
+        <span class="n">selectors</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">scale</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">crs</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;EPSG:4326&quot;</span><span class="p">,</span>
+        <span class="n">crsTransform</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">num_processes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="n">start_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">end_date</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">reducer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="c1"># Filter/select up front so workers get a slim IC</span>
+        <span class="n">ic</span> <span class="o">=</span> <span class="n">image_collection</span>
+        <span class="k">if</span> <span class="n">start_date</span> <span class="ow">and</span> <span class="n">end_date</span><span class="p">:</span>
+            <span class="n">ic</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">selectors</span><span class="p">:</span>
+            <span class="n">ic</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">selectors</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">selectors</span> <span class="o">=</span> <span class="n">ic</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">bandNames</span><span class="p">()</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_collection</span> <span class="o">=</span> <span class="n">ic</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">samples_gdf</span> <span class="o">=</span> <span class="n">sample_gdf</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="n">identifier</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">out_dir</span> <span class="o">=</span> <span class="n">out_dir</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selectors</span> <span class="o">=</span> <span class="n">selectors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crs</span> <span class="o">=</span> <span class="n">crs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">crsTransform</span> <span class="o">=</span> <span class="n">crsTransform</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_processes</span> <span class="o">=</span> <span class="n">num_processes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_date</span> <span class="o">=</span> <span class="n">start_date</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_date</span> <span class="o">=</span> <span class="n">end_date</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reducer</span> <span class="o">=</span> <span class="n">reducer</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_inputs</span><span class="p">()</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">()</span>
+
+        <span class="c1"># Cache features as plain JSON tuples (id, props, geom) for Pool</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sample_features</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">],</span> <span class="n">f</span><span class="p">[</span><span class="s2">&quot;geometry&quot;</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples_gdf</span><span class="o">.</span><span class="n">to_json</span><span class="p">())[</span><span class="s2">&quot;features&quot;</span><span class="p">]</span>
+        <span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image_collection</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;image_collection must be ee.ImageCollection.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">samples_gdf</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Identifier column &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="si">}</span><span class="s2">&#39; not found in sample_gdf.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Geometry checks and reducer requirement for polygons</span>
+        <span class="n">geom_types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples_gdf</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">geom_type</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+        <span class="n">allowed</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;POINT&quot;</span><span class="p">,</span> <span class="s2">&quot;POLYGON&quot;</span><span class="p">,</span> <span class="s2">&quot;MULTIPOLYGON&quot;</span><span class="p">}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">geom_types</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">allowed</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Only POINT/POLYGON/MULTIPOLYGON are supported; found: </span><span class="si">{</span><span class="n">geom_types</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">has_poly</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">g</span> <span class="ow">in</span> <span class="n">geom_types</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;POLYGON&quot;</span><span class="p">,</span> <span class="s2">&quot;MULTIPOLYGON&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">has_poly</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">reducer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Reducer is required when sample_gdf contains polygons.&quot;</span>
+                <span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">REDUCERS</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;COUNT&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">count</span><span class="p">(),</span>
+                <span class="s2">&quot;MEAN&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span>
+                <span class="s2">&quot;MEAN_UNWEIGHTED&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">unweighted</span><span class="p">(),</span>
+                <span class="s2">&quot;MAXIMUM&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+                <span class="s2">&quot;MEDIAN&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span>
+                <span class="s2">&quot;MINIMUM&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span>
+                <span class="s2">&quot;MODE&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">mode</span><span class="p">(),</span>
+                <span class="s2">&quot;STD&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">stdDev</span><span class="p">(),</span>
+                <span class="s2">&quot;MIN_MAX&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">minMax</span><span class="p">(),</span>
+                <span class="s2">&quot;SUM&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+                <span class="s2">&quot;VARIANCE&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">variance</span><span class="p">(),</span>
+            <span class="p">}</span>
+
+            <span class="c1"># Normalize reducer to ee.Reducer</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reducer</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reducer</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">REDUCERS</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Reducer &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">reducer</span><span class="si">}</span><span class="s2">&#39; not supported. &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;Choose from: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">REDUCERS</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">reducer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">REDUCERS</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reducer</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;reducer must be a string or an ee.Reducer instance.&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">extract_timeseries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parallel per-feature CSV download.&quot;&quot;&quot;</span>
+
+        <span class="k">with</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_processes</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+            <span class="n">pool</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_download_timeseries</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_features</span><span class="p">)</span>
+
+    <span class="nd">@retry</span><span class="p">(</span><span class="n">tries</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">delay</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">backoff</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_download_timeseries</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">props</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">geom</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">index_val</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">]</span>
+
+        <span class="n">gtype</span> <span class="o">=</span> <span class="n">geom</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">gtype</span> <span class="o">==</span> <span class="s2">&quot;POINT&quot;</span><span class="p">:</span>
+            <span class="n">fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fc_from_point</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">index_val</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">gtype</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;POLYGON&quot;</span><span class="p">,</span> <span class="s2">&quot;MULTIPOLYGON&quot;</span><span class="p">):</span>
+            <span class="n">fc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fc_from_polygon</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">index_val</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">reducer</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported geometry type: </span><span class="si">{</span><span class="n">gtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;filename&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">index_val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+
+        <span class="n">sels</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">selectors</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sels</span><span class="p">]:</span>
+            <span class="n">sels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">sels</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">identifier</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sels</span><span class="p">:</span>
+            <span class="n">sels</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">]</span> <span class="o">+</span> <span class="n">sels</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;selectors&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sels</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">getDownloadURL</span><span class="p">(</span><span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">resp</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+
+        <span class="n">out_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">out_dir</span><span class="p">)</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">index_val</span><span class="si">}</span><span class="s2">.csv&quot;</span>
+        <span class="n">resp</span><span class="o">.</span><span class="n">encoding</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">encoding</span> <span class="ow">or</span> <span class="s2">&quot;utf-8&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">out_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">resp</span><span class="o">.</span><span class="n">encoding</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="mi">65536</span><span class="p">,</span> <span class="n">decode_unicode</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">chunk</span><span class="p">:</span>
+                    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Saved: </span><span class="si">{</span><span class="n">out_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fc_from_point</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">geom</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">index_val</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ee</span><span class="o">.</span><span class="n">FeatureCollection</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a getRegion result at a point into a FeatureCollection with &#39;time&#39; as ISO and identifier.&quot;&quot;&quot;</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Geometry</span><span class="o">.</span><span class="n">Point</span><span class="p">(</span><span class="n">geom</span><span class="p">[</span><span class="s2">&quot;coordinates&quot;</span><span class="p">])</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_collection</span><span class="o">.</span><span class="n">getRegion</span><span class="p">(</span>
+            <span class="n">geometry</span><span class="o">=</span><span class="n">coords</span><span class="p">,</span>
+            <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span>
+            <span class="n">crs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
+            <span class="n">crsTransform</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">crsTransform</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">make_feature</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Dictionary</span><span class="o">.</span><span class="n">fromLists</span><span class="p">(</span><span class="n">headers</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+            <span class="n">date_str</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)))</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;YYYY-MM-dd HH:mm:ss&quot;</span><span class="p">)</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">date_str</span><span class="p">)</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">index_val</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="n">rows</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">make_feature</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_fc_from_polygon</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">geom</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">index_val</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">reducer</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ee</span><span class="o">.</span><span class="n">FeatureCollection</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Map reduceRegion over images for a polygon/multipolygon, producing one feature per image.&quot;&quot;&quot;</span>
+        <span class="n">polygon</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Geometry</span><span class="p">(</span><span class="n">geom</span><span class="p">)</span>
+        <span class="n">ic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_collection</span><span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="n">polygon</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">per_image</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+            <span class="n">stats</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">reduceRegion</span><span class="p">(</span>
+                <span class="n">reducer</span><span class="o">=</span><span class="n">reducer</span><span class="p">,</span>
+                <span class="n">geometry</span><span class="o">=</span><span class="n">polygon</span><span class="p">,</span>
+                <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">,</span>
+                <span class="n">crs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span>
+                <span class="n">maxPixels</span><span class="o">=</span><span class="mf">1e13</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;YYYY-MM-dd HH:mm:ss&quot;</span><span class="p">)</span>
+            <span class="n">feat</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">stats</span><span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+            <span class="n">feat</span> <span class="o">=</span> <span class="n">feat</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">identifier</span><span class="p">,</span> <span class="n">index_val</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">feat</span>
+
+        <span class="n">fc</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">FeatureCollection</span><span class="p">(</span><span class="n">ic</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">per_image</span><span class="p">))</span>
+        <span class="n">fc</span> <span class="o">=</span> <span class="n">fc</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="o">.</span><span class="n">notNull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image_collection</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">bandNames</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">fc</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="geeagri.extract.TimeseriesExtractor.extract_timeseries" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">extract_timeseries</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#geeagri.extract.TimeseriesExtractor.extract_timeseries" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Parallel per-feature CSV download.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>geeagri/extract.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">extract_timeseries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parallel per-feature CSV download.&quot;&quot;&quot;</span>
+
+    <span class="k">with</span> <span class="n">multiprocessing</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">num_processes</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">starmap</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_download_timeseries</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_features</span><span class="p">)</span>
 </code></pre></div>
         </details>
     </div>
@@ -1638,10 +2075,10 @@ ImagePatchExtractor        </code>
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.50899def.min.js"></script>
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
       
         <script src="../js/timeago.min.js"></script>
       
