@@ -3,6 +3,177 @@
 import ee
 
 
+class Sentinel2CloudMask:
+    """A utility class for creating cloud- and shadow-masked Sentinel-2 image collections.
+
+    This class uses Sentinel-2 Level-2A Surface Reflectance (SR) data in combination
+    with Sentinel-2 Cloud Probability (s2cloudless) data to generate a
+    cloud-free ImageCollection.
+
+    Attributes:
+        region (ee.Geometry): The region of interest for filtering the ImageCollection.
+        start_date (str): Start date (inclusive) in 'YYYY-MM-DD' format.
+        end_date (str): End date (exclusive) in 'YYYY-MM-DD' format.
+        cloud_filter (int): Maximum scene-level cloudiness allowed (%).
+        cloud_prob_threshold (int): Cloud probability threshold (values above are considered clouds).
+        nir_dark_threshold (float): NIR reflectance threshold (values below considered potential shadows).
+        shadow_proj_dist (int): Maximum distance (km) to search for shadows from clouds.
+        buffer (int): Buffer distance (m) to dilate cloud/shadow masks.
+    """
+
+    def __init__(
+        self,
+        region,
+        start_date,
+        end_date,
+        cloud_filter=60,
+        cloud_prob_threshold=50,
+        nir_dark_threshold=0.15,
+        shadow_proj_dist=1,
+        buffer=50,
+    ):
+
+        if not isinstance(region, ee.Geometry):
+            raise ValueError("`region` must be an instance of ee.Geometry.")
+
+        self.region = region
+        self.start_date = start_date
+        self.end_date = end_date
+        self.cloud_filter = cloud_filter
+        self.cloud_prob_threshold = cloud_prob_threshold
+        self.nir_dark_threshold = nir_dark_threshold
+        self.shadow_proj_dist = shadow_proj_dist
+        self.buffer = buffer
+
+    def get_cloud_collection(self):
+        """Retrieve Sentinel-2 images joined with s2cloudless cloud probability.
+
+        Returns:
+            ee.ImageCollection: Sentinel-2 SR images with a property containing
+            the matching s2cloudless image.
+        """
+        s2_sr = (
+            ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED")
+            .filterBounds(self.region)
+            .filterDate(self.start_date, self.end_date)
+            .filter(ee.Filter.lte("CLOUDY_PIXEL_PERCENTAGE", self.cloud_filter))
+        )
+
+        s2_cloud_prob = (
+            ee.ImageCollection("COPERNICUS/S2_CLOUD_PROBABILITY")
+            .filterBounds(self.region)
+            .filterDate(self.start_date, self.end_date)
+        )
+
+        joined = ee.ImageCollection(
+            ee.Join.saveFirst("cloud_prob").apply(
+                primary=s2_sr,
+                secondary=s2_cloud_prob,
+                condition=ee.Filter.equals(
+                    leftField="system:index", rightField="system:index"
+                ),
+            )
+        )
+
+        return joined
+
+    def _add_cloud_bands(self, image):
+        """Add cloud probability and binary cloud mask bands.
+
+        Args:
+            image (ee.Image): Sentinel-2 image.
+
+        Returns:
+            ee.Image: Image with added `cloud_prob` and `clouds` bands.
+        """
+        cloud_prob = ee.Image(image.get("cloud_prob")).select("probability")
+        is_cloud = cloud_prob.gt(self.cloud_prob_threshold).rename("clouds")
+
+        return image.addBands([cloud_prob.rename("cloud_prob"), is_cloud])
+
+    def _add_shadow_bands(self, image):
+        """Add potential shadow bands to the image.
+
+        Args:
+            image (ee.Image): Sentinel-2 image with cloud mask.
+
+        Returns:
+            ee.Image: Image with added `dark_pixels`, `cloud_transform`, and `shadows` bands.
+        """
+        not_water = image.select("SCL").neq(6)
+
+        scale_factor = 1e4
+        dark_pixels = (
+            image.select("B8")
+            .lt(self.nir_dark_threshold * scale_factor)
+            .multiply(not_water)
+            .rename("dark_pixels")
+        )
+
+        shadow_azimuth = ee.Number(90).subtract(
+            ee.Number(image.get("MEAN_SOLAR_AZIMUTH_ANGLE"))
+        )
+
+        cloud_proj = (
+            image.select("clouds")
+            .directionalDistanceTransform(shadow_azimuth, self.shadow_proj_dist * 10)
+            .reproject(crs=image.select(0).projection(), scale=100)
+            .select("distance")
+            .mask()
+            .rename("cloud_transform")
+        )
+
+        shadows = cloud_proj.multiply(dark_pixels).rename("shadows")
+
+        return image.addBands([dark_pixels, cloud_proj, shadows])
+
+    def _add_cloud_shadow_mask(self, image):
+        """Create combined cloud + shadow mask.
+
+        Args:
+            image (ee.Image): Sentinel-2 image.
+
+        Returns:
+            ee.Image: Image with an added `cloudmask` band.
+        """
+        image = self._add_cloud_bands(image)
+        image = self._add_shadow_bands(image)
+
+        cloud_shadow_mask = image.select("clouds").add(image.select("shadows")).gt(0)
+
+        cloud_shadow_mask = (
+            cloud_shadow_mask.focal_min(2)
+            .focal_max(self.buffer * 2 / 20)
+            .reproject(crs=image.select(0).projection(), scale=20)
+            .rename("cloudmask")
+        )
+
+        return image.addBands(cloud_shadow_mask)
+
+    def _apply_cloud_shadow_mask(self, image):
+        """Apply cloud/shadow mask to reflectance bands.
+
+        Args:
+            image (ee.Image): Sentinel-2 image with `cloudmask` band.
+
+        Returns:
+            ee.Image: Cloud/shadow-masked image (reflectance bands only).
+        """
+        not_cloud_shadow = image.select("cloudmask").Not()
+        return image.select("B.*").updateMask(not_cloud_shadow)
+
+    def get_cloudfree_collection(self):
+        """Generate cloud-free Sentinel-2 ImageCollection.
+
+        Returns:
+            ee.ImageCollection: Cloud- and shadow-masked Sentinel-2 SR collection.
+        """
+        cloud_collection = self.get_cloud_collection()
+        return cloud_collection.map(self._add_cloud_shadow_mask).map(
+            self._apply_cloud_shadow_mask
+        )
+
+
 class MeanCentering:
     r"""
     Mean-centers each band of an Earth Engine image.

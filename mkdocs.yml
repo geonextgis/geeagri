@@ -88,6 +88,7 @@ nav:
         - examples/image_patch_extraction.ipynb
         - examples/image_scaling.ipynb
         - examples/pca.ipynb
+        - examples/harmonic_regression.ipynb
     - API Reference:
         #   - geeagri module: geeagri.md
         #   - common module: common.md
