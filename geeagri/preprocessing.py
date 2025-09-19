@@ -520,3 +520,92 @@ class RobustScaler:
 
         scaled = bands.map(scale_band)
         return ee.ImageCollection(scaled).toBands().rename(bands)
+
+
+class MovingWindowSmoothing:
+    """Applies moving window temporal smoothing to an Earth Engine ImageCollection.
+
+    This class uses a temporal window and a reducer (e.g., mean or median) 
+    to smooth an ImageCollection over time.
+
+    Args:
+        image_collection (ee.ImageCollection): Input Earth Engine ImageCollection.
+        window (int): Temporal window size in days.
+        reducer (str | ee.Reducer): Reducer type ("MEAN", "MEDIAN") or an ee.Reducer.
+    """
+
+    def __init__(self, image_collection: ee.ImageCollection, window: int, reducer: str | ee.Reducer = "MEAN"):
+        self._ic = image_collection
+        self.window = window
+        self.reducer = reducer
+
+        # Convert window size from days to milliseconds
+        self._millis = ee.Number(window).multiply(1000 * 60 * 60 * 24)
+
+        self._validate_inputs()
+
+    def _validate_inputs(self) -> None:
+        """Validates user inputs and sets the reducer."""
+        allowed_statistics = {
+            "MEAN": ee.Reducer.mean(),
+            "MEDIAN": ee.Reducer.median(),
+        }
+
+        if not isinstance(self._ic, ee.ImageCollection):
+            raise ValueError("`image_collection` must be an instance of ee.ImageCollection.")
+
+        if not isinstance(self.window, int):
+            raise ValueError("`window` must be an integer (days).")
+
+        if isinstance(self.reducer, str):
+            reducer_upper = self.reducer.upper()
+            if reducer_upper not in allowed_statistics:
+                raise ValueError(
+                    f"Reducer '{self.reducer}' not supported. "
+                    f"Choose from {list(allowed_statistics.keys())}."
+                )
+            self._reducer = allowed_statistics[reducer_upper]
+        elif isinstance(self.reducer, ee.Reducer):
+            self._reducer = self.reducer
+        else:
+            raise ValueError("`reducer` must be either a string or an ee.Reducer instance.")
+
+    def _compute(self, image: ee.Image) -> ee.Image:
+        """Computes smoothed image for a single time step.
+
+        Args:
+            image (ee.Image): An image containing a list of matched images under 'images'.
+
+        Returns:
+            ee.Image: A smoothed image with preserved `system:time_start`.
+        """
+        matching_images = ee.ImageCollection.fromImages(image.get("images"))
+        computed_image = (
+            matching_images.reduce(self._reducer)
+            .copyProperties(image, ["system:time_start"])
+        )
+        return computed_image
+
+    def get_smoothed_collection(self) -> ee.ImageCollection:
+        """Applies moving window smoothing to the input collection.
+
+        Returns:
+            ee.ImageCollection: The smoothed ImageCollection.
+        """
+        join = ee.Join.saveAll(matchesKey="images")
+
+        diffFilter = ee.Filter.maxDifference(
+            difference=self._millis,
+            leftField="system:time_start",
+            rightField="system:time_start",
+        )
+
+        joined_collection = join.apply(
+            primary=self._ic,
+            secondary=self._ic,
+            condition=diffFilter,
+        )
+
+        smoothed_collection = joined_collection.map(self._compute)
+
+        return ee.ImageCollection(smoothed_collection)
