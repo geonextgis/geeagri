@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.1.3 – 2025-09-20
+
+**New Features**:
+
+- `MovingWindowSmoothing` class for applying moving window smoothing to time series data.
+  - Helps in reducing noise and filling short cloud-induced gaps.
+- `TemporalInterpolation` class for interpolating gaps in satellite time series.
+- `RegularTimeseries` class for converting irregular satellite time series into regular intervals.
+  - Flexible frequency specification (e.g., 5-day, 10-day, 15-day).
+
+**Improvements**:
+
+- Expanded documentation with notebook examples for smoothing, interpolation, and regularization workflows.
+
+---
+
 ## v0.1.2 – 2025-09-01
 
 **New Features**:
