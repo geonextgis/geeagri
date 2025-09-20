@@ -609,3 +609,257 @@ class MovingWindowSmoothing:
         smoothed_collection = joined_collection.map(self._compute)
 
         return ee.ImageCollection(smoothed_collection)
+    
+    
+class TemporalInterpolation:
+    """Perform temporal interpolation on an Earth Engine ImageCollection.
+
+    This class fills temporal gaps in an image collection by interpolating pixel
+    values between the nearest available "before" and "after" images within a
+    specified temporal window.
+
+    Attributes:
+        image_collection (ee.ImageCollection): The input Earth Engine image collection.
+        window (int): The time window in days for searching before/after images.
+    """
+
+    def __init__(self, image_collection: ee.ImageCollection, window: int):
+        self._ic = image_collection
+        self.window = window
+        
+        self._validate_inputs()
+
+        # Convert window size from days → milliseconds
+        self._millis = ee.Number(window).multiply(1000 * 60 * 60 * 24)
+
+    def _validate_inputs(self) -> None:
+        """Validates user inputs.
+
+        Raises:
+            ValueError: If image_collection is not an ee.ImageCollection.
+            ValueError: If window is not an integer.
+        """
+        if not isinstance(self._ic, ee.ImageCollection):
+            raise ValueError("`image_collection` must be an instance of ee.ImageCollection.")
+        if not isinstance(self.window, int):
+            raise ValueError("`window` must be an integer (days).")
+
+    def _add_time_band(self, image: ee.Image) -> ee.Image:
+        """Adds a time band to an image.
+
+        Args:
+            image (ee.Image): Input image.
+
+        Returns:
+            ee.Image: The input image with an added 't' band representing acquisition time.
+        """
+        t = image.metadata('system:time_start').rename('t')
+        # Mask time band with valid data pixels
+        t_masked = t.updateMask(image.mask().select(0))
+        return image.addBands(t_masked).toFloat()
+
+    def _compute(self, image: ee.Image) -> ee.Image:
+        """Interpolates missing pixels in an image using temporal neighbors.
+
+        Args:
+            image (ee.Image): An image with 'before' and 'after' neighbors attached.
+
+        Returns:
+            ee.Image: The image with gaps filled using temporal interpolation.
+        """
+        image = ee.Image(image)
+
+        # Collect before and after mosaics
+        before_images = ee.List(image.get('before'))
+        before_mosaic = ee.ImageCollection.fromImages(before_images).mosaic()
+
+        after_images = ee.List(image.get('after'))
+        after_mosaic = ee.ImageCollection.fromImages(after_images).mosaic()
+
+        # Extract acquisition times
+        t1 = before_mosaic.select('t').rename('t1')
+        t2 = after_mosaic.select('t').rename('t2')
+        t = image.metadata('system:time_start').rename('t')
+
+        # Compute interpolation weight (0 at t1, 1 at t2)
+        time_image = ee.Image.cat([t1, t2, t])
+        time_ratio = time_image.expression(
+            '(t - t1) / (t2 - t1)',
+            {
+                't': time_image.select('t'),
+                't1': time_image.select('t1'),
+                't2': time_image.select('t2')
+            }
+        )
+
+        # Linear interpolation
+        interpolated = before_mosaic.add(
+            (after_mosaic.subtract(before_mosaic)).multiply(time_ratio)
+        )
+
+        # Fill missing pixels with interpolated values
+        result = image.unmask(interpolated)
+
+        # Preserve original metadata
+        return result.copyProperties(image, ['system:time_start'])
+
+    def get_interpolated_collection(self) -> ee.ImageCollection:
+        """Generates a temporally interpolated image collection.
+
+        This method finds nearest before/after images within the time window
+        and performs linear interpolation to fill missing pixels.
+
+        Returns:
+            ee.ImageCollection: The temporally interpolated image collection.
+        """
+        # Add acquisition time band to all images
+        self._ic = self._ic.map(self._add_time_band)
+
+        # Define filters for temporal proximity
+        maxDiffFilter = ee.Filter.maxDifference(
+            difference=self._millis,
+            leftField='system:time_start',
+            rightField='system:time_start'
+        )
+        
+        # Match after-images (images captured later)
+        lessEqFilter = ee.Filter.lessThanOrEquals(
+            leftField='system:time_start', 
+            rightField='system:time_start'
+        )
+        
+        after_filter = ee.Filter.And(maxDiffFilter, lessEqFilter)
+        
+        after_join = ee.Join.saveAll(
+            matchesKey='after',
+            ordering='system:time_start',
+            ascending=False
+        )
+        
+        with_after = after_join.apply(
+            primary=self._ic,
+            secondary=self._ic,
+            condition=after_filter
+        )
+        
+        # Match before-images (images captured earlier)
+        greaterEqFilter = ee.Filter.greaterThanOrEquals(
+            leftField='system:time_start', 
+            rightField='system:time_start'
+        )
+        
+        before_filter = ee.Filter.And(maxDiffFilter, greaterEqFilter)
+        
+        before_join = ee.Join.saveAll(
+            matchesKey='before',
+            ordering='system:time_start',
+            ascending=True
+        )
+        
+        with_neighbors = before_join.apply(
+            primary=with_after,
+            secondary=with_after,
+            condition=before_filter
+        )
+
+        # Apply temporal interpolation
+        interpolated = ee.ImageCollection(with_neighbors).map(self._compute)
+        band_names = interpolated.first().bandNames().removeAll(['t'])
+        
+        # Remove the timeband
+        interpolated = interpolated.select(band_names)
+        
+        return interpolated
+
+
+class RegularTimeseries:
+    """
+    Generate a regularized and interpolated time series from an Earth Engine ImageCollection.
+
+    This class creates a temporally regular image collection by inserting empty
+    "placeholder" images at fixed intervals and then interpolating the original
+    collection to those dates.
+
+    Args:
+        image_collection (ee.ImageCollection): Original input image collection.
+        interval (int): Interval (in days) between consecutive target dates.
+        window (int): Window size (in days) for temporal interpolation.
+    """
+
+    def __init__(self, image_collection: ee.ImageCollection, interval: int, window: int):
+        """
+        Args:
+            image_collection (ee.ImageCollection): Input collection to regularize.
+            interval (int): Interval (in days) between consecutive target dates.
+            window (int): Window size (in days) for interpolation.
+        """
+        self._ic = image_collection
+        self.interval = interval
+        self.window = window
+
+        self._validate_inputs()
+
+        # Extract band names
+        self._band_names = ee.Image(self._ic.first()).bandNames()
+        self._n_bands = self._band_names.size()
+
+        self._init_bands = ee.List.repeat(ee.Image(), self._n_bands)
+        self._init_image = ee.ImageCollection(self._init_bands).toBands().rename(self._band_names)
+
+        # First and last images
+        self._first_image = ee.Image(self._ic.sort('system:time_start').first())
+        self._last_image = ee.Image(self._ic.sort('system:time_start', False).first())
+        self._time_start = ee.Date(self._first_image.get('system:time_start'))
+        self._time_end = ee.Date(self._last_image.get('system:time_start'))
+
+        # Generate list of target days
+        total_days = self._time_end.difference(self._time_start, 'day')
+        self._days_to_interpolate = ee.List.sequence(0, total_days, self.interval)
+
+    def _validate_inputs(self) -> None:
+        """Validate user inputs and raise descriptive errors."""
+        if not isinstance(self._ic, ee.ImageCollection):
+            raise ValueError("`image_collection` must be an instance of ee.ImageCollection.")
+        if not isinstance(self.interval, int):
+            raise ValueError("`interval` must be an integer (days).")
+        if not isinstance(self.window, int):
+            raise ValueError("`window` must be an integer (days).")
+
+    def _init_img(self, day: ee.Number) -> ee.Image:
+        """
+        Create a placeholder image for a given day offset.
+
+        Args:
+            day (ee.Number): Offset in days from the start date.
+
+        Returns:
+            ee.Image: Placeholder image with metadata for interpolation.
+        """
+        day = ee.Number(day)
+        return self._init_image.set({
+            'system:index': day.format('%d'),
+            'system:time_start': self._time_start.advance(day, 'day').millis(),
+            'type': 'interpolated'
+        })
+
+    def get_regular_timeseries(self) -> ee.ImageCollection:
+        """
+        Build a regularized and interpolated time series.
+
+        Returns:
+            ee.ImageCollection: Interpolated collection at regular time intervals.
+        """
+        # Create placeholder images at target dates
+        init_col = ee.ImageCollection(self._days_to_interpolate.map(lambda d: self._init_img(d)))
+
+        # Merge placeholders with original collection
+        merged = self._ic.merge(init_col)
+
+        # Interpolate (requires TemporalInterpolation class)
+        temp_interp = TemporalInterpolation(merged, self.window)
+        interpolated_col = temp_interp.get_interpolated_collection()
+
+        # Keep only interpolated (regular) images
+        regular_col = interpolated_col.filter(ee.Filter.eq('type', 'interpolated'))
+        
+        return regular_col
