@@ -538,7 +538,7 @@ class MovingWindowSmoothing:
         self,
         image_collection: ee.ImageCollection,
         window: int,
-        reducer: str | ee.Reducer = "MEAN",
+        reducer: str = "MEAN",
     ):
         self._ic = image_collection
         self.window = window
