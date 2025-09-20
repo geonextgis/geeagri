@@ -89,6 +89,9 @@ nav:
         - examples/image_scaling.ipynb
         - examples/pca.ipynb
         - examples/harmonic_regression.ipynb
+        - examples/moving_window_smoothing.ipynb
+        - examples/timeseries_gap_filling.ipynb
+        - examples/regular_timeseries.ipynb
     - API Reference:
         #   - geeagri module: geeagri.md
         #   - common module: common.md

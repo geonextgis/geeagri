@@ -4,5 +4,6 @@ geopandas
 matplotlib
 numpy
 pandas
+pillow
 rasterio
 retry
