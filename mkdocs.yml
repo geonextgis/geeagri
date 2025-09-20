@@ -87,7 +87,7 @@ nav:
         - examples/timeseries_extraction.ipynb
         - examples/image_patch_extraction.ipynb
         - examples/image_scaling.ipynb
-        - examples/pca.ipynb
+        - examples/principal_component_analysis.ipynb
         - examples/harmonic_regression.ipynb
         - examples/moving_window_smoothing.ipynb
         - examples/timeseries_gap_filling.ipynb
