@@ -1,0 +1,1942 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Python tools for agricultural analysis powered by Google Earth Engine.">
+      
+      
+        <meta name="author" content="geonextgis">
+      
+      
+        <link rel="canonical" href="https://geonextgis.github.io/geeagri/phenology/">
+      
+      
+        <link rel="prev" href="../analysis/">
+      
+      
+      
+      <link rel="icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>phenology module - geeagri</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Google+Sans:300,300i,400,400i,700,700i%7CRegular:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Google Sans";--md-code-font:"Regular"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/timeago.css">
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#phenology-module" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="geeagri" class="md-header__button md-logo" aria-label="geeagri" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            geeagri
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              phenology module
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4M7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/geonextgis/geeagri" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="geeagri" class="md-nav__button md-logo" aria-label="geeagri" data-md-component="logo">
+      
+  <img src="../assets/logo.png" alt="logo">
+
+    </a>
+    geeagri
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/geonextgis/geeagri" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FAQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Changelog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/geonextgis/geeagri/issues" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Report Issues
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Examples
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/timeseries_extraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Timeseries extraction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/image_patch_extraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Image patch extraction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/image_scaling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Image scaling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/principal_component_analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Principal component analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/harmonic_regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Harmonic regression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/moving_window_smoothing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Moving window smoothing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/timeseries_gap_filling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Timeseries gap filling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/regular_timeseries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Regular timeseries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/land_surface_phenology/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Land surface phenology
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    extract module
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../preprocessing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    preprocessing module
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    analysis module
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    phenology module
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    phenology module
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#geeagri.phenology" class="md-nav__link">
+    <span class="md-ellipsis">
+      geeagri.phenology
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geeagri.phenology.Phenometrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phenometrics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phenometrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geeagri.phenology.Phenometrics.metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      metrics()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geeagri.phenology.SavitzkyGolayEE" class="md-nav__link">
+    <span class="md-ellipsis">
+      SavitzkyGolayEE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SavitzkyGolayEE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geeagri.phenology.SavitzkyGolayEE.coefficients" class="md-nav__link">
+    <span class="md-ellipsis">
+      coefficients()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#geeagri.phenology" class="md-nav__link">
+    <span class="md-ellipsis">
+      geeagri.phenology
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geeagri.phenology.Phenometrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phenometrics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phenometrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geeagri.phenology.Phenometrics.metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      metrics()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geeagri.phenology.SavitzkyGolayEE" class="md-nav__link">
+    <span class="md-ellipsis">
+      SavitzkyGolayEE
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SavitzkyGolayEE">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#geeagri.phenology.SavitzkyGolayEE.coefficients" class="md-nav__link">
+    <span class="md-ellipsis">
+      coefficients()
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+
+
+
+                  
+
+
+  
+  
+
+
+<h1 id="phenology-module">phenology module<a class="headerlink" href="#phenology-module" title="Permanent link">&para;</a></h1>
+
+
+  <div class="doc doc-object doc-module">
+
+<a id="geeagri.phenology"></a>
+    <div class="doc doc-contents first">
+
+      <p>Module for phenology mapping in Google Earth Engine.</p>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="geeagri.phenology.Phenometrics" class="doc doc-heading">
+        <code>
+Phenometrics        </code>
+
+
+
+<a href="#geeagri.phenology.Phenometrics" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Slope-based phenology metrics from a coefficients ImageCollection.</p>
+<p>This class consumes an Earth Engine ImageCollection of local polynomial
+<strong>coefficients</strong> (e.g., from a Savitzky–Golay fit) that contains at least:
+- <code>a0</code>: fitted value at each timestamp (smoothed series)
+- <code>a1</code>: first derivative (slope) at each timestamp</p>
+<p>It computes, over the full time span of the collection, the following
+phenometrics using a slope-based approach:</p>
+<ul>
+<li><strong>SOS</strong> (Start of Season): pre-POS date with maximum positive slope
+  (and slope ≥ <code>slope_min</code>).</li>
+<li><strong>POS</strong> (Peak of Season): date of maximum fitted value (<code>a0</code>).</li>
+<li><strong>EOS</strong> (End of Season): post-POS date with most negative slope
+  (and slope ≤ −<code>slope_min</code>).</li>
+<li><strong>LOS</strong> (Length of Season): EOS − SOS (days).</li>
+<li><strong>IOS</strong> (Integrated greenness): trapezoidal integral of <code>a0</code> between
+  SOS and EOS (units: fitted_units·days, e.g., NDVI·days).</li>
+</ul>
+<p>The output image includes:
+- <code>SOS_DOY</code>, <code>POS_DOY</code>, <code>EOS_DOY</code> (calendar day-of-year, 1..366)
+- <code>LOS_days</code> (days)
+- <code>IOS</code> (value·days)
+- <code>POS_value</code> (fitted value at POS)
+- <code>AMP</code> (seasonal amplitude = POS − MIN within window)
+- <code>SOS_value</code> and <code>EOS_value</code> (fitted values at SOS/EOS)</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>image_collection</code></td>
+        <td><code>ee.ImageCollection</code></td>
+        <td><p>Coefficients collection with bands <code>a0</code> and <code>a1</code> and the
+property <code>system:time_start</code> on each image.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>slope_min</code></td>
+        <td><code>float</code></td>
+        <td><p>Minimum absolute slope (per day) required when selecting SOS/EOS
+candidates. Defaults to 0.002.</p></td>
+        <td><code>0.002</code></td>
+      </tr>
+      <tr>
+        <td><code>min_amp</code></td>
+        <td><code>float</code></td>
+        <td><p>Minimum amplitude (same units as <code>a0</code>) required to keep the
+season. Defaults to 0.10.</p></td>
+        <td><code>0.1</code></td>
+      </tr>
+  </tbody>
+</table>      <div class="admonition notes">
+<p class="admonition-title">Notes</p>
+<ul>
+<li>The analysis window spans the full extent of the input collection
+  (from its earliest to its latest timestamp, inclusive).</li>
+<li>DOY is the <strong>calendar</strong> day-of-year computed from each image date
+  (Jan 1 → 1).</li>
+</ul>
+</div>
+
+        <details class="quote">
+          <summary>Source code in <code>geeagri/phenology.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Phenometrics</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Slope-based phenology metrics from a coefficients ImageCollection.</span>
+
+<span class="sd">    This class consumes an Earth Engine ImageCollection of local polynomial</span>
+<span class="sd">    **coefficients** (e.g., from a Savitzky–Golay fit) that contains at least:</span>
+<span class="sd">    - ``a0``: fitted value at each timestamp (smoothed series)</span>
+<span class="sd">    - ``a1``: first derivative (slope) at each timestamp</span>
+
+<span class="sd">    It computes, over the full time span of the collection, the following</span>
+<span class="sd">    phenometrics using a slope-based approach:</span>
+
+<span class="sd">    - **SOS** (Start of Season): pre-POS date with maximum positive slope</span>
+<span class="sd">      (and slope ≥ ``slope_min``).</span>
+<span class="sd">    - **POS** (Peak of Season): date of maximum fitted value (``a0``).</span>
+<span class="sd">    - **EOS** (End of Season): post-POS date with most negative slope</span>
+<span class="sd">      (and slope ≤ −``slope_min``).</span>
+<span class="sd">    - **LOS** (Length of Season): EOS − SOS (days).</span>
+<span class="sd">    - **IOS** (Integrated greenness): trapezoidal integral of ``a0`` between</span>
+<span class="sd">      SOS and EOS (units: fitted_units·days, e.g., NDVI·days).</span>
+
+<span class="sd">    The output image includes:</span>
+<span class="sd">    - ``SOS_DOY``, ``POS_DOY``, ``EOS_DOY`` (calendar day-of-year, 1..366)</span>
+<span class="sd">    - ``LOS_days`` (days)</span>
+<span class="sd">    - ``IOS`` (value·days)</span>
+<span class="sd">    - ``POS_value`` (fitted value at POS)</span>
+<span class="sd">    - ``AMP`` (seasonal amplitude = POS − MIN within window)</span>
+<span class="sd">    - ``SOS_value`` and ``EOS_value`` (fitted values at SOS/EOS)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        image_collection (ee.ImageCollection):</span>
+<span class="sd">            Coefficients collection with bands ``a0`` and ``a1`` and the</span>
+<span class="sd">            property ``system:time_start`` on each image.</span>
+<span class="sd">        slope_min (float, optional):</span>
+<span class="sd">            Minimum absolute slope (per day) required when selecting SOS/EOS</span>
+<span class="sd">            candidates. Defaults to 0.002.</span>
+<span class="sd">        min_amp (float, optional):</span>
+<span class="sd">            Minimum amplitude (same units as ``a0``) required to keep the</span>
+<span class="sd">            season. Defaults to 0.10.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        * The analysis window spans the full extent of the input collection</span>
+<span class="sd">          (from its earliest to its latest timestamp, inclusive).</span>
+<span class="sd">        * DOY is the **calendar** day-of-year computed from each image date</span>
+<span class="sd">          (Jan 1 → 1).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_collection</span><span class="p">,</span> <span class="n">slope_min</span><span class="o">=</span><span class="mf">0.002</span><span class="p">,</span> <span class="n">min_amp</span><span class="o">=</span><span class="mf">0.10</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image_collection</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;image_collection must be an ee.ImageCollection.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">slope_min</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">slope_min</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_amp</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">min_amp</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ic_raw</span> <span class="o">=</span> <span class="n">image_collection</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_day_ms</span> <span class="o">=</span> <span class="mf">86400000.0</span>
+
+        <span class="c1"># Window (inclusive): earliest .. latest timestamp present</span>
+        <span class="n">first_img</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ic_raw</span><span class="o">.</span><span class="n">first</span><span class="p">())</span>
+        <span class="n">last_img</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ic_raw</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_start</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">first_img</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_end</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">last_img</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">))</span>
+        <span class="n">end_inclusive</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end</span><span class="o">.</span><span class="n">advance</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;second&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Keep only a0,a1 and add helper bands:</span>
+        <span class="c1">#   y  = a0 (fitted value)</span>
+        <span class="c1">#   d1 = a1 (slope per day)</span>
+        <span class="c1">#   t  = time in days since epoch (float)</span>
+        <span class="c1">#   doy = calendar day-of-year (1..366, int16)</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_add_time_bands</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+            <span class="n">t_days</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_day_ms</span><span class="p">)</span>
+            <span class="n">doy</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="o">.</span><span class="n">getRelative</span><span class="p">(</span><span class="s2">&quot;day&quot;</span><span class="p">,</span> <span class="s2">&quot;year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 1..366</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="n">img</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="s2">&quot;a0&quot;</span><span class="p">,</span> <span class="s2">&quot;a1&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;d1&quot;</span><span class="p">])</span>
+                <span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">t_days</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toFloat</span><span class="p">())</span>
+                <span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">doy</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;doy&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toInt16</span><span class="p">())</span>
+                <span class="o">.</span><span class="n">copyProperties</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">])</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ic</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ic_raw</span><span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_start</span><span class="p">,</span> <span class="n">end_inclusive</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_add_time_bands</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ic</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_pos_and_amplitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return (t_pos_days, y_pos, doy_pos, y_min, amp, amp_mask).&quot;&quot;&quot;</span>
+        <span class="c1"># Peak (POS): maximize y</span>
+        <span class="n">pos_img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ic</span><span class="o">.</span><span class="n">qualityMosaic</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+        <span class="n">t_pos_days</span> <span class="o">=</span> <span class="n">pos_img</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+        <span class="n">y_pos</span> <span class="o">=</span> <span class="n">pos_img</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+        <span class="n">doy_pos</span> <span class="o">=</span> <span class="n">pos_img</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;doy&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Minimum fitted value in window (negative trick)</span>
+        <span class="n">min_ic</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ic</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">im</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">im</span><span class="p">)</span><span class="o">.</span><span class="n">addBands</span><span class="p">(</span>
+                <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">im</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;neg&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">min_img</span> <span class="o">=</span> <span class="n">min_ic</span><span class="o">.</span><span class="n">qualityMosaic</span><span class="p">(</span><span class="s2">&quot;neg&quot;</span><span class="p">)</span>
+        <span class="n">y_min</span> <span class="o">=</span> <span class="n">min_img</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+
+        <span class="n">amp</span> <span class="o">=</span> <span class="n">y_pos</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">y_min</span><span class="p">)</span>
+        <span class="n">amp_mask</span> <span class="o">=</span> <span class="n">amp</span><span class="o">.</span><span class="n">gte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_amp</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">t_pos_days</span><span class="p">,</span> <span class="n">y_pos</span><span class="p">,</span> <span class="n">doy_pos</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp_mask</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_sos_eos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_pos_days</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find SOS/EOS timestamps (and their fitted values).&quot;&quot;&quot;</span>
+        <span class="c1"># SOS: pre-POS, maximize d1 subject to d1 &gt;= slope_min</span>
+        <span class="n">d1_pre</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ic</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">im</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lt</span><span class="p">(</span><span class="n">t_pos_days</span><span class="p">))</span>
+            <span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;d1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">gte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slope_min</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="n">sos_img</span> <span class="o">=</span> <span class="n">d1_pre</span><span class="o">.</span><span class="n">qualityMosaic</span><span class="p">(</span><span class="s2">&quot;d1&quot;</span><span class="p">)</span>
+        <span class="n">t_sos_days</span> <span class="o">=</span> <span class="n">sos_img</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+        <span class="n">doy_sos</span> <span class="o">=</span> <span class="n">sos_img</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;doy&quot;</span><span class="p">)</span>
+        <span class="n">y_sos</span> <span class="o">=</span> <span class="n">sos_img</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+
+        <span class="c1"># EOS: post-POS, minimize d1 (maximize -d1) with d1 &lt;= -slope_min</span>
+        <span class="n">d1neg_post</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ic</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">im</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">addBands</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;d1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;d1neg&quot;</span><span class="p">))</span>
+            <span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="n">t_pos_days</span><span class="p">))</span>
+            <span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;d1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lte</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">slope_min</span><span class="p">))</span>
+            <span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lte</span><span class="p">(</span><span class="n">y_sos</span><span class="p">))</span>
+        <span class="p">)</span>
+        <span class="n">eos_img</span> <span class="o">=</span> <span class="n">d1neg_post</span><span class="o">.</span><span class="n">qualityMosaic</span><span class="p">(</span><span class="s2">&quot;d1neg&quot;</span><span class="p">)</span>
+        <span class="n">t_eos_days</span> <span class="o">=</span> <span class="n">eos_img</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+        <span class="n">doy_eos</span> <span class="o">=</span> <span class="n">eos_img</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;doy&quot;</span><span class="p">)</span>
+        <span class="n">y_eos</span> <span class="o">=</span> <span class="n">eos_img</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">t_sos_days</span><span class="p">,</span> <span class="n">doy_sos</span><span class="p">,</span> <span class="n">y_sos</span><span class="p">,</span> <span class="n">t_eos_days</span><span class="p">,</span> <span class="n">doy_eos</span><span class="p">,</span> <span class="n">y_eos</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_ios</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t_sos_days</span><span class="p">,</span> <span class="n">t_eos_days</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trapezoidal integral of y between SOS and EOS (value·days).&quot;&quot;&quot;</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span>
+        <span class="n">y_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ic</span><span class="o">.</span><span class="n">toList</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">_seg_area_at</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="n">prev</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">y_list</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+            <span class="n">curr</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">y_list</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+            <span class="n">t_prev</span> <span class="o">=</span> <span class="n">prev</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+            <span class="n">t_curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;t&quot;</span><span class="p">)</span>
+            <span class="n">y_prev</span> <span class="o">=</span> <span class="n">prev</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+            <span class="n">y_curr</span> <span class="o">=</span> <span class="n">curr</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">t_curr</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">t_prev</span><span class="p">)</span>  <span class="c1"># days</span>
+            <span class="n">area</span> <span class="o">=</span> <span class="n">y_prev</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">y_curr</span><span class="p">)</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;seg_area&quot;</span><span class="p">)</span>
+            <span class="n">t_mid</span> <span class="o">=</span> <span class="n">t_prev</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">t_curr</span><span class="p">)</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">area</span><span class="o">.</span><span class="n">updateMask</span><span class="p">(</span>
+                <span class="n">t_mid</span><span class="o">.</span><span class="n">gte</span><span class="p">(</span><span class="n">t_sos_days</span><span class="p">)</span><span class="o">.</span><span class="n">And</span><span class="p">(</span><span class="n">t_mid</span><span class="o">.</span><span class="n">lte</span><span class="p">(</span><span class="n">t_eos_days</span><span class="p">))</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">,</span> <span class="n">prev</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">))</span>
+
+        <span class="n">seg_images</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Algorithms</span><span class="o">.</span><span class="n">If</span><span class="p">(</span>
+            <span class="n">n</span><span class="o">.</span><span class="n">lte</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">([]),</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_seg_area_at</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="o">.</span><span class="n">fromImages</span><span class="p">(</span><span class="n">seg_images</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;IOS&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute SOS, POS, EOS, LOS, IOS, POS_value, AMP (and SOS/EOS values).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ee.Image: Bands</span>
+<span class="sd">                - SOS (int16): start of season (calendar DOY, 1..366)</span>
+<span class="sd">                - POS (int16): peak of season (calendar DOY)</span>
+<span class="sd">                - EOS (int16): end of season (calendar DOY)</span>
+<span class="sd">                - LOS (int16): length of season (days)</span>
+<span class="sd">                - IOS (float): integral of fitted value between SOS and EOS</span>
+<span class="sd">                - vPOS (float): fitted value at POS</span>
+<span class="sd">                - AMP (float): amplitude = POS − MIN within window</span>
+<span class="sd">                - vSOS (float): fitted value at SOS</span>
+<span class="sd">                - vEOS (float): fitted value at EOS</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">t_pos_days</span><span class="p">,</span> <span class="n">y_pos</span><span class="p">,</span> <span class="n">doy_pos</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_and_amplitude</span><span class="p">()</span>
+        <span class="n">t_sos_days</span><span class="p">,</span> <span class="n">doy_sos</span><span class="p">,</span> <span class="n">y_sos</span><span class="p">,</span> <span class="n">t_eos_days</span><span class="p">,</span> <span class="n">doy_eos</span><span class="p">,</span> <span class="n">y_eos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sos_eos</span><span class="p">(</span>
+            <span class="n">t_pos_days</span>
+        <span class="p">)</span>
+        <span class="n">ios</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ios</span><span class="p">(</span><span class="n">t_sos_days</span><span class="p">,</span> <span class="n">t_eos_days</span><span class="p">)</span><span class="o">.</span><span class="n">toFloat</span><span class="p">()</span>
+
+        <span class="n">los_days</span> <span class="o">=</span> <span class="n">t_eos_days</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">t_sos_days</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;LOS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toInt16</span><span class="p">()</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">doy_sos</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;SOS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toInt16</span><span class="p">(),</span>
+                <span class="n">doy_pos</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;POS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toInt16</span><span class="p">(),</span>
+                <span class="n">doy_eos</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;EOS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toInt16</span><span class="p">(),</span>
+                <span class="n">los_days</span><span class="p">,</span>
+                <span class="n">ios</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;IOS&quot;</span><span class="p">),</span>
+                <span class="n">y_pos</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;vPOS&quot;</span><span class="p">),</span>
+                <span class="n">amp</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;AMP&quot;</span><span class="p">),</span>
+                <span class="n">y_sos</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;vSOS&quot;</span><span class="p">),</span>
+                <span class="n">y_eos</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;vEOS&quot;</span><span class="p">),</span>
+            <span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="n">amp_mask</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;slope&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;window_start&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;YYYY-MM-dd&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;window_end&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;YYYY-MM-dd&quot;</span><span class="p">),</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="geeagri.phenology.Phenometrics.metrics" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#geeagri.phenology.Phenometrics.metrics" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute SOS, POS, EOS, LOS, IOS, POS_value, AMP (and SOS/EOS values).</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ee.Image</code></td>
+      <td><p>Bands
+    - SOS (int16): start of season (calendar DOY, 1..366)
+    - POS (int16): peak of season (calendar DOY)
+    - EOS (int16): end of season (calendar DOY)
+    - LOS (int16): length of season (days)
+    - IOS (float): integral of fitted value between SOS and EOS
+    - vPOS (float): fitted value at POS
+    - AMP (float): amplitude = POS − MIN within window
+    - vSOS (float): fitted value at SOS
+    - vEOS (float): fitted value at EOS</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>geeagri/phenology.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute SOS, POS, EOS, LOS, IOS, POS_value, AMP (and SOS/EOS values).</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ee.Image: Bands</span>
+<span class="sd">            - SOS (int16): start of season (calendar DOY, 1..366)</span>
+<span class="sd">            - POS (int16): peak of season (calendar DOY)</span>
+<span class="sd">            - EOS (int16): end of season (calendar DOY)</span>
+<span class="sd">            - LOS (int16): length of season (days)</span>
+<span class="sd">            - IOS (float): integral of fitted value between SOS and EOS</span>
+<span class="sd">            - vPOS (float): fitted value at POS</span>
+<span class="sd">            - AMP (float): amplitude = POS − MIN within window</span>
+<span class="sd">            - vSOS (float): fitted value at SOS</span>
+<span class="sd">            - vEOS (float): fitted value at EOS</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t_pos_days</span><span class="p">,</span> <span class="n">y_pos</span><span class="p">,</span> <span class="n">doy_pos</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">amp_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pos_and_amplitude</span><span class="p">()</span>
+    <span class="n">t_sos_days</span><span class="p">,</span> <span class="n">doy_sos</span><span class="p">,</span> <span class="n">y_sos</span><span class="p">,</span> <span class="n">t_eos_days</span><span class="p">,</span> <span class="n">doy_eos</span><span class="p">,</span> <span class="n">y_eos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sos_eos</span><span class="p">(</span>
+        <span class="n">t_pos_days</span>
+    <span class="p">)</span>
+    <span class="n">ios</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ios</span><span class="p">(</span><span class="n">t_sos_days</span><span class="p">,</span> <span class="n">t_eos_days</span><span class="p">)</span><span class="o">.</span><span class="n">toFloat</span><span class="p">()</span>
+
+    <span class="n">los_days</span> <span class="o">=</span> <span class="n">t_eos_days</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">t_sos_days</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;LOS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toInt16</span><span class="p">()</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">doy_sos</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;SOS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toInt16</span><span class="p">(),</span>
+            <span class="n">doy_pos</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;POS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toInt16</span><span class="p">(),</span>
+            <span class="n">doy_eos</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;EOS&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toInt16</span><span class="p">(),</span>
+            <span class="n">los_days</span><span class="p">,</span>
+            <span class="n">ios</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;IOS&quot;</span><span class="p">),</span>
+            <span class="n">y_pos</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;vPOS&quot;</span><span class="p">),</span>
+            <span class="n">amp</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;AMP&quot;</span><span class="p">),</span>
+            <span class="n">y_sos</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;vSOS&quot;</span><span class="p">),</span>
+            <span class="n">y_eos</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;vEOS&quot;</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="n">amp_mask</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out</span><span class="o">.</span><span class="n">set</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;method&quot;</span><span class="p">:</span> <span class="s2">&quot;slope&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;window_start&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_start</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;YYYY-MM-dd&quot;</span><span class="p">),</span>
+            <span class="s2">&quot;window_end&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_end</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;YYYY-MM-dd&quot;</span><span class="p">),</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 id="geeagri.phenology.SavitzkyGolayEE" class="doc doc-heading">
+        <code>
+SavitzkyGolayEE        </code>
+
+
+
+<a href="#geeagri.phenology.SavitzkyGolayEE" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Savitzky–Golay-style local polynomial fit for an Earth Engine ImageCollection.</p>
+<p>Performs unweighted local polynomial regression of order <code>polyorder</code> within a
+sliding window of <code>window_length</code> observations centered on each timestamp of
+the input series and returns per-timestamp regression coefficients
+<code>a0..aP</code>. The intercept (<code>a0</code>) equals the fitted value at the window
+center—i.e., the SG-smoothed value.</p>
+<p>This implementation generalizes the classic Savitzky–Golay filter to the
+irregular sampling common in GEE by operating on contiguous index-based
+windows and explicitly centering time differences on the current timestamp.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>image_collection</code></td>
+        <td><code>ee.ImageCollection</code></td>
+        <td><p>Time series to smooth. Each
+image must carry <code>'system:time_start'</code>. If multiple bands are
+present, use <code>band_name</code> to choose the target band.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>window_length</code></td>
+        <td><code>int</code></td>
+        <td><p>Size of the moving window (number of
+observations). Must be an <strong>odd</strong> integer and at least
+<code>polyorder + 1</code>.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>polyorder</code></td>
+        <td><code>int</code></td>
+        <td><p>Polynomial order (non-negative integer).</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>band_name</code></td>
+        <td><code>str</code></td>
+        <td><p>Name of the band to smooth. If omitted,
+the first band of the collection is used.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Exceptions:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>ValueError</code></td>
+        <td><p>If <code>image_collection</code> is not an <code>ee.ImageCollection</code>.</p></td>
+      </tr>
+      <tr>
+        <td><code>ValueError</code></td>
+        <td><p>If <code>window_length</code> or <code>polyorder</code> are not integers.</p></td>
+      </tr>
+      <tr>
+        <td><code>ValueError</code></td>
+        <td><p>If <code>window_length</code> is even.</p></td>
+      </tr>
+      <tr>
+        <td><code>ValueError</code></td>
+        <td><p>If <code>window_length &lt; polyorder + 1</code>.</p></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>geeagri/phenology.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SavitzkyGolayEE</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Savitzky–Golay-style local polynomial fit for an Earth Engine ImageCollection.</span>
+
+<span class="sd">    Performs unweighted local polynomial regression of order ``polyorder`` within a</span>
+<span class="sd">    sliding window of ``window_length`` observations centered on each timestamp of</span>
+<span class="sd">    the input series and returns per-timestamp regression coefficients</span>
+<span class="sd">    ``a0..aP``. The intercept (``a0``) equals the fitted value at the window</span>
+<span class="sd">    center—i.e., the SG-smoothed value.</span>
+
+<span class="sd">    This implementation generalizes the classic Savitzky–Golay filter to the</span>
+<span class="sd">    irregular sampling common in GEE by operating on contiguous index-based</span>
+<span class="sd">    windows and explicitly centering time differences on the current timestamp.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        image_collection (ee.ImageCollection): Time series to smooth. Each</span>
+<span class="sd">            image must carry ``&#39;system:time_start&#39;``. If multiple bands are</span>
+<span class="sd">            present, use ``band_name`` to choose the target band.</span>
+<span class="sd">        window_length (int): Size of the moving window (number of</span>
+<span class="sd">            observations). Must be an **odd** integer and at least</span>
+<span class="sd">            ``polyorder + 1``.</span>
+<span class="sd">        polyorder (int): Polynomial order (non-negative integer).</span>
+<span class="sd">        band_name (str, optional): Name of the band to smooth. If omitted,</span>
+<span class="sd">            the first band of the collection is used.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If ``image_collection`` is not an ``ee.ImageCollection``.</span>
+<span class="sd">        ValueError: If ``window_length`` or ``polyorder`` are not integers.</span>
+<span class="sd">        ValueError: If ``window_length`` is even.</span>
+<span class="sd">        ValueError: If ``window_length &lt; polyorder + 1``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image_collection</span><span class="p">,</span> <span class="n">window_length</span><span class="p">,</span> <span class="n">polyorder</span><span class="p">,</span> <span class="n">band_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image_collection</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`image_collection` must be an ee.ImageCollection.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">window_length</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">polyorder</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`window_length` and `polyorder` must be integers.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">window_length</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`window_length` must be an odd number.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">window_length</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">polyorder</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`window_length` must be at least `polyorder + 1`.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">window_length</span> <span class="o">=</span> <span class="n">window_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">polyorder</span> <span class="o">=</span> <span class="n">polyorder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_numX</span> <span class="o">=</span> <span class="n">polyorder</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">half</span> <span class="o">=</span> <span class="n">window_length</span> <span class="o">//</span> <span class="mi">2</span>
+
+        <span class="k">if</span> <span class="n">band_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ic</span> <span class="o">=</span> <span class="n">image_collection</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_ic</span> <span class="o">=</span> <span class="n">image_collection</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="n">band_name</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span>
+                <span class="s2">&quot;system:time_start&quot;</span>
+            <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ic</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_img_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ic</span><span class="o">.</span><span class="n">toList</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coeff_names</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;a</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_numX</span><span class="p">)]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_window_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Build the index-based window centered at a given position.</span>
+
+<span class="sd">        Slices ``self._img_list`` to form a window of up to ``window_length``</span>
+<span class="sd">        images centered on ``idx`` (clamped at the series boundaries).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            idx (ee.Number): Center index of the window within the series.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ee.ImageCollection: Contiguous index-based window around ``idx``.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            Using index slices avoids equality tests on floating timestamps and</span>
+<span class="sd">            works for irregular sampling. The window will be smaller than</span>
+<span class="sd">            ``window_length`` near the start/end of the series.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">half</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">half</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n</span><span class="p">)</span>  <span class="c1"># exclusive</span>
+        <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_img_list</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_add_poly_predictors</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">window_col</span><span class="p">,</span> <span class="n">center_time</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add centered polynomial predictors to each image in the window.</span>
+
+<span class="sd">        Creates bands ``x0..xP`` where ``x0 = 1`` and ``xk = dt^k`` for</span>
+<span class="sd">        ``k = 1..polyorder``, with ``dt`` measured in **days** relative to</span>
+<span class="sd">        ``center_time``. Appends the response band ``&#39;y&#39;`` last.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            window_col (ee.ImageCollection): Window collection for the current fit.</span>
+<span class="sd">            center_time (ee.Date): Timestamp at the center of the window.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ee.ImageCollection: Window with predictors ``x0..xP`` followed by ``y``.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">            The band order is important: predictors first, then the response</span>
+<span class="sd">            ``&#39;y&#39;``, matching the input expected by</span>
+<span class="sd">            ``ee.Reducer.linearRegression(numX=self._numX, numY=1)``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">numX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numX</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">add_poly</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+            <span class="n">dt_days</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">center_time</span><span class="p">,</span> <span class="s2">&quot;day&quot;</span><span class="p">))</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">dt_days</span><span class="p">)</span>
+            <span class="n">predictors</span> <span class="o">=</span> <span class="p">[</span><span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;x0&quot;</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span>
+                <span class="n">dt</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">numX</span><span class="p">)</span>
+            <span class="p">]</span>
+            <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">predictors</span> <span class="o">+</span> <span class="p">[</span><span class="n">img</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)])</span><span class="o">.</span><span class="n">copyProperties</span><span class="p">(</span>
+                <span class="n">img</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">window_col</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">add_poly</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">([</span><span class="o">*</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numX</span><span class="p">)),</span> <span class="s2">&quot;y&quot;</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute polynomial coefficients for each timestamp.</span>
+
+<span class="sd">        For every image in the input series, forms an index-based window,</span>
+<span class="sd">        builds centered polynomial predictors, and runs a per-pixel linear</span>
+<span class="sd">        regression over the window to obtain coefficients ``a0..aP``. Windows</span>
+<span class="sd">        with fewer than ``polyorder + 1`` samples return **masked** outputs.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ee.ImageCollection: One coefficient image per timestamp with bands</span>
+<span class="sd">            ``a0..aP``. The image property ``&#39;system:time_start&#39;`` is set to the</span>
+<span class="sd">            center timestamp.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; coeff_ic = SavitzkyGolayEE(ic,  nine, 2, &#39;NDVI&#39;).coefficients()</span>
+<span class="sd">            &gt;&gt;&gt; smoothed = coeff_ic.select(&#39;a0&#39;).rename(&#39;NDVI_sg&#39;)</span>
+
+<span class="sd">        See Also:</span>
+<span class="sd">            fitted: Convenience method to return only the fitted series (``a0``).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">numX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numX</span>
+        <span class="n">coeff_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coeff_names</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">coeffs_at_index</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+            <span class="n">center</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_img_list</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+            <span class="n">center_time</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">))</span>
+
+            <span class="n">window_col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_window_collection</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+            <span class="n">with_bands</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_poly_predictors</span><span class="p">(</span><span class="n">window_col</span><span class="p">,</span> <span class="n">center_time</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">=</span> <span class="n">with_bands</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+
+            <span class="n">fit</span> <span class="o">=</span> <span class="n">with_bands</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">linearRegression</span><span class="p">(</span><span class="n">numX</span><span class="o">=</span><span class="n">numX</span><span class="p">,</span> <span class="n">numY</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+            <span class="n">coeff</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">fit</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;coefficients&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">arrayProject</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">arrayFlatten</span><span class="p">([</span><span class="n">coeff_names</span><span class="p">])</span>
+            <span class="p">)</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="n">coeff</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">,</span> <span class="n">center_time</span><span class="o">.</span><span class="n">millis</span><span class="p">())</span>
+
+            <span class="n">empty</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">coeff_names</span>
+                <span class="p">]</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">,</span> <span class="n">center_time</span><span class="o">.</span><span class="n">millis</span><span class="p">())</span>
+
+            <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Algorithms</span><span class="o">.</span><span class="n">If</span><span class="p">(</span><span class="n">count</span><span class="o">.</span><span class="n">gte</span><span class="p">(</span><span class="n">numX</span><span class="p">),</span> <span class="n">result</span><span class="p">,</span> <span class="n">empty</span><span class="p">))</span>
+
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">half</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">half</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="n">indices</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">coeffs_at_index</span><span class="p">))</span>
+</code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 id="geeagri.phenology.SavitzkyGolayEE.coefficients" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+<a href="#geeagri.phenology.SavitzkyGolayEE.coefficients" class="headerlink" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute polynomial coefficients for each timestamp.</p>
+<p>For every image in the input series, forms an index-based window,
+builds centered polynomial predictors, and runs a per-pixel linear
+regression over the window to obtain coefficients <code>a0..aP</code>. Windows
+with fewer than <code>polyorder + 1</code> samples return <strong>masked</strong> outputs.</p>
+
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ee.ImageCollection</code></td>
+      <td><p>One coefficient image per timestamp with bands
+<code>a0..aP</code>. The image property <code>'system:time_start'</code> is set to the
+center timestamp.</p></td>
+    </tr>
+  </tbody>
+</table>
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">coeff_ic</span> <span class="o">=</span> <span class="n">SavitzkyGolayEE</span><span class="p">(</span><span class="n">ic</span><span class="p">,</span>  <span class="n">nine</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;NDVI&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">coefficients</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">smoothed</span> <span class="o">=</span> <span class="n">coeff_ic</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;a0&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;NDVI_sg&#39;</span><span class="p">)</span>
+</code></pre></div>
+      <p>See Also:
+    fitted: Convenience method to return only the fitted series (<code>a0</code>).</p>
+
+        <details class="quote">
+          <summary>Source code in <code>geeagri/phenology.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">coefficients</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute polynomial coefficients for each timestamp.</span>
+
+<span class="sd">    For every image in the input series, forms an index-based window,</span>
+<span class="sd">    builds centered polynomial predictors, and runs a per-pixel linear</span>
+<span class="sd">    regression over the window to obtain coefficients ``a0..aP``. Windows</span>
+<span class="sd">    with fewer than ``polyorder + 1`` samples return **masked** outputs.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        ee.ImageCollection: One coefficient image per timestamp with bands</span>
+<span class="sd">        ``a0..aP``. The image property ``&#39;system:time_start&#39;`` is set to the</span>
+<span class="sd">        center timestamp.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; coeff_ic = SavitzkyGolayEE(ic,  nine, 2, &#39;NDVI&#39;).coefficients()</span>
+<span class="sd">        &gt;&gt;&gt; smoothed = coeff_ic.select(&#39;a0&#39;).rename(&#39;NDVI_sg&#39;)</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        fitted: Convenience method to return only the fitted series (``a0``).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">numX</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numX</span>
+    <span class="n">coeff_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coeff_names</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">coeffs_at_index</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Number</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+        <span class="n">center</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_img_list</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+        <span class="n">center_time</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">center</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">))</span>
+
+        <span class="n">window_col</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_window_collection</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+        <span class="n">with_bands</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_poly_predictors</span><span class="p">(</span><span class="n">window_col</span><span class="p">,</span> <span class="n">center_time</span><span class="p">)</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="n">with_bands</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+
+        <span class="n">fit</span> <span class="o">=</span> <span class="n">with_bands</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Reducer</span><span class="o">.</span><span class="n">linearRegression</span><span class="p">(</span><span class="n">numX</span><span class="o">=</span><span class="n">numX</span><span class="p">,</span> <span class="n">numY</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="n">coeff</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">fit</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;coefficients&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">arrayProject</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">arrayFlatten</span><span class="p">([</span><span class="n">coeff_names</span><span class="p">])</span>
+        <span class="p">)</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">coeff</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">,</span> <span class="n">center_time</span><span class="o">.</span><span class="n">millis</span><span class="p">())</span>
+
+        <span class="n">empty</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span>
+            <span class="p">[</span>
+                <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">updateMask</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">coeff_names</span>
+            <span class="p">]</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;system:time_start&quot;</span><span class="p">,</span> <span class="n">center_time</span><span class="o">.</span><span class="n">millis</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Algorithms</span><span class="o">.</span><span class="n">If</span><span class="p">(</span><span class="n">count</span><span class="o">.</span><span class="n">gte</span><span class="p">(</span><span class="n">numX</span><span class="p">),</span> <span class="n">result</span><span class="p">,</span> <span class="n">empty</span><span class="p">))</span>
+
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="o">.</span><span class="n">sequence</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">half</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">half</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="n">indices</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">coeffs_at_index</span><span class="p">))</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="November 3, 2025 22:36:04 UTC"><span class="timeago" datetime="2025-11-03T22:36:04+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="November 3, 2025 22:36:04 UTC">2025-11-03</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="November 3, 2025 22:36:04 UTC"><span class="timeago" datetime="2025-11-03T22:36:04+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="November 3, 2025 22:36:04 UTC">2025-11-03</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2024 Krishnagopal Halder
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.tracking", "navigation.top", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+        <script src="../js/timeago.min.js"></script>
+      
+        <script src="../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
