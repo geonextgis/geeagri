@@ -117,26 +117,16 @@ class HarmonicRegression:
     Perform harmonic regression on an Earth Engine ImageCollection.
 
     Attributes:
-        image_collection (ee.ImageCollection): Input time series of selected band.
-        ref_date (ee.Date): Reference date to calculate time.
-        band (str): Name of dependent variable band.
-        order (int): Number of harmonics.
+        image_collection (ee.ImageCollection): Input image collection.
+        ref_date (str or ee.Date): Reference date to compute relative time.
+        band_name (str): Name of dependent variable band.
+        order (int): Number of harmonics (default 1).
         omega (float): Base frequency multiplier.
         independents (List[str]): Names of independent variable bands.
         composite (ee.Image): Median composite of the selected band.
     """
 
     def __init__(self, image_collection, ref_date, band_name, order=1, omega=1):
-        """
-        Initialize the HarmonicRegression object.
-
-        Args:
-            image_collection (ee.ImageCollection): Input image collection.
-            ref_date (str or ee.Date): Reference date to compute relative time.
-            band_name (str): Name of dependent variable band.
-            order (int): Number of harmonics (default 1).
-            omega (float): Base frequency multiplier (default 1).
-        """
         self.image_collection = image_collection.select(band_name)
         self.ref_date = ee.Date(ref_date) if isinstance(ref_date, str) else ref_date
         self.band = band_name
