@@ -2,7 +2,7 @@
 
 __author__ = """Krishnagopal Halder"""
 __email__ = "geonextgis@gmail.com"
-__version__ = "0.1.3"
+__version__ = "1.0.0"
 
 from . import analysis
 from . import extract
