@@ -789,12 +789,6 @@ class RegularTimeseries:
     def __init__(
         self, image_collection: ee.ImageCollection, interval: int, window: int
     ):
-        """
-        Args:
-            image_collection (ee.ImageCollection): Input collection to regularize.
-            interval (int): Interval (in days) between consecutive target dates.
-            window (int): Window size (in days) for interpolation.
-        """
         self._ic = image_collection
         self.interval = interval
         self.window = window
