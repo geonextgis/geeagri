@@ -7,3 +7,4 @@ __version__ = "0.1.3"
 from . import analysis
 from . import extract
 from . import preprocessing
+from . import phenology
