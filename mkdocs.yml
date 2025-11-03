@@ -92,9 +92,11 @@ nav:
         - examples/moving_window_smoothing.ipynb
         - examples/timeseries_gap_filling.ipynb
         - examples/regular_timeseries.ipynb
+        - examples/land_surface_phenology.ipynb
     - API Reference:
         #   - geeagri module: geeagri.md
         #   - common module: common.md
           - extract module: extract.md
           - preprocessing module: preprocessing.md
           - analysis module: analysis.md
+          - phenology module: phenology.md
