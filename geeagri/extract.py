@@ -53,11 +53,11 @@ def extract_values_to_point(
         # Select bands if specified
         if band_names:
             image = image.select(band_names)
-        
+
         # We also attempt to get the time, though not all Images have it (e.g. composites)
         # We fetch it separately because reduceRegion only returns band values.
         try:
-            time_start = image.get('system:time_start').getInfo()
+            time_start = image.get("system:time_start").getInfo()
         except:
             time_start = None
 
@@ -69,19 +69,19 @@ def extract_values_to_point(
             scale=scale,
             crs=crs,
             crsTransform=crsTransform,
-            bestEffort=False
+            bestEffort=False,
         ).getInfo()
 
         # Check if the dictionary is empty or contains None values (masked pixels)
         if not pixel_values or all(v is None for v in pixel_values.values()):
-             raise ValueError(
+            raise ValueError(
                 "Extraction returned no data. The point may be masked or outside the image bounds."
             )
 
         # Convert dictionary to DataFrame (single row)
         result_df = pd.DataFrame()
-        result_df['band'] = pixel_values.keys()
-        result_df['value'] = pixel_values.values()
+        result_df["band"] = pixel_values.keys()
+        result_df["value"] = pixel_values.values()
 
         # Add time column if it existed in the image metadata
         if time_start:
@@ -97,8 +97,8 @@ def extract_values_to_point(
 
     except Exception as e:
         raise RuntimeError(f"Error extracting data from image: {e}")
-    
-    
+
+
 def extract_timeseries_to_point(
     lat,
     lon,

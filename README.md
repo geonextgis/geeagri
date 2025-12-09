@@ -120,10 +120,10 @@ s2_cloud_masker = Sentinel2CloudMask(
     region=region,
     start_date="2020-01-01",
     end_date="2021-01-01",
-    cloud_filter=60,  
+    cloud_filter=60,
     cloud_prob_threshold=50,
     nir_dark_threshold=0.15,
-    shadow_proj_dist=1,  
+    shadow_proj_dist=1,
     buffer=50
 )
 
