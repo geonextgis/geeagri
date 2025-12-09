@@ -16,6 +16,89 @@ from typing import Union, Optional, Dict, List
 from pathlib import Path
 
 
+def extract_values_to_point(
+    lat,
+    lon,
+    image,
+    band_names=None,
+    scale=None,
+    crs=None,
+    crsTransform=None,
+    out_csv=None,
+):
+    """
+    Extracts pixel values from a single ee.Image at a specific point.
+
+    Args:
+        lat (float): Latitude of the point.
+        lon (float): Longitude of the point.
+        image (ee.Image): The Earth Engine Image to sample.
+        band_names (list, optional): List of bands to extract.
+        scale (float, optional): Sampling scale in meters.
+        crs (str, optional): Projection CRS. Defaults to image CRS.
+        crsTransform (list, optional): CRS transform matrix. Overrides scale.
+        out_csv (str, optional): File path to save CSV. If None, returns a DataFrame.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing the band values (and time if available).
+    """
+
+    if not isinstance(image, ee.Image):
+        raise ValueError("The 'image' argument must be an instance of ee.Image.")
+
+    # Create the point geometry
+    point = ee.Geometry.Point([lon, lat])
+
+    try:
+        # Select bands if specified
+        if band_names:
+            image = image.select(band_names)
+        
+        # We also attempt to get the time, though not all Images have it (e.g. composites)
+        # We fetch it separately because reduceRegion only returns band values.
+        try:
+            time_start = image.get('system:time_start').getInfo()
+        except:
+            time_start = None
+
+        # Reduce the region to get a dictionary of band values at the point
+        # ee.Reducer.first() is standard for extracting values at a specific point
+        pixel_values = image.reduceRegion(
+            reducer=ee.Reducer.first(),
+            geometry=point,
+            scale=scale,
+            crs=crs,
+            crsTransform=crsTransform,
+            bestEffort=False
+        ).getInfo()
+
+        # Check if the dictionary is empty or contains None values (masked pixels)
+        if not pixel_values or all(v is None for v in pixel_values.values()):
+             raise ValueError(
+                "Extraction returned no data. The point may be masked or outside the image bounds."
+            )
+
+        # Convert dictionary to DataFrame (single row)
+        result_df = pd.DataFrame()
+        result_df['band'] = pixel_values.keys()
+        result_df['value'] = pixel_values.values()
+
+        # Add time column if it existed in the image metadata
+        if time_start:
+            result_df["time"] = datetime.utcfromtimestamp(time_start / 1000)
+            # Reorder columns to put time first for readability
+            cols = ["time"] + [col for col in result_df.columns if col != "time"]
+            result_df = result_df[cols]
+
+        if out_csv:
+            result_df.to_csv(out_csv, index=False)
+        else:
+            return result_df
+
+    except Exception as e:
+        raise RuntimeError(f"Error extracting data from image: {e}")
+    
+    
 def extract_timeseries_to_point(
     lat,
     lon,
