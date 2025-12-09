@@ -2,86 +2,90 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://geonextgis.github.io/geeagri/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/analysis/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/changelog/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/common/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/contributing/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/extract/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/faq/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/geeagri/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/installation/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/phenology/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/preprocessing/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/usage/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/examples/harmonic_regression/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/examples/image_patch_extraction/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/examples/image_scaling/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/examples/land_surface_phenology/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/examples/moving_window_smoothing/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/examples/principal_component_analysis/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/examples/regular_timeseries/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/examples/timeseries_extraction/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
     </url>
     <url>
          <loc>https://geonextgis.github.io/geeagri/examples/timeseries_gap_filling/</loc>
-         <lastmod>2025-11-07</lastmod>
+         <lastmod>2025-12-09</lastmod>
+    </url>
+    <url>
+         <loc>https://geonextgis.github.io/geeagri/examples/values_extraction/</loc>
+         <lastmod>2025-12-09</lastmod>
     </url>
 </urlset>
