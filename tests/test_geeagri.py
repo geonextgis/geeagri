@@ -2,7 +2,6 @@
 
 """Tests for `geeagri` package."""
 
-
 import unittest
 
 from geeagri import geeagri
